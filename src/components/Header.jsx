@@ -1,9 +1,10 @@
 'use client'
 
-import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
+import { Fragment, useState } from 'react'
+import { Menu, Transition, Disclosure } from '@headlessui/react'
 import Link from 'next/link'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 
 const menuItems = {
@@ -39,7 +40,8 @@ export default function Header() {
             </Link>
           </div>
 
-          <div className="flex items-center space-x-10">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-10">
             {menuItems.main.map((item) => (
               <Link 
                 key={item.name}
@@ -96,6 +98,80 @@ export default function Header() {
             >
               <span className="relative z-10">Latest Products</span>
             </Link>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="lg:hidden">
+            <Disclosure>
+              {({ open }) => (
+                <>
+                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-dark/80 hover:bg-primary/5 hover:text-primary focus:outline-none">
+                    <span className="sr-only">Open main menu</span>
+                    {open ? (
+                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    ) : (
+                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    )}
+                  </Disclosure.Button>
+
+                  <Transition
+                    enter="transition duration-200 ease-out"
+                    enterFrom="transform scale-95 opacity-0"
+                    enterTo="transform scale-100 opacity-100"
+                    leave="transition duration-100 ease-in"
+                    leaveFrom="transform scale-100 opacity-100"
+                    leaveTo="transform scale-95 opacity-0"
+                  >
+                    <Disclosure.Panel className="absolute left-0 right-0 top-full bg-white shadow-lg border-t border-neutral-100/50 p-4">
+                      <div className="space-y-4">
+                        {menuItems.main.map((item) => (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                        
+                        <Disclosure>
+                          {({ open }) => (
+                            <>
+                              <Disclosure.Button className="flex w-full items-center justify-between px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5">
+                                <span>Resources</span>
+                                <ChevronDownIcon
+                                  className={`${
+                                    open ? 'rotate-180' : ''
+                                  } h-5 w-5 transition-transform duration-300`}
+                                />
+                              </Disclosure.Button>
+                              <Disclosure.Panel className="mt-2 space-y-2 pl-6">
+                                {menuItems.resources.map((item) => (
+                                  <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
+                                  >
+                                    {item.name}
+                                  </Link>
+                                ))}
+                              </Disclosure.Panel>
+                            </>
+                          )}
+                        </Disclosure>
+
+                        <Link
+                          href="/products"
+                          className="block w-full bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-3 text-center text-base font-medium text-white rounded-lg hover:shadow-lg transition-all duration-300"
+                        >
+                          Latest Products
+                        </Link>
+                      </div>
+                    </Disclosure.Panel>
+                  </Transition>
+                </>
+              )}
+            </Disclosure>
           </div>
         </div>
       </nav>
