@@ -18,8 +18,11 @@ const lexend = Lexend({
 })
 
 export const metadata = {
-  title: 'LomeyoLabs',
-  description: 'Digital Products by LomeyoLabs',
+  title: 'LomeyoLabs - Digital Products & Solutions',
+  description: 'Premium digital products and solutions for modern businesses',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default function RootLayout({ children }) {

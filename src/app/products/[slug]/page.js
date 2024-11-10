@@ -228,4 +228,4 @@ export default function ProductDetail({ params }) {
       </div>
     </div>
   )
-} 
+}

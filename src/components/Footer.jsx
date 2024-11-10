@@ -26,33 +26,31 @@ const navigation = {
         </svg>
       ),
     },
-    // Add other social icons here...
   ],
 }
 
 export default function Footer() {
   return (
     <footer className="bg-gray-900">
-      <div className="mx-auto max-w-7xl px-6 py-20 sm:py-24 lg:px-8">
-        {/* Codecanyon Profile Highlight */}
+      <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <div className="mb-16 flex justify-center">
           <Link 
             href="https://codecanyon.net/user/lomeyolabs" 
-            className="group relative overflow-hidden rounded-xl bg-gray-800 px-8 py-4 transition-transform hover:scale-105"
+            className="group relative overflow-hidden rounded-xl bg-gray-800/80 backdrop-blur-sm px-8 py-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div className="flex items-center gap-4">
-              <TrophyIcon className="h-8 w-8 text-yellow-500" />
+            <div className="flex items-center gap-6">
+              <TrophyIcon className="h-10 w-10 text-yellow-500" />
               <div>
-                <p className="text-white font-semibold">Level 6 Author on CodeCanyon</p>
-                <div className="flex items-center gap-2 text-gray-400">
-                  <span>4.5</span>
-                  <div className="flex">
+                <p className="text-lg font-semibold text-white mb-1">Level 6 Author on CodeCanyon</p>
+                <div className="flex items-center gap-3 text-gray-400">
+                  <span className="text-lg">4.5</span>
+                  <div className="flex gap-0.5">
                     {[...Array(5)].map((_, i) => (
                       <StarIcon 
                         key={i} 
-                        className={`h-4 w-4 ${i < 4 ? 'text-yellow-500' : 'text-gray-600'}`}
+                        className={`h-5 w-5 ${i < 4 ? 'text-yellow-500' : 'text-gray-600'}`}
                       />
                     ))}
                   </div>
@@ -60,30 +58,28 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-600/0 via-primary-600/10 to-primary-600/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </Link>
         </div>
 
-        {/* Navigation Links */}
-        <nav className="-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-3">
+        <nav className="-mb-6 flex flex-wrap justify-center gap-x-12 gap-y-4">
           {navigation.main.map((item) => (
             <Link 
               key={item.name} 
               href={item.href} 
-              className="text-gray-400 hover:text-white transition-colors duration-200 hover:-translate-y-0.5 transform"
+              className="text-gray-400 hover:text-white transition-all duration-300 hover:-translate-y-0.5"
             >
               {item.name}
             </Link>
           ))}
         </nav>
 
-        {/* Social Links */}
-        <div className="mt-16 flex justify-center gap-x-10">
+        <div className="mt-16 flex justify-center space-x-10">
           {navigation.social.map((item) => (
             <Link 
               key={item.name} 
               href={item.href}
-              className="text-gray-400 hover:text-white transition-colors duration-200 hover:-translate-y-1 transform"
+              className="text-gray-400 hover:text-white transition-all duration-300 hover:-translate-y-1"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -93,10 +89,29 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Copyright */}
-        <p className="mt-10 text-center text-sm text-gray-400">
-          &copy; {new Date().getFullYear()} LomeyoLabs. All rights reserved.
-        </p>
+        <div className="mt-16 border-t border-gray-800/80 pt-8">
+          <p className="text-center text-sm text-gray-400 mb-6">
+            &copy; {new Date().getFullYear()} LomeyoLabs. All rights reserved.
+          </p>
+          
+          <div className="max-w-3xl mx-auto px-4 text-center">
+            <p className="text-base mb-3 text-gray-400">
+              <span className="font-semibold text-white">LomeyoLabs</span> is proudly crafted by{' '}
+              <span className="text-orange-500 font-semibold">Lomeyo, LLC</span>
+            </p>
+            <p className="text-base text-gray-400">
+              We're passionate about building tools that empower businesses, including{' '}
+              <a href="https://templatecookie.com" className="text-orange-500 hover:text-orange-400 transition-colors">
+                Templatecookie
+              </a>{' '}
+              for templates and{' '}
+              <a href="https://jugglehire.com" className="text-orange-500 hover:text-orange-400 transition-colors">
+                JuggleHire
+              </a>{' '}
+              for recruitment. Welcome to the Lomeyo community!
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   )
