@@ -8,7 +8,8 @@ export default function ProductCard({ product, variants }) {
   return (
     <motion.div variants={variants}>
       <Link 
-        href={`/products/${product.id}`} 
+        // href={`/products/${product.id}`} 
+        href={`/products/1`} 
         className="group block rounded-2xl bg-white/90 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
       >
         <div className="relative aspect-[16/9] overflow-hidden">

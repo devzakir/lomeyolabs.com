@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Tab } from '@headlessui/react'
+import { Tab, Dialog } from '@headlessui/react'
 import { 
   StarIcon, 
   CheckIcon, 
@@ -45,6 +45,39 @@ const products = [
       'REST API included',
       'Multi-language support',
       'Regular updates'
+    ],
+    screenshots: [
+      {
+        id: 1,
+        title: 'Dashboard Overview',
+        url: 'https://templatecookie.com/storage/image/1710224864_65eff5e06cdb1.png'
+      },
+      {
+        id: 2,
+        title: 'Task Management',
+        url: 'https://templatecookie.com/storage/image/1710224877_65eff5eddffea.png'
+      },
+      {
+        id: 3,
+        title: 'Team Collaboration',
+        url: 'https://templatecookie.com/storage/image/1709116010_65df0a6a0d900.png'
+      }
+    ],
+    testimonials: [
+      {
+        id: 1,
+        content: "This product has completely transformed how we manage our projects. The interface is intuitive and the features are exactly what we needed.",
+        author: "Sarah Johnson",
+        role: "Project Manager",
+        company: "Tech Solutions Inc"
+      },
+      {
+        id: 2,
+        content: "The best project management tool we've used. The support team is incredibly responsive and helpful.",
+        author: "Michael Chen",
+        role: "CTO",
+        company: "StartupX"
+      }
     ]
   }
   // Add more products as needed
@@ -57,6 +90,7 @@ function classNames(...classes) {
 export default function ProductDetail({ params }) {
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [selectedImage, setSelectedImage] = useState(null)
 
   useEffect(() => {
     const foundProduct = products.find(p => p.id === parseInt(params.slug))
@@ -226,6 +260,240 @@ export default function ProductDetail({ params }) {
           </Tab.Panels>
         </Tab.Group>
       </div>
+
+      {/* Screenshots Gallery */}
+      <section className="relative bg-gray-50 py-24">
+        <div className="absolute inset-0 bg-grid-gray-900/[0.02] bg-[size:20px_20px]" />
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900">Product Screenshots</h2>
+            <p className="mt-4 text-lg text-gray-600">Take a closer look at the features and interface</p>
+          </div>
+          
+          <motion.div 
+            className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1 }
+              }
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+          >
+            {product.screenshots.map((screenshot) => (
+              <motion.div
+                key={screenshot.id}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  show: { opacity: 1, y: 0 }
+                }}
+                className="cursor-pointer"
+                onClick={() => setSelectedImage(screenshot)}
+              >
+                <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-gray-100">
+                  <Image
+                    src={screenshot.url}
+                    alt={screenshot.title}
+                    fill
+                    className="object-cover transition-transform duration-300 hover:scale-105"
+                  />
+                </div>
+                <p className="mt-2 text-sm text-gray-600">{screenshot.title}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="relative bg-gray-900 py-24 sm:py-32">
+        <div className="absolute inset-0 opacity-10 bg-[url('/patterns/circuit.svg')]" />
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              Trusted by Developers Worldwide
+            </h2>
+            <p className="mt-4 text-lg text-gray-300">
+              See what our customers have to say about their experience
+            </p>
+          </div>
+          
+          <motion.div 
+            className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2"
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: { staggerChildren: 0.2 }
+              }
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+          >
+            {product.testimonials.map((testimonial) => (
+              <motion.div
+                key={testimonial.id}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  show: { opacity: 1, y: 0 }
+                }}
+                className="flex flex-col bg-white/5 backdrop-blur-sm rounded-2xl p-8"
+              >
+                <p className="text-lg text-gray-300 leading-relaxed">{testimonial.content}</p>
+                <div className="mt-6">
+                  <p className="font-semibold text-white">{testimonial.author}</p>
+                  <p className="text-sm text-gray-400">{testimonial.role} at {testimonial.company}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="relative bg-primary-600 py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              Ready to Get Started?
+            </h2>
+            <p className="mt-4 text-lg text-primary-100">
+              Join thousands of developers who trust our products
+            </p>
+            <div className="mt-8 flex justify-center gap-4">
+              <button className="rounded-xl bg-white px-6 py-3 text-base font-semibold text-primary-600 shadow-sm hover:bg-primary-50">
+                Purchase Now
+              </button>
+              <button className="rounded-xl bg-primary-500 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary-400">
+                View Documentation
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Image Lightbox */}
+      <Dialog 
+        open={!!selectedImage} 
+        onClose={() => setSelectedImage(null)}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
+        
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="mx-auto max-w-5xl">
+            <div className="relative">
+              <Image
+                src={selectedImage?.url || ''}
+                alt={selectedImage?.title || ''}
+                width={1920}
+                height={1080}
+                className="rounded-lg"
+              />
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-4 right-4 rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
+
+      {/* Related Products */}
+      <section className="relative bg-gray-50 py-24">
+        <div className="absolute inset-0 bg-grid-gray-900/[0.02] bg-[size:20px_20px]" />
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900">Related Products</h2>
+            <p className="mt-4 text-lg text-gray-600">Discover more solutions that might interest you</p>
+          </div>
+          
+          <motion.div 
+            className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1 }
+              }
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+          >
+            {products.slice(0, 3).map(relatedProduct => (
+              <Link 
+                key={relatedProduct.id}
+                href={`/products/${relatedProduct.id}`}
+                className="group block rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300"
+              >
+                <div className="relative aspect-[16/9] overflow-hidden rounded-t-2xl">
+                  <Image
+                    src={relatedProduct.image}
+                    alt={relatedProduct.name}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-600">
+                    {relatedProduct.name}
+                  </h3>
+                  <p className="mt-2 text-gray-600">{relatedProduct.description}</p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="text-lg font-bold text-primary-600">{relatedProduct.price}</span>
+                    <span className="text-sm font-medium text-primary-600 group-hover:underline">
+                      Learn More →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Product Support */}
+      <section className="relative py-24 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
+            <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-primary-50">
+              <DocumentTextIcon className="h-12 w-12 text-primary-600 mb-4" />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Documentation</h3>
+              <p className="text-gray-600 mb-4">Comprehensive guides and API references</p>
+              <button className="mt-auto text-primary-600 font-medium hover:text-primary-700">
+                View Documentation →
+              </button>
+            </div>
+            
+            <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-primary-50">
+              <CloudArrowDownIcon className="h-12 w-12 text-primary-600 mb-4" />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Updates & Releases</h3>
+              <p className="text-gray-600 mb-4">Regular updates and new features</p>
+              <button className="mt-auto text-primary-600 font-medium hover:text-primary-700">
+                View Changelog →
+              </button>
+            </div>
+            
+            <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-primary-50">
+              <StarIcon className="h-12 w-12 text-primary-600 mb-4" />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Premium Support</h3>
+              <p className="text-gray-600 mb-4">Dedicated support for all your questions</p>
+              <button className="mt-auto text-primary-600 font-medium hover:text-primary-700">
+                Contact Support →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
