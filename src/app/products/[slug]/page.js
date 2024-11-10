@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { motion } from 'framer-motion'
 import { Tab, Dialog } from '@headlessui/react'
+import AnimatedSection from '@/components/animation/AnimatedSection'
 import { 
   StarIcon, 
   CheckIcon, 
@@ -10,7 +11,10 @@ import {
   CodeBracketIcon,
   DocumentTextIcon,
   CurrencyDollarIcon,
-  ArrowDownTrayIcon
+  ArrowDownTrayIcon,
+  UserGroupIcon,
+  ChartBarIcon,
+  ShieldCheckIcon
 } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -88,20 +92,43 @@ function classNames(...classes) {
 }
 
 export default function ProductDetail({ params }) {
+  // Unwrap params using React.use()
+  const unwrappedParams = use(params)
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedImage, setSelectedImage] = useState(null)
 
-  useEffect(() => {
-    const foundProduct = products.find(p => p.id === parseInt(params.slug))
-    setProduct(foundProduct)
-    setLoading(false)
-  }, [params.slug])
+  // Stats data
+  const stats = [
+    { id: 1, name: 'Active Users', value: '10,000+', icon: UserGroupIcon },
+    { id: 2, name: 'Customer Rating', value: '4.9/5', icon: StarIcon },
+    { id: 3, name: 'Updates Released', value: '200+', icon: ChartBarIcon },
+    { id: 4, name: 'Support Response', value: '< 24h', icon: ShieldCheckIcon },
+  ]
 
-  if (loading || !product) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
-    </div>
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        // Use unwrappedParams.slug instead of params.slug
+        const productId = parseInt(unwrappedParams.slug)
+        const foundProduct = products.find(p => p.id === productId)
+        setProduct(foundProduct || null)
+      } catch (error) {
+        console.error('Error fetching product:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProduct()
+  }, [unwrappedParams.slug])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (!product) {
+    return <div>Product not found</div>
   }
 
   return (
@@ -353,6 +380,27 @@ export default function ProductDetail({ params }) {
           </motion.div>
         </div>
       </section>
+
+      {/* Product Stats */}
+      <AnimatedSection>
+        <section className="relative py-16 bg-white">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+              {stats.map((stat) => (
+                <motion.div
+                  key={stat.id}
+                  className="flex flex-col items-center text-center p-6"
+                  whileHover={{ y: -5 }}
+                >
+                  <stat.icon className="h-8 w-8 text-primary-600 mb-3" />
+                  <dt className="text-base text-gray-600">{stat.name}</dt>
+                  <dd className="text-2xl font-bold text-gray-900">{stat.value}</dd>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </AnimatedSection>
 
       {/* CTA Section */}
       <section className="relative bg-primary-600 py-24">
