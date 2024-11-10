@@ -91,14 +91,6 @@ export default function Header() {
             </Menu>
 
             <Link 
-              href="/about" 
-              className="group relative text-sm font-medium text-dark/80 hover:text-primary transition-all duration-300"
-            >
-              About Us
-              <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary scale-x-0 transition-transform group-hover:scale-x-100" />
-            </Link>
-
-            <Link 
               href="/products" 
               className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
             >

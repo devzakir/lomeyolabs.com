@@ -80,7 +80,7 @@ export default function ProductSection() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-50/40 via-primary-100/30 to-blue-50/40 py-24 sm:py-32">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary-50/40 via-primary-100/30 to-blue-50/40 py-24 sm:py-32 z-10">
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px]" />
         <div className="absolute inset-0 bg-gradient-to-t from-white/0 via-primary-100/5 to-primary-200/10" />

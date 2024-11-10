@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { SparklesIcon } from '@heroicons/react/24/outline'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 
 const BackgroundAnimation = dynamic(() => import('./3d/BackgroundAnimation'), {
   ssr: false,
@@ -65,12 +66,12 @@ const Hero = () => {
             transition={{ delay: 0.5 }}
           >
             <div className="rounded-xl shadow-lg shadow-primary-100">
-              <a
-                href="/products"
+              <Link
+              href="/products"
                 className="w-full flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-white bg-primary-600 hover:bg-primary-700 transition-all duration-300 md:text-lg md:px-10"
               >
                 Explore Our Products
-              </a>
+              </Link>
             </div>
           </motion.div>
         </motion.div>

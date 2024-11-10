@@ -6,7 +6,7 @@ import ProductSection from '@/components/ProductSection'
 import WhyChooseUs from '@/components/WhyChooseUs'
 import Testimonials from '@/components/Testimonials'
 import CompanyStats from '@/components/CompanyStats'
-import AnimatedSection from '@/components/AnimatedSection'
+import AnimatedSection from '@/components/animation/AnimatedSection'
 
 export default function Home() {
   return (

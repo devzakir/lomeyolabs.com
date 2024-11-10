@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 
-const TechScene = dynamic(() => import('./3d/TechScene'), {
+const TechScene = dynamic(() => import('../3d/TechScene'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-[400px] bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl animate-pulse" />
