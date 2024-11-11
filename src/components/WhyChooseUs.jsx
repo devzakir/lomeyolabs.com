@@ -48,10 +48,10 @@ export default function WhyChooseUs() {
           className="mx-auto max-w-2xl text-center"
         >
           <h2 className="text-3xl font-heading font-bold tracking-tight text-dark sm:text-4xl">
-            Why Go for LomeyoLabs' Products
+            Why Go for LomeyoLabs Products
           </h2>
           <p className="mt-4 text-lg leading-8 text-dark/80">
-            Here's why businesses prefer our products to solve their problems
+            Here&apos;s why businesses prefer our products to solve their problems
           </p>
         </motion.div>
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">

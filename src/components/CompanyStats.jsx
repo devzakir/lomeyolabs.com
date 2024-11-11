@@ -58,7 +58,7 @@ export default function CompanyStats() {
             LomeyoLabs: Your Trusted Tech Partner
           </h2>
           <p className="mt-6 text-lg leading-8 text-dark/80">
-            With a dedicated and skilled team, we've developed software products and collaborated with businesses to drive growth through tech-enabled solutions!
+            With a dedicated and skilled team, we&apos;ve developed software products and collaborated with businesses to drive growth through tech-enabled solutions!
           </p>
         </motion.div>
 

@@ -78,7 +78,7 @@ const products = [
       },
       {
         id: 2,
-        content: "The best project management tool we've used. The support team is incredibly responsive and helpful.",
+        content: "The best project management tool we have used. The support team is incredibly responsive and helpful.",
         author: "Michael Chen",
         role: "CTO",
         company: "StartupX"

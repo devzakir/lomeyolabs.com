@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { StarIcon, TrophyIcon, ArrowUpRightIcon } from '@heroicons/react/24/solid'
+import { useEffect, useState } from 'react'
 
 const navigation = {
   products: [
@@ -26,6 +27,12 @@ const navigation = {
 }
 
 export default function Footer() {
+  const [currentYear, setCurrentYear] = useState('')
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear().toString())
+  }, [])
+
   return (
     <footer className="relative overflow-hidden">
       {/* Brand-colored Gradient Background */}
@@ -79,7 +86,13 @@ export default function Footer() {
         </motion.div>
 
         {/* Navigation Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20"
+        >
           {Object.entries(navigation).map(([category, items]) => (
             <div key={category}>
               <h3 className="text-lg font-semibold text-white mb-6 capitalize">{category}</h3>
@@ -98,17 +111,23 @@ export default function Footer() {
               </ul>
             </div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Bottom Section */}
-        <div className="border-t border-primary-400/20 pt-12">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="border-t border-primary-400/20 pt-12"
+        >
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <p className="text-lg text-white/80">
               <span className="font-semibold text-white">LomeyoLabs</span> is proudly crafted by{' '}
               <span className="text-primary-300 font-semibold">Lomeyo, LLC</span>
             </p>
             <p className="text-white/70">
-              We're passionate about building tools that empower businesses, including{' '}
+              We&apos;re passionate about building tools that empower businesses, including{' '}
               <a href="https://templatecookie.com" className="text-primary-300 hover:text-primary-200 transition-colors font-medium">
                 Templatecookie
               </a>{' '}
@@ -119,10 +138,10 @@ export default function Footer() {
               for recruitment. Welcome to the Lomeyo community!
             </p>
             <p className="text-sm text-white/60">
-              &copy; {new Date().getFullYear()} Lomeyo, LLC. All rights reserved.
+              &copy; {currentYear} Lomeyo, LLC. All rights reserved.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   )

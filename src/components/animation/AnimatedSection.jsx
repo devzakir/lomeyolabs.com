@@ -1,26 +1,32 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useResponsiveAnimation } from './AnimationLoader'
 
-const AnimatedSection = ({ children }) => {
-  const shouldAnimate = useResponsiveAnimation()
-  const prefersReducedMotion = useReducedMotion()
+const fadeUpVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+}
 
-  if (!shouldAnimate || prefersReducedMotion) {
-    return children
+export default function AnimatedSection({ children }) {
+  const shouldAnimate = useResponsiveAnimation()
+
+  if (!shouldAnimate) {
+    return <section>{children}</section>
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={fadeUpVariants}
     >
       {children}
-    </motion.div>
+    </motion.section>
   )
-}
-
-export default AnimatedSection 
+} 
