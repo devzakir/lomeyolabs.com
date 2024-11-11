@@ -4,6 +4,7 @@ import { useState, useEffect, use } from 'react'
 import { motion } from 'framer-motion'
 import { Tab, Dialog } from '@headlessui/react'
 import AnimatedSection from '@/components/animation/AnimatedSection'
+
 import { 
   StarIcon, 
   CheckIcon, 
@@ -186,26 +187,28 @@ export default function ProductDetail({ params }) {
       {/* Content Section */}
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <Tab.Group>
-          <Tab.List className="flex space-x-8 border-b border-gray-200">
-            {['Overview', 'Technical Details', 'Documentation'].map((tab) => (
-              <Tab
-                key={tab}
-                className={({ selected }) =>
-                  classNames(
-                    'border-b-2 py-4 text-sm font-medium focus:outline-none',
-                    selected
-                      ? 'border-primary-600 text-primary-600'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                  )
-                }
-              >
-                {tab}
-              </Tab>
-            ))}
-          </Tab.List>
-
+          <div className="border-b border-gray-200">
+            <Tab.List className="flex space-x-8">
+              {['Overview', 'Technical Details', 'Documentation'].map((tab) => (
+                <Tab
+                  key={tab}
+                  as="div"
+                  className={({ selected }) =>
+                    classNames(
+                      'border-b-2 py-4 text-sm font-medium focus:outline-none cursor-pointer',
+                      selected
+                        ? 'border-primary-600 text-primary-600'
+                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                    )
+                  }
+                >
+                  {tab}
+                </Tab>
+              ))}
+            </Tab.List>
+          </div>
           <Tab.Panels className="mt-8">
-            <Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
               <div className="prose prose-lg max-w-none">
                 <h3 className="text-2xl font-bold text-neutral-dark">Product Overview</h3>
                 <p className="text-neutral-dark/80">{product.longDescription}</p>
@@ -238,7 +241,7 @@ export default function ProductDetail({ params }) {
               </div>
             </Tab.Panel>
 
-            <Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
               <div className="prose prose-lg max-w-none">
                 <h3 className="text-2xl font-bold text-neutral-dark">Technical Requirements</h3>
                 <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
@@ -269,7 +272,7 @@ export default function ProductDetail({ params }) {
               </div>
             </Tab.Panel>
 
-            <Tab.Panel>
+            <Tab.Panel className="focus:outline-none">
               <div className="prose prose-lg max-w-none">
                 <h3 className="text-2xl font-bold text-neutral-dark">Documentation</h3>
                 <p className="text-neutral-dark/80">Access our comprehensive documentation to get started quickly:</p>

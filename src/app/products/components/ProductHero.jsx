@@ -9,17 +9,20 @@ export default function ProductHero() {
   const canvasRef = useRef(null);
   const mousePosition = useRef({ x: 0, y: 0 });
   const particleSystemsRef = useRef([]);
+  const animationFrameRef = useRef();
 
-  // Text animation variants
   const textVariants = {
     initial: { opacity: 1, y: 0 },
     animate: { opacity: 1, y: 0 }
   };
 
   useEffect(() => {
+    if (!canvasRef.current) return;
+
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    
     const renderer = new THREE.WebGLRenderer({ 
       canvas: canvasRef.current,
       alpha: true,
@@ -61,14 +64,13 @@ export default function ProductHero() {
 
     camera.position.z = 5;
 
-    // Mouse movement handler
     const onMouseMove = (event) => {
       mousePosition.current = {
         x: (event.clientX / window.innerWidth) * 2 - 1,
         y: -(event.clientY / window.innerHeight) * 2 + 1
       };
 
-      particleSystemsRef.current.forEach((system, index) => {
+      particleSystemsRef.current.forEach(system => {
         gsap.to(system.particles.rotation, {
           x: mousePosition.current.y * 0.5,
           y: mousePosition.current.x * 0.5,
@@ -78,35 +80,47 @@ export default function ProductHero() {
       });
     };
 
-    window.addEventListener('mousemove', onMouseMove);
-
-    // Animation loop
     const animate = () => {
-      requestAnimationFrame(animate);
+      animationFrameRef.current = requestAnimationFrame(animate);
       particleSystemsRef.current.forEach((system, index) => {
         system.particles.rotation.z += 0.001 * (index + 1);
       });
       renderer.render(scene, camera);
     };
-    animate();
 
-    // Handle resize
     const handleResize = () => {
+      if (!canvasRef.current) return;
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
-    window.addEventListener('resize', handleResize);
 
-    // Cleanup
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('resize', handleResize);
+    animate();
+
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', handleResize);
+      
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+
       particleSystemsRef.current.forEach(system => {
-        system.geometry.dispose();
-        system.material.dispose();
+        if (system.geometry) system.geometry.dispose();
+        if (system.material) system.material.dispose();
+        if (system.particles) scene.remove(system.particles);
       });
-      renderer.dispose();
+      
+      particleSystemsRef.current = [];
+      scene.clear();
+      
+      if (renderer) {
+        renderer.dispose();
+        renderer.forceContextLoss();
+        renderer.domElement = null;
+      }
     };
   }, []);
 

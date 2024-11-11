@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Menu, Transition, Disclosure } from '@headlessui/react'
 import Link from 'next/link'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -102,17 +102,19 @@ export default function Header() {
 
           {/* Mobile Navigation */}
           <div className="lg:hidden">
-            <Disclosure>
+            <Disclosure as="div">
               {({ open }) => (
                 <>
-                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-dark/80 hover:bg-primary/5 hover:text-primary focus:outline-none">
-                    <span className="sr-only">Open main menu</span>
-                    {open ? (
-                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                    ) : (
-                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                    )}
-                  </Disclosure.Button>
+                  <div>
+                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-dark/80 hover:bg-primary/5 hover:text-primary focus:outline-none">
+                      <span className="sr-only">Open main menu</span>
+                      {open ? (
+                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                      ) : (
+                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                      )}
+                    </Disclosure.Button>
+                  </div>
 
                   <Transition
                     enter="transition duration-200 ease-out"
@@ -125,47 +127,40 @@ export default function Header() {
                     <Disclosure.Panel className="absolute left-0 right-0 top-full bg-white shadow-lg border-t border-neutral-100/50 p-4">
                       <div className="space-y-4">
                         {menuItems.main.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
-                          >
-                            {item.name}
-                          </Link>
+                          <div key={item.name}>
+                            <Link
+                              href={item.href}
+                              className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
+                            >
+                              {item.name}
+                            </Link>
+                          </div>
                         ))}
                         
-                        <Disclosure>
+                        <Disclosure as="div">
                           {({ open }) => (
-                            <>
+                            <div>
                               <Disclosure.Button className="flex w-full items-center justify-between px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5">
                                 <span>Resources</span>
                                 <ChevronDownIcon
-                                  className={`${
-                                    open ? 'rotate-180' : ''
-                                  } h-5 w-5 transition-transform duration-300`}
+                                  className={`${open ? 'rotate-180' : ''} h-5 w-5 transition-transform duration-300`}
                                 />
                               </Disclosure.Button>
                               <Disclosure.Panel className="mt-2 space-y-2 pl-6">
                                 {menuItems.resources.map((item) => (
-                                  <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
-                                  >
-                                    {item.name}
-                                  </Link>
+                                  <div key={item.name}>
+                                    <Link
+                                      href={item.href}
+                                      className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
+                                    >
+                                      {item.name}
+                                    </Link>
+                                  </div>
                                 ))}
                               </Disclosure.Panel>
-                            </>
+                            </div>
                           )}
                         </Disclosure>
-
-                        <Link
-                          href="/products"
-                          className="block w-full bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-3 text-center text-base font-medium text-white rounded-lg hover:shadow-lg transition-all duration-300"
-                        >
-                          Latest Products
-                        </Link>
                       </div>
                     </Disclosure.Panel>
                   </Transition>
