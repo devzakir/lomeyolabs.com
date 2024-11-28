@@ -2,7 +2,7 @@
 
 const nextConfig = {
   images: {
-    domains: ['templatecookie.com'],
+    domains: ['templatecookie.com', 'jugglehire.com'],
   },
 };
 
