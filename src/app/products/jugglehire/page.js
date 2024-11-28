@@ -20,8 +20,14 @@ import {
   UsersIcon,
   CalendarIcon,
   EnvelopeIcon,
-  XMarkIcon
+  XMarkIcon,
+  DocumentCheckIcon,
+  ServerIcon,
+  LockClosedIcon,
+  ClockIcon,
+  ChatBubbleBottomCenterTextIcon
 } from '@heroicons/react/24/solid'
+import AnimatedSection from '@/components/animation/AnimatedSection'
 
 // Product data
 const product = {
@@ -95,11 +101,130 @@ const product = {
       role: "Talent Acquisition Manager",
       company: "GrowthStart"
     }
+  ],
+  benefits: [
+    {
+      title: "Complete Control",
+      description: "Own your data and infrastructure",
+      icon: LockClosedIcon
+    },
+    {
+      title: "Unlimited Customization",
+      description: "Modify code to match your needs",
+      icon: CogIcon
+    },
+    {
+      title: "Data Security",
+      description: "Host on your secure servers",
+      icon: ShieldCheckIcon
+    }
+  ],
+  features: {
+    hiring: [
+      {
+        title: "Smart Job Posting",
+        description: "Create and manage unlimited job postings",
+        image: "/images/products/jugglehire/features/job-posting.png"
+      },
+      // ... more hiring features
+    ],
+    candidate: [
+      {
+        title: "Candidate Management",
+        description: "Streamlined candidate tracking and evaluation",
+        image: "/images/products/jugglehire/features/candidate-management.png"
+      },
+      // ... more candidate features
+    ],
+    collaboration: [
+      // ... collaboration features
+    ]
+  },
+  stats: [
+    { label: "Happy Customers", value: "500+" },
+    { label: "Countries", value: "40+" },
+    { label: "Source Files", value: "100+" },
+    { label: "Updates/Year", value: "12+" }
+  ],
+  faqs: {
+    licensing: [
+      {
+        question: "What is the difference between Regular and Extended License?",
+        answer: "The Regular License is perfect for companies managing their internal hiring process, while the Extended License is ideal for businesses offering recruitment services to clients."
+      },
+      {
+        question: "Can I upgrade my license in the future?",
+        answer: "Yes, you can upgrade your license at any time. Contact our sales team for more information."
+      }
+    ],
+    technical: [
+      {
+        question: "What are the system requirements?",
+        answer: "PHP 8.1+, MySQL 5.7+, Node.js 16+, Composer 2.0+"
+      },
+      {
+        question: "How long is the support period?",
+        answer: "The support period is one year from the date of purchase."
+      }
+    ],
+    support: [
+      {
+        question: "What support channels are available?",
+        answer: "You can contact our support team via email, phone, or through our online support portal."
+      },
+      {
+        question: "How long is the response time for support requests?",
+        answer: "Our support team aims to respond to support requests within 24 hours."
+      }
+    ]
+  },
+  licenses: [
+    {
+      name: 'Regular License',
+      price: '$499',
+      features: [
+        'Perfect for internal hiring teams',
+        'Free platform usage',
+        'Complete source code',
+        'Single domain deployment',
+        'Technical documentation',
+        'Basic support package',
+        '6 months of updates'
+      ]
+    },
+    {
+      name: 'Extended License',
+      price: '$1,499',
+      features: [
+        'Ideal for commercial deployment',
+        'Charge users for platform access',
+        'Complete source code',
+        'Single domain deployment',
+        'Technical documentation',
+        'Priority support package',
+        '12 months of updates',
+        'Commercial use rights'
+      ]
+    }
   ]
 }
 
+// Add error boundaries for production
+const ErrorBoundary = ({ children }) => {
+  if (process.env.NODE_ENV === 'development') {
+    return children;
+  }
+
+  try {
+    return children;
+  } catch (error) {
+    console.error('Error:', error);
+    return <div>Something went wrong. Please try again later.</div>;
+  }
+};
+
 // Using similar structure as the product detail page
-export default function JuggleHireLanding() {
+export default function JuggleHirePage() {
   const [selectedImage, setSelectedImage] = useState(null)
 
   // Stats data
@@ -130,414 +255,455 @@ export default function JuggleHireLanding() {
   ]
 
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-primary-100 opacity-50" />
-        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <motion.div 
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <span className="inline-flex items-center rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700 mb-4">
-              Self-Hosted Recruitment Platform
-            </span>
-            <h1 className="text-4xl font-heading font-bold tracking-tight text-neutral-dark sm:text-5xl lg:text-6xl">
-              Hire Better with
-              <span className="block text-primary-600">Complete Control</span>
-            </h1>
-            <p className="mt-6 text-xl text-neutral-dark/80 max-w-3xl mx-auto">
-              Transform your recruitment process with JuggleHire's self-hosted solution. 
-              Own your data while leveraging enterprise-grade hiring features.
-            </p>
-
-            <div className="mt-8 flex justify-center gap-4">
-              <button className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-colors">
-                <CurrencyDollarIcon className="h-5 w-5 mr-2" />
-                Purchase for {product.price}
-              </button>
-              <Link 
-                href="https://demo.jugglehire.com" 
-                target="_blank"
-                className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl bg-neutral-light text-neutral-dark hover:bg-primary-50 transition-colors"
-              >
-                <ArrowDownTrayIcon className="h-5 w-5 mr-2" />
-                Try Live Demo
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Hero Image */}
-          <motion.div 
-            className="mt-16 relative"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <div className="aspect-[16/9] rounded-2xl overflow-hidden bg-white shadow-2xl">
-              <Image
-                src={product.image}
-                alt="JuggleHire Dashboard"
-                width={1920}
-                height={1080}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Key Features Section - Similar to WhyChooseUs component */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-white to-blue-50 py-24 sm:py-32">
-        <div className="absolute inset-0 bg-grid-gray-900/[0.02] bg-[size:20px_20px]" />
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mx-auto max-w-2xl text-center"
-          >
-            <h2 className="text-3xl font-heading font-bold tracking-tight text-dark sm:text-4xl">
-              Enterprise-Grade Features
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-dark/80">
-              Everything you need to streamline your recruitment process
-            </p>
-          </motion.div>
-
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {[
-              {
-                title: 'Custom Career Portal',
-                description: 'Branded job board with custom domain support and SEO optimization',
-                icon: BuildingOfficeIcon
-              },
-              {
-                title: 'Smart ATS',
-                description: 'Advanced applicant tracking with custom pipelines and automated workflows',
-                icon: UsersIcon
-              },
-              {
-                title: 'Team Collaboration',
-                description: 'Real-time collaboration with team members, comments, and notifications',
-                icon: UserGroupIcon
-              },
-              {
-                title: 'Interview Scheduling',
-                description: 'Automated interview scheduling with calendar integration',
-                icon: CalendarIcon
-              },
-              {
-                title: 'Email Templates',
-                description: 'Customizable email templates for every stage of recruitment',
-                icon: EnvelopeIcon
-              },
-              {
-                title: 'Analytics & Reports',
-                description: 'Comprehensive hiring analytics and custom report generation',
-                icon: ChartBarIcon
-              }
-            ].map((feature, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, rotateY: -30 }}
-                whileInView={{ opacity: 1, rotateY: 0 }}
-                whileHover={{ scale: 1.05, rotateY: 10 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col items-center text-center"
-              >
-                <div className="rounded-lg bg-white/80 p-6 shadow-md hover:shadow-lg transition-all duration-300">
-                  <feature.icon className="h-8 w-8 text-primary" aria-hidden="true" />
-                </div>
-                <h3 className="mt-6 text-lg font-medium text-dark">{feature.title}</h3>
-                <p className="mt-2 text-md text-dark/80">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Screenshots Section */}
-      <section className="relative bg-gray-900 py-24 sm:py-32">
-        <div className="absolute inset-0 opacity-10 bg-[url('/patterns/circuit.svg')]" />
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mx-auto max-w-2xl text-center"
-          >
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              See JuggleHire in Action
-            </h2>
-            <p className="mt-4 text-lg text-gray-300">
-              Modern interface designed for efficient recruitment
-            </p>
-          </motion.div>
-
-          <motion.div 
-            className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
-            variants={{
-              hidden: { opacity: 0 },
-              show: {
-                opacity: 1,
-                transition: { staggerChildren: 0.2 }
-              }
-            }}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-          >
-            {product.screenshots.map((screenshot, index) => (
+    <ErrorBoundary>
+      <div className="bg-white">
+        {/* Hero Section with Product Visual */}
+        <div className="relative isolate overflow-hidden bg-gradient-to-b from-primary-100/20">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-24 sm:pt-32">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left Content */}
               <motion.div
-                key={screenshot.id}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  show: { opacity: 1, y: 0 }
-                }}
-                className="cursor-pointer"
-                onClick={() => setSelectedImage(screenshot)}
-              >
-                <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-gray-800">
-                  <Image
-                    src={screenshot.url}
-                    alt={screenshot.title}
-                    fill
-                    className="object-cover transition-transform duration-300 hover:scale-105"
-                  />
-                </div>
-                <p className="mt-2 text-sm text-gray-400">{screenshot.title}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials Section - Using similar structure to Testimonials component */}
-      <section className="relative overflow-hidden bg-white py-24 sm:py-32">
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mx-auto max-w-2xl text-center"
-          >
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Trusted by Hiring Teams Worldwide
-            </h2>
-            <p className="mt-4 text-lg text-gray-600">
-              See what our customers have to say about JuggleHire
-            </p>
-          </motion.div>
-
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3">
-            {product.testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.id}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="flex flex-col justify-between rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-200"
+                animate={{ opacity: 1, y: 0 }}
+                className="text-left"
               >
-                <div>
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <StarIcon key={i} className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                  {product.name}
+                </h1>
+                <p className="mt-6 text-lg text-gray-600">
+                  {product.description}
+                </p>
+              
+                {/* Key Benefits */}
+                <div className="mt-8 space-y-4">
+                  {product.benefits.map((benefit, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-center gap-3"
+                    >
+                      <benefit.icon className="h-6 w-6 text-primary-600" />
+                      <div>
+                        <h3 className="font-semibold text-gray-900">{benefit.title}</h3>
+                        <p className="text-sm text-gray-600">{benefit.description}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* CTAs */}
+                <div className="mt-10 flex gap-x-6">
+                  <Link
+                    href="https://demo.jugglehire.com"
+                    target="_blank"
+                    className="rounded-xl bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary-500"
+                  >
+                    Try Live Demo
+                  </Link>
+                  <a
+                    href="#pricing"
+                    className="rounded-xl bg-white px-6 py-3 text-base font-semibold text-primary-600 shadow-sm ring-1 ring-primary-200 hover:bg-gray-50"
+                  >
+                    View Pricing
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* Right Product Visual */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="relative"
+              >
+                <Image
+                  priority
+                  src="/images/products/jugglehire/hero.png"
+                  alt="JuggleHire Dashboard"
+                  width={800}
+                  height={600}
+                  className="rounded-xl shadow-2xl"
+                />
+              
+                {/* Stats Overlay */}
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-white rounded-xl shadow-lg p-6">
+                  <div className="grid grid-cols-4 gap-4">
+                    {product.stats.map((stat, index) => (
+                      <div key={index} className="text-center">
+                        <div className="text-2xl font-bold text-primary-600">{stat.value}</div>
+                        <div className="text-sm text-gray-600">{stat.label}</div>
+                      </div>
                     ))}
                   </div>
-                  <p className="text-lg text-gray-900">{testimonial.content}</p>
-                </div>
-                <div className="mt-6">
-                  <p className="font-semibold text-gray-900">{testimonial.author}</p>
-                  <p className="text-sm text-gray-500">{testimonial.role} at {testimonial.company}</p>
                 </div>
               </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Technical Specifications */}
-      <section className="relative bg-gray-50 py-24 sm:py-32">
-        <div className="absolute inset-0 bg-grid-gray-900/[0.02] bg-[size:20px_20px]" />
-        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2">
-            {/* System Requirements */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="rounded-2xl bg-white p-8 shadow-lg"
-            >
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">System Requirements</h3>
-              <ul className="space-y-4">
-                {product.techSpecs.requirements.map((req, index) => (
-                  <li key={index} className="flex items-center text-gray-700">
-                    <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
-                    {req}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* What's Included */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="rounded-2xl bg-white p-8 shadow-lg"
-            >
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">What's Included</h3>
-              <ul className="space-y-4">
-                {product.techSpecs.includes.map((item, index) => (
-                  <li key={index} className="flex items-center text-gray-700">
-                    <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="relative bg-primary-600 py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Ready to Transform Your Hiring Process?
-            </h2>
-            <p className="mt-4 text-lg text-primary-100">
-              Get started with JuggleHire Self-Hosted Version today
-            </p>
-            <div className="mt-8 flex justify-center gap-4">
-              <button className="rounded-xl bg-white px-6 py-3 text-base font-semibold text-primary-600 shadow-sm hover:bg-primary-50">
-                Purchase Now - {product.price}
-              </button>
-              <Link
-                href="https://demo.jugglehire.com"
-                target="_blank" 
-                className="rounded-xl bg-primary-500 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary-400"
-              >
-                Try Live Demo
-              </Link>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Image Lightbox Dialog */}
-      <Dialog 
-        open={!!selectedImage} 
-        onClose={() => setSelectedImage(null)}
-        className="relative z-50"
-      >
-        <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
-        
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <Dialog.Panel className="relative max-w-5xl w-full">
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute -top-12 right-0 text-white hover:text-gray-300"
-              >
-                <span className="sr-only">Close</span>
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
-              
-              <div className="relative aspect-[16/9] overflow-hidden rounded-lg">
-                {selectedImage && (
-                  <Image
-                    src={selectedImage.url}
-                    alt={selectedImage.title}
-                    fill
-                    className="object-contain"
-                  />
-                )}
-              </div>
-              
-              {selectedImage && (
-                <div className="mt-4 text-center">
-                  <Dialog.Title className="text-lg font-medium text-white">
-                    {selectedImage.title}
-                  </Dialog.Title>
-                </div>
-              )}
-            </Dialog.Panel>
-          </div>
-        </div>
-      </Dialog>
-
-      {/* FAQ Section */}
-      <section className="relative bg-white py-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mx-auto max-w-2xl text-center"
-          >
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Frequently Asked Questions
-            </h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Everything you need to know about JuggleHire Self-Hosted Version
-            </p>
-          </motion.div>
-
-          <motion.div 
-            className="mx-auto mt-16 max-w-2xl space-y-8"
-            variants={{
-              hidden: { opacity: 0 },
-              show: {
-                opacity: 1,
-                transition: { staggerChildren: 0.1 }
-              }
-            }}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-          >
-            {[
-              {
-                question: "What's included in the self-hosted version?",
-                answer: "You get the complete source code, database schema, installation guide, API documentation, and email templates. Plus, you'll receive lifetime updates and premium support."
-              },
-              {
-                question: "Do you offer installation support?",
-                answer: "Yes, our team provides comprehensive installation support to ensure your JuggleHire instance is up and running smoothly."
-              },
-              {
-                question: "Can I customize the career portal?",
-                answer: "Absolutely! The career portal is fully customizable to match your brand identity, including colors, logos, and layout."
-              },
-              {
-                question: "Is there a demo available?",
-                answer: "Yes, you can try our live demo at demo.jugglehire.com to explore all features before making a purchase."
-              }
-            ].map((faq, index) => (
-              <motion.div
-                key={index}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  show: { opacity: 1, y: 0 }
-                }}
-                className="rounded-2xl bg-gray-50 p-8"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {faq.question}
-                </h3>
-                <p className="text-gray-600">{faq.answer}</p>
+        {/* Licensing Section with Better Value Props */}
+        <AnimatedSection>
+          <section id="pricing" className="py-24 bg-gradient-to-b from-gray-50 to-white">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+              <motion.div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                  Choose Your License
+                </h2>
+                <p className="mt-4 text-lg text-gray-600">
+                  Get started with the perfect license for your business needs
+                </p>
               </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-    </div>
+
+              <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2">
+                {product.licenses?.map((license, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.2 }}
+                    className="relative flex flex-col rounded-3xl bg-white shadow-xl ring-1 ring-gray-200 hover:shadow-2xl transition-shadow duration-300"
+                  >
+                    {/* Popular Badge for Extended License */}
+                    {license.name === 'Extended License' && (
+                      <div className="absolute -top-5 left-1/2 -translate-x-1/2">
+                        <span className="inline-flex items-center rounded-full bg-primary-50 px-4 py-1 text-xs font-medium text-primary-700 ring-1 ring-inset ring-primary-600/20">
+                          Most Popular
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="p-8 sm:p-10">
+                      <h3 className="text-2xl font-bold tracking-tight text-gray-900">
+                        {license.name}
+                      </h3>
+                      <div className="mt-4 flex items-baseline text-5xl font-bold tracking-tight text-gray-900">
+                        {license.price}
+                        <span className="text-lg font-semibold text-gray-600 ml-2">one-time</span>
+                      </div>
+                      
+                      {/* Best For Description */}
+                      <p className="mt-4 text-sm text-gray-500">
+                        {license.name === 'Regular License' 
+                          ? 'Perfect for companies managing their internal hiring process'
+                          : 'Ideal for businesses offering recruitment services to clients'}
+                      </p>
+
+                      <ul className="mt-8 space-y-4">
+                        {license.features.map((feature, featureIndex) => (
+                          <li key={featureIndex} className="flex items-start">
+                            <CheckIcon className="h-6 w-6 flex-shrink-0 text-primary-600" />
+                            <span className="ml-3 text-base text-gray-700">
+                              {feature}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mt-8">
+                        <button 
+                          aria-label="Purchase Regular License"
+                          className={`
+                            w-full rounded-xl px-6 py-3 text-base font-semibold shadow-sm
+                            ${license.name === 'Extended License'
+                              ? 'bg-primary-600 text-white hover:bg-primary-500'
+                              : 'bg-primary-50 text-primary-600 hover:bg-primary-100'
+                            }
+                          `}>
+                          Purchase License
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </AnimatedSection>
+
+        {/* Features Showcase with Screenshots */}
+        <AnimatedSection>
+          <section className="py-24 overflow-hidden">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                  Everything You Need to Streamline Hiring
+                </h2>
+                <p className="mt-4 text-lg text-gray-600">
+                  Powerful features designed to make recruitment effortless
+                </p>
+              </div>
+
+              {/* Feature Categories */}
+              {Object.entries(product.features).map(([category, features], categoryIndex) => (
+                <div key={category} className="mt-24">
+                  <h3 className="text-2xl font-bold text-gray-900 text-center mb-16">
+                    {category.charAt(0).toUpperCase() + category.slice(1)} Features
+                  </h3>
+
+                  {features.map((feature, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.2 }}
+                      className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24 ${
+                        index % 2 === 0 ? '' : 'lg:flex-row-reverse'
+                      }`}
+                    >
+                      <div className={index % 2 === 0 ? 'lg:pr-12' : 'lg:pl-12'}>
+                        <h4 className="text-xl font-semibold text-gray-900">
+                          {feature.title}
+                        </h4>
+                        <p className="mt-4 text-gray-600">
+                          {feature.description}
+                        </p>
+                        <ul className="mt-8 space-y-4">
+                          {feature.benefits?.map((benefit, benefitIndex) => (
+                            <li key={benefitIndex} className="flex items-start">
+                              <CheckIcon className="h-5 w-5 text-primary-600 mt-1" />
+                              <span className="ml-3 text-gray-600">{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="relative">
+                        <Image
+                          src={feature.image}
+                          alt={feature.title}
+                          width={800}
+                          height={600}
+                          className="rounded-xl shadow-xl"
+                        />
+                        {/* Feature highlight overlay */}
+                        <div className="absolute inset-0 rounded-xl ring-1 ring-primary-500/20" />
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </section>
+        </AnimatedSection>
+
+        {/* Technical Requirements with Better Visual Hierarchy */}
+        <AnimatedSection>
+          <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+              <div className="mx-auto max-w-2xl text-center mb-16">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                  Technical Details
+                </h2>
+                <p className="mt-4 text-lg text-gray-600">
+                  Everything you need to get started with JuggleHire
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* System Requirements */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="rounded-2xl bg-white p-8 shadow-lg"
+                >
+                  <ServerIcon className="h-8 w-8 text-primary-600" />
+                  <h3 className="mt-4 text-xl font-bold text-gray-900">
+                    System Requirements
+                  </h3>
+                  <ul className="mt-8 space-y-4">
+                    {product.techSpecs.requirements.map((req, index) => (
+                      <li key={index} className="flex items-center text-gray-700">
+                        <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
+                        {req}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+
+                {/* What's Included */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  className="rounded-2xl bg-white p-8 shadow-lg"
+                >
+                  <DocumentCheckIcon className="h-8 w-8 text-primary-600" />
+                  <h3 className="mt-4 text-xl font-bold text-gray-900">
+                    What's Included
+                  </h3>
+                  <ul className="mt-8 space-y-4">
+                    {product.techSpecs.includes.map((item, index) => (
+                      <li key={index} className="flex items-center text-gray-700">
+                        <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+
+                {/* Support & Updates */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  className="rounded-2xl bg-white p-8 shadow-lg"
+                >
+                  <CogIcon className="h-8 w-8 text-primary-600" />
+                  <h3 className="mt-4 text-xl font-bold text-gray-900">
+                    Support & Updates
+                  </h3>
+                  <ul className="mt-8 space-y-4">
+                    <li className="flex items-center text-gray-700">
+                      <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
+                      Technical documentation
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
+                      Email support
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
+                      Regular updates
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
+                      Community access
+                    </li>
+                  </ul>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+        </AnimatedSection>
+
+        {/* Enhanced FAQ Section with Interactivity */}
+        <AnimatedSection>
+          <section className="py-24 bg-white">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+              <motion.div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                  Frequently Asked Questions
+                </h2>
+                <p className="mt-4 text-lg text-gray-600">
+                  Everything you need to know about JuggleHire Self-Hosted Version
+                </p>
+              </motion.div>
+
+              <div className="mt-16 max-w-3xl mx-auto">
+                <Tab.Group>
+                  <Tab.List className="flex space-x-4 rounded-xl bg-gray-50 p-2 mb-8">
+                    {['Licensing', 'Technical', 'Support'].map((category) => (
+                      <Tab
+                        key={category}
+                        className={({ selected }) =>
+                          `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+                          ${selected
+                            ? 'bg-white text-primary-600 shadow'
+                            : 'text-gray-600 hover:text-primary-600'
+                          }`
+                        }
+                      >
+                        {category}
+                      </Tab>
+                    ))}
+                  </Tab.List>
+                  <Tab.Panels>
+                    {/* Licensing FAQs */}
+                    <Tab.Panel>
+                      <div className="space-y-6">
+                        {product.faqs.licensing.map((faq, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
+                            className="rounded-2xl bg-gray-50 p-6 hover:bg-gray-100 transition-colors"
+                          >
+                            <h3 className="text-lg font-semibold text-gray-900">
+                              {faq.question}
+                            </h3>
+                            <p className="mt-2 text-gray-600">{faq.answer}</p>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </Tab.Panel>
+                    {/* Similar panels for Technical and Support FAQs */}
+                  </Tab.Panels>
+                </Tab.Group>
+              </div>
+            </div>
+          </section>
+        </AnimatedSection>
+
+        {/* Enhanced CTA Section with Social Proof */}
+        <AnimatedSection>
+          <section className="relative bg-gradient-to-b from-primary-600 to-primary-700 py-24">
+            <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
+            <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                  Ready to Transform Your Hiring Process?
+                </h2>
+                <p className="mt-4 text-lg text-primary-100">
+                  Join hundreds of companies already using JuggleHire
+                </p>
+
+                {/* Social Proof */}
+                <div className="mt-8 flex justify-center space-x-6">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-white">500+</div>
+                    <div className="text-sm text-primary-100">Happy Customers</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-white">40+</div>
+                    <div className="text-sm text-primary-100">Countries</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-white">4.9/5</div>
+                    <div className="text-sm text-primary-100">Customer Rating</div>
+                  </div>
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                  <button className="rounded-xl bg-white px-8 py-4 text-base font-semibold text-primary-600 shadow-sm hover:bg-primary-50 transition-colors">
+                    Purchase Now
+                  </button>
+                  <Link
+                    href="https://demo.jugglehire.com"
+                    target="_blank" 
+                    className="rounded-xl bg-primary-500 px-8 py-4 text-base font-semibold text-white shadow-sm hover:bg-primary-400 transition-colors"
+                  >
+                    Try Live Demo
+                  </Link>
+                </div>
+
+                {/* Trust Badges */}
+                <div className="mt-12 flex justify-center items-center gap-8">
+                  <div className="flex items-center text-primary-100">
+                    <ShieldCheckIcon className="h-5 w-5 mr-2" />
+                    <span className="text-sm">Secure Payment</span>
+                  </div>
+                  <div className="flex items-center text-primary-100">
+                    <ClockIcon className="h-5 w-5 mr-2" />
+                    <span className="text-sm">Instant Access</span>
+                  </div>
+                  <div className="flex items-center text-primary-100">
+                    <ChatBubbleBottomCenterTextIcon className="h-5 w-5 mr-2" />
+                    <span className="text-sm">24/7 Support</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </AnimatedSection>
+      </div>
+    </ErrorBoundary>
   )
 }
