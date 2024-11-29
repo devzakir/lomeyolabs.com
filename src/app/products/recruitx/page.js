@@ -30,6 +30,7 @@ import {
   ArrowRightIcon
 } from '@heroicons/react/24/solid'
 import AnimatedSection from '@/components/animation/AnimatedSection'
+import Testimonials from '@/components/Testimonials'
 
 // Product data
 const product = {
@@ -243,17 +244,17 @@ const product = {
   ],
   screenshots: [
     {
-      image: '/products/recruitx/screenshot1.png',
+      image: '/recruitx/1.jpg',
       title: 'Streamlined Hiring Process',
       description: 'Everything you need for efficient recruitment in one place'
     },
     {
-      image: '/products/recruitx/screenshot2.png',
+      image: '/recruitx/2.jpg',
       title: 'Smart Candidate Management',
       description: 'Centralize and automate your candidate processing'
     },
     {
-      image: '/products/recruitx/screenshot3.png',
+      image: '/recruitx/3.jpg',
       title: 'Professional Employer Branding',
       description: 'Build a strong employer brand to attract top talent'
     }
@@ -285,34 +286,33 @@ const product = {
     {
       name: 'Regular License',
       price: '$499',
-      popular: false,
+      description: 'Perfect for internal hiring teams',
       features: [
-        'Single installation',
-        'Access to all features',
-        'Source code included',
-        '6 months support',
-        'Free updates',
-        'Use for internal hiring',
-        'Documentation access',
-        'Community support'
-      ]
+        'Free platform usage',
+        'Complete source code',
+        'Single domain deployment',
+        'Technical documentation',
+        'Basic support package',
+        '6 months of updates'
+      ],
+      recommended: false,
+      buttonText: 'Purchase Regular License'
     },
     {
       name: 'Extended License',
       price: '$1,499',
-      popular: true,
+      description: 'Ideal for commercial deployment',
       features: [
-        'Multiple installations',
-        'Access to all features',
-        'Source code included',
-        '12 months priority support',
-        'Lifetime free updates',
-        'Commercial usage rights',
-        'White-label rights',
-        'API access',
-        'Premium documentation',
-        'Priority bug fixes'
-      ]
+        'Charge users for platform access',
+        'Complete source code',
+        'Single domain deployment',
+        'Technical documentation',
+        'Priority support package',
+        '12 months of updates',
+        'Commercial use rights'
+      ],
+      recommended: true,
+      buttonText: 'Purchase Extended License'
     }
   ],
 }
@@ -335,6 +335,25 @@ const sectionStyles = {
 
 export default function RecruitXPage() {
   const [selectedImage, setSelectedImage] = useState(null)
+  const [lightbox, setLightbox] = useState({
+    isOpen: false,
+    currentImage: ''
+  });
+
+  // Add this function to handle lightbox
+  const openLightbox = (image) => {
+    setLightbox({
+      isOpen: true,
+      currentImage: image
+    });
+  };
+
+  const closeLightbox = () => {
+    setLightbox({
+      isOpen: false,
+      currentImage: ''
+    });
+  };
 
   return (
     <div className="bg-white">
@@ -704,6 +723,99 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
+
+      {/* Licensing Section */}
+      <AnimatedSection>
+        <section id="pricing" className="py-24 bg-gradient-to-b from-gray-50 to-white">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center mb-16">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Choose Your License
+              </h2>
+              <p className="mt-4 text-lg text-gray-600">
+                Select the perfect license for your recruitment needs
+              </p>
+            </div>
+
+            <div className="mx-auto grid max-w-md grid-cols-1 gap-8 lg:max-w-4xl lg:grid-cols-2">
+              {product.licenses.map((license, index) => (
+                <motion.div
+                  key={index}
+                  className={`relative flex flex-col rounded-3xl ${
+                    license.recommended 
+                      ? 'bg-primary-900 text-white ring-2 ring-primary-500' 
+                      : 'bg-white ring-1 ring-gray-200'
+                  } p-8 shadow-xl transition-all duration-300 hover:shadow-2xl`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  {license.recommended && (
+                    <div className="absolute -top-4 right-8">
+                      <div className="rounded-full bg-primary-500 px-4 py-1 text-xs font-semibold text-white">
+                        Recommended
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="mb-6">
+                    <h3 className={`text-2xl font-bold ${
+                      license.recommended ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      {license.name}
+                    </h3>
+                    <p className={`mt-2 text-base ${
+                      license.recommended ? 'text-primary-100' : 'text-gray-600'
+                    }`}>
+                      {license.description}
+                    </p>
+                    <p className={`mt-4 text-4xl font-bold tracking-tight ${
+                      license.recommended ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      {license.price} <span className="text-sm font-normal">one-time</span>
+                    </p>
+                  </div>
+
+                  <ul className="mb-8 space-y-4 flex-1">
+                    {license.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center">
+                        <CheckIcon className={`h-5 w-5 flex-shrink-0 ${
+                          license.recommended ? 'text-primary-300' : 'text-primary-600'
+                        } mr-3`} />
+                        <span className={
+                          license.recommended ? 'text-primary-100' : 'text-gray-600'
+                        }>
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`w-full rounded-xl px-6 py-4 text-base font-semibold shadow-sm transition-all duration-200 ${
+                      license.recommended
+                        ? 'bg-white text-primary-600 hover:bg-primary-50'
+                        : 'bg-primary-600 text-white hover:bg-primary-500'
+                    }`}
+                  >
+                    {license.buttonText}
+                  </motion.button>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </AnimatedSection>
+
+
+      {/* Testimonials Section */}
+      <AnimatedSection>
+        <Testimonials />
+      </AnimatedSection>
+
       {/* Why Choose RecruitX Section */}
       <AnimatedSection>
         <section className="py-24 relative overflow-hidden">
@@ -863,11 +975,12 @@ export default function RecruitXPage() {
               {product.screenshots.map((screenshot, index) => (
                 <motion.div
                   key={index}
-                  className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
+                  onClick={() => openLightbox(screenshot.image)}
                 >
                   {/* Image */}
                   <div className="relative aspect-video overflow-hidden">
@@ -898,185 +1011,9 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
-      {/* Testimonials Section */}
-      <AnimatedSection>
-        <section className="py-24 bg-white relative overflow-hidden">
-          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center mb-16">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Trusted by Recruiters Worldwide
-              </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                See what our customers say about RecruitX
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-              {product.testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  className="relative group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <div className="relative rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 p-8 hover:bg-white/20 transition-colors duration-300">
-                    {/* Quote Icon */}
-                    <div className="absolute -top-4 -left-4">
-                      <div className="p-3 bg-primary-500 rounded-full">
-                        <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" />
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="relative">
-                      <div className="flex items-center mb-4">
-                        <Image
-                          src={testimonial.avatar}
-                          alt={testimonial.name}
-                          width={48}
-                          height={48}
-                          className="rounded-full"
-                        />
-                        <div className="ml-4">
-                          <h3 className="text-lg font-semibold text-white">
-                            {testimonial.name}
-                          </h3>
-                          <p className="text-sm text-white/80">{testimonial.role}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center mb-4">
-                        {[...Array(5)].map((_, i) => (
-                          <StarIcon
-                            key={i}
-                            className={`h-5 w-5 ${
-                              i < Math.floor(testimonial.rating)
-                                ? 'text-yellow-400'
-                                : 'text-gray-400'
-                            }`}
-                          />
-                        ))}
-                        <span className="ml-2 text-sm text-white/80">
-                          {testimonial.rating.toFixed(1)}
-                        </span>
-                      </div>
-
-                      <p className="text-white/90 italic">"{testimonial.content}"</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
-
-      {/* Money-Back Guarantee */}
-      <AnimatedSection>
-        <section className="py-16 bg-primary-600">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-              <div className="text-white">
-                <h2 className="text-2xl font-bold mb-2">30-Day Money-Back Guarantee</h2>
-                <p className="text-primary-100">
-                  Try RecruitX risk-free. If you're not completely satisfied, we'll refund your purchase.
-                </p>
-              </div>
-              <div className="flex gap-4">
-                <Link
-                  href="#pricing"
-                  className="rounded-xl bg-white px-8 py-4 text-base font-semibold text-primary-600 hover:bg-primary-50"
-                >
-                  Get Started
-                </Link>
-                <Link
-                  href="/contact"
-                  className="rounded-xl bg-primary-500 px-8 py-4 text-base font-semibold text-white hover:bg-primary-400"
-                >
-                  Contact Sales
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
-
-      {/* Support & Documentation Section */}
-      <AnimatedSection>
-        <section className={`py-24 ${sectionStyles.primary} relative overflow-hidden`}>
-          {/* Diagonal lines pattern */}
-          <div className="absolute inset-0" style={{
-            backgroundImage: `linear-gradient(45deg, rgba(0,112,243,0.03) 25%, transparent 25%, transparent 75%, rgba(0,112,243,0.03) 75%, rgba(0,112,243,0.03)), 
-            linear-gradient(45deg, rgba(0,112,243,0.03) 25%, transparent 25%, transparent 75%, rgba(0,112,243,0.03) 75%, rgba(0,112,243,0.03))`,
-            backgroundSize: '60px 60px',
-            backgroundPosition: '0 0, 30px 30px'
-          }} />
-          
-          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Support & Documentation
-              </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                Everything you need to get started and succeed
-              </p>
-            </div>
-
-            <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
-              {/* Resources */}
-              <motion.div
-                className="rounded-2xl bg-white/70 backdrop-blur-sm border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <DocumentTextIcon className="h-8 w-8 text-primary-600" />
-                  <h3 className="text-xl font-bold text-gray-900">Included Resources</h3>
-                </div>
-                <ul className="space-y-4">
-                  {product.support.resources.map((resource, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <CheckIcon className="h-5 w-5 text-primary-600 mt-1" />
-                      <span className="text-gray-600">{resource}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-
-              {/* Support Options */}
-              <motion.div
-                className="rounded-2xl bg-white/70 backdrop-blur-sm border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <ChatBubbleBottomCenterTextIcon className="h-8 w-8 text-primary-600" />
-                  <h3 className="text-xl font-bold text-gray-900">Support Options</h3>
-                </div>
-                <ul className="space-y-4">
-                  {product.support.options.map((option, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <CheckIcon className="h-5 w-5 text-primary-600 mt-1" />
-                      <span className="text-gray-600">{option}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
-
       {/* FAQ Section */}
       <AnimatedSection>
-        <section className={`py-24 ${sectionStyles.dark} relative overflow-hidden`}>
+        <section className={`py-24 ${sectionStyles.light} relative overflow-hidden`}>
           <div className="absolute inset-0 bg-grid-primary-900/[0.02] bg-[size:20px_20px]" />
           
           <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
@@ -1111,86 +1048,6 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
-      {/* Licensing Section */}
-      <AnimatedSection>
-        <section id="pricing" className="py-24 bg-gradient-to-b from-gray-50 to-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <motion.div 
-              className="mx-auto max-w-2xl text-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Choose Your License
-              </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                Get started with the perfect license for your business needs
-              </p>
-            </motion.div>
-
-            <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2">
-              {product.licenses.map((license, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.2 }}
-                  className="relative flex flex-col rounded-3xl bg-white p-8 shadow-xl ring-1 ring-gray-200 hover:shadow-2xl transition-all duration-300"
-                >
-                  {license.popular && (
-                    <div className="absolute -top-5 left-1/2 -translate-x-1/2">
-                      <span className="inline-flex items-center rounded-full bg-primary-50 px-4 py-1 text-xs font-medium text-primary-700 ring-1 ring-inset ring-primary-600/20">
-                        Most Popular
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-bold tracking-tight text-gray-900">
-                      {license.name}
-                    </h3>
-                    <div className="mt-4 flex items-baseline">
-                      <span className="text-5xl font-bold tracking-tight text-gray-900">{license.price}</span>
-                      <span className="text-lg font-semibold text-gray-600 ml-2">one-time</span>
-                    </div>
-                    
-                    <p className="mt-4 text-sm text-gray-500">
-                      {license.name === 'Regular License' 
-                        ? 'Perfect for companies managing their internal hiring process'
-                        : 'Ideal for businesses offering recruitment services to clients'}
-                    </p>
-                  </div>
-
-                  <ul className="mb-8 space-y-4 flex-1">
-                    {license.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start">
-                        <CheckIcon className="h-6 w-6 flex-shrink-0 text-primary-600 mt-0.5" />
-                        <span className="ml-3 text-base text-gray-600">
-                          {feature}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button 
-                    className={`
-                      w-full rounded-xl px-8 py-4 text-base font-semibold shadow-sm transition-all duration-300
-                      ${license.popular
-                        ? 'bg-primary-600 text-white hover:bg-primary-500'
-                        : 'bg-primary-50 text-primary-600 hover:bg-primary-100'
-                      }
-                    `}
-                  >
-                    Get {license.name}
-                  </button>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
 
       {/* Enhanced CTA Section */}
       <AnimatedSection>
@@ -1280,6 +1137,38 @@ export default function RecruitXPage() {
           </div>
         </section>
       </AnimatedSection>
+
+      {/* Lightbox Modal */}
+      {lightbox.isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          onClick={closeLightbox}
+        >
+          <div className="relative max-w-7xl mx-auto">
+            {/* Close button */}
+            <button
+              className="absolute -top-12 right-0 text-white hover:text-primary-300 transition-colors"
+              onClick={closeLightbox}
+            >
+              <XMarkIcon className="h-8 w-8" />
+            </button>
+
+            {/* Image */}
+            <div className="relative aspect-[16/9] w-full">
+              <Image
+                src={lightbox.currentImage}
+                alt="Screenshot preview"
+                fill
+                className="object-contain"
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Navigation arrows could be added here */}
+        </div>
+      )}
     </div>
   )
 } 

@@ -2,7 +2,24 @@
 
 const nextConfig = {
   images: {
-    domains: ['templatecookie.com', 'jugglehire.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'templatecookie.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'jugglehire.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      }
+    ],
   },
 };
 
