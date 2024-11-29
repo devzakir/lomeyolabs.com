@@ -25,7 +25,9 @@ import {
   ServerIcon,
   LockClosedIcon,
   ClockIcon,
-  ChatBubbleBottomCenterTextIcon
+  ChatBubbleBottomCenterTextIcon,
+  SparklesIcon,
+  ArrowRightIcon
 } from '@heroicons/react/24/solid'
 import AnimatedSection from '@/components/animation/AnimatedSection'
 
@@ -278,7 +280,41 @@ const product = {
       rating: 4.7,
       content: 'RecruitX has been a great investment for our startup. It\'s helped us attract top talent and streamline our hiring process.'
     }
-  ]
+  ],
+  licenses: [
+    {
+      name: 'Regular License',
+      price: '$499',
+      popular: false,
+      features: [
+        'Single installation',
+        'Access to all features',
+        'Source code included',
+        '6 months support',
+        'Free updates',
+        'Use for internal hiring',
+        'Documentation access',
+        'Community support'
+      ]
+    },
+    {
+      name: 'Extended License',
+      price: '$1,499',
+      popular: true,
+      features: [
+        'Multiple installations',
+        'Access to all features',
+        'Source code included',
+        '12 months priority support',
+        'Lifetime free updates',
+        'Commercial usage rights',
+        'White-label rights',
+        'API access',
+        'Premium documentation',
+        'Priority bug fixes'
+      ]
+    }
+  ],
 }
 
 // Enhanced section styles with more variety
@@ -303,8 +339,14 @@ export default function RecruitXPage() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-white to-blue-50 py-24">
-        <div className="absolute inset-0 bg-grid-gray-900/[0.02] bg-[size:20px_20px]" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-100/30 py-24">
+        {/* Modern geometric patterns */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-grid-gray-900/[0.02] bg-[size:20px_20px]" />
+          <div className="absolute -left-1/4 top-0 w-1/2 h-1/2 bg-gradient-to-br from-primary-100/40 to-transparent rounded-full blur-3xl" />
+          <div className="absolute right-0 bottom-0 w-1/3 h-1/3 bg-gradient-to-tl from-secondary-100/30 to-transparent rounded-full blur-3xl" />
+        </div>
+
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
           <motion.div 
             className="mx-auto max-w-2xl text-center"
@@ -312,59 +354,88 @@ export default function RecruitXPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-flex items-center rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700 mb-4">
+            <span className="inline-flex items-center rounded-full bg-primary-50 px-4 py-1.5 text-sm font-medium text-primary-700 mb-6">
+              <SparklesIcon className="w-4 h-4 mr-2" />
               {product.category}
             </span>
-            <h1 className="text-4xl font-heading font-bold tracking-tight text-neutral-dark sm:text-5xl">
+            <h1 className="text-4xl font-heading font-bold tracking-tight text-neutral-dark sm:text-5xl lg:text-6xl">
               {product.name}
             </h1>
             <p className="mt-6 text-xl text-neutral-dark/80">
               {product.description}
             </p>
             <div className="mt-10 flex justify-center gap-4">
-              <button className="inline-flex items-center rounded-xl bg-primary-600 px-8 py-4 text-base font-semibold text-white hover:bg-primary-700">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center rounded-xl bg-primary-600 px-8 py-4 text-base font-semibold text-white hover:bg-primary-700 transition-all duration-300 shadow-lg shadow-primary-600/20"
+              >
                 Purchase Now - {product.price}
-              </button>
-              <button className="inline-flex items-center rounded-xl bg-white px-8 py-4 text-base font-semibold text-primary-600 hover:bg-primary-50">
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center rounded-xl bg-white px-8 py-4 text-base font-semibold text-primary-600 hover:bg-primary-50 transition-all duration-300 shadow-lg shadow-gray-200/50"
+              >
                 Try Live Demo
-              </button>
+              </motion.button>
             </div>
           </motion.div>
 
-          {/* Hero Image */}
+          {/* YouTube Video with Custom Thumbnail */}
           <motion.div 
-            className="mt-16 relative"
+            className="mt-16 relative rounded-2xl overflow-hidden shadow-2xl bg-white"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="aspect-[16/9] rounded-xl overflow-hidden bg-white shadow-2xl">
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={1920}
-                height={1080}
-                className="object-cover"
+            <div className="aspect-[16/9] relative">
+              {/* Custom Thumbnail Overlay */}
+              <div 
+                className="absolute inset-0 z-10 bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center cursor-pointer group"
+                onClick={() => {
+                  const iframe = document.getElementById('youtube-player');
+                  iframe.src += '&autoplay=1';
+                  document.getElementById('thumbnail-overlay').style.display = 'none';
+                }}
+                id="thumbnail-overlay"
+              >
+                {/* Play Button */}
+                <div className="w-20 h-20 rounded-full bg-white/90 flex items-center justify-center transform group-hover:scale-110 transition-all duration-300">
+                  <div className="w-0 h-0 border-t-[15px] border-t-transparent border-l-[25px] border-l-primary-600 border-b-[15px] border-b-transparent ml-2" />
+                </div>
+              </div>
+
+              {/* YouTube Player (hidden initially) */}
+              <iframe
+                id="youtube-player"
+                src="https://www.youtube.com/embed/yhrwj-L4uYw?start=50&modestbranding=1&controls=1&showinfo=0&rel=0&disablekb=1&playsinline=1"
+                title="Product Demo Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full rounded-xl"
               />
             </div>
+            {/* Video Overlay Gradient */}
+            <div className="absolute inset-0 pointer-events-none rounded-xl ring-1 ring-inset ring-gray-900/10" />
           </motion.div>
         </div>
       </section>
 
       {/* Why Self-Host Section */}
       <AnimatedSection>
-        <section className={`py-24 ${sectionStyles.pattern1} relative overflow-hidden`}>
+        <section className={`py-24 bg-primary-900 text-white relative overflow-hidden`}>
           {/* Modern geometric patterns */}
-          <div className="absolute inset-0 bg-grid-primary-900/[0.02] bg-[size:20px_20px]" />
-          <div className="absolute -left-1/4 top-0 w-1/2 h-1/2 bg-gradient-to-br from-primary-100/40 to-transparent rounded-full blur-3xl" />
-          <div className="absolute right-0 bottom-0 w-1/3 h-1/3 bg-gradient-to-tl from-secondary-100/30 to-transparent rounded-full blur-3xl" />
+          <div className="absolute inset-0 bg-grid-primary-900/[0.1] bg-[size:20px_20px]" />
+          <div className="absolute -left-1/4 top-0 w-1/2 h-1/2 bg-gradient-to-br from-primary-700/40 to-transparent rounded-full blur-3xl" />
+          <div className="absolute right-0 bottom-0 w-1/3 h-1/3 bg-gradient-to-tl from-secondary-700/30 to-transparent rounded-full blur-3xl" />
           
           <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
                 Why Self-Host RecruitX?
               </h2>
-              <p className="mt-4 text-lg text-gray-600">
+              <p className="mt-4 text-lg">
                 Take complete control of your recruitment infrastructure
               </p>
             </div>
@@ -373,26 +444,94 @@ export default function RecruitXPage() {
               {product.selfHostBenefits.map((benefit, index) => (
                 <motion.div
                   key={index}
-                  className="relative rounded-2xl bg-white/50 backdrop-blur-sm border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="group relative"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
+                  whileHover={{ 
+                    y: -5,
+                    transition: { duration: 0.2 }
+                  }}
                 >
-                  <div className="flex items-center gap-4 mb-6">
-                    <benefit.icon className="h-8 w-8 text-primary-600" />
-                    <h3 className="text-xl font-bold text-gray-900">{benefit.title}</h3>
+                  {/* Card Container */}
+                  <div className="relative rounded-2xl overflow-hidden">
+                    {/* Animated Background Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-800/90 to-primary-900/90 opacity-90" />
+                    <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
+                    
+                    {/* Glowing Orb Effects */}
+                    <div className="absolute -left-20 -top-20 w-40 h-40 bg-primary-400 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
+                    <div className="absolute -right-20 -bottom-20 w-40 h-40 bg-secondary-400 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
+
+                    {/* Content Container */}
+                    <div className="relative p-8">
+                      {/* Icon Header */}
+                      <div className="flex items-center gap-4 mb-8">
+                        <div className="relative">
+                          {/* Animated Glow Effect */}
+                          <div className="absolute inset-0 bg-white rounded-xl blur-xl opacity-20 group-hover:opacity-30 transition-all duration-300" />
+                          <div className="relative p-3 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/10 backdrop-blur-sm shadow-2xl">
+                            <benefit.icon className="h-8 w-8 text-white" />
+                          </div>
+                        </div>
+                        <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/90">
+                          {benefit.title}
+                        </h3>
+                      </div>
+
+                      {/* Benefits List */}
+                      <ul className="space-y-4">
+                        {benefit.items.map((item, idx) => (
+                          <motion.li 
+                            key={idx} 
+                            className="flex items-center gap-3 group/item"
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                          >
+                            <div className="flex-shrink-0">
+                              <div className="p-1.5 rounded-full bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm border border-white/10 group-hover/item:from-white/30 group-hover/item:to-white/20 transition-all duration-300">
+                                <CheckIcon className="h-3.5 w-3.5 text-white" />
+                              </div>
+                            </div>
+                            <span className="text-white/80 group-hover/item:text-white transition-colors duration-300">
+                              {item}
+                            </span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Hover Border Effect */}
+                    <div className="absolute inset-0 border border-white/10 rounded-2xl group-hover:border-white/20 transition-colors duration-300" />
+                    
+                    {/* Shine Effect on Hover */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                      <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+                      <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
+                    </div>
                   </div>
-                  <ul className="space-y-4">
-                    {benefit.items.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <CheckIcon className="h-5 w-5 text-primary-600 mt-1" />
-                        <span className="text-gray-600">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </motion.div>
               ))}
             </div>
+
+            {/* Bottom CTA */}
+            <motion.div 
+              className="mt-16 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Link 
+                href="#pricing"
+                className="inline-flex items-center px-8 py-4 rounded-xl bg-primary-600 text-white font-semibold shadow-lg shadow-primary-600/20 hover:bg-primary-700 transition-all duration-300 group"
+              >
+                Get Started Today
+                <ArrowRightIcon className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </motion.div>
           </div>
         </section>
       </AnimatedSection>
@@ -426,7 +565,7 @@ export default function RecruitXPage() {
                   viewport={{ once: true }}
                 >
                   <div className={`lg:w-1/2 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
-                    <div className="rounded-2xl bg-white/50 backdrop-blur-sm border border-gray-100 p-8 shadow-lg">
+                    <div className="rounded-2xl bg-gradient-to-br from-white/50 to-gray-100/50 backdrop-blur-sm border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all duration-300">
                       <h3 className="text-2xl font-bold text-gray-900 mb-4">
                         {feature.title}
                       </h3>
@@ -465,31 +604,99 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
-      {/* Target Audience Section */}
+      {/* Target Audience Section - Perfect For */}
       <AnimatedSection>
-        <section className="py-24 bg-gray-50">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <section className="py-24 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900 relative overflow-hidden">
+          {/* Background Effects */}
+          <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
+          <div className="absolute -left-1/4 top-0 w-1/2 h-1/2 bg-gradient-to-br from-primary-400/20 to-transparent rounded-full blur-3xl" />
+          <div className="absolute -right-1/4 bottom-0 w-1/2 h-1/2 bg-gradient-to-tl from-secondary-400/20 to-transparent rounded-full blur-3xl" />
+
+          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center mb-16">
+              <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                 Perfect For
               </h2>
-              <p className="mt-4 text-lg text-gray-600">
+              <p className="mt-4 text-lg text-white/80">
                 Designed for organizations that value control, security, and customization
               </p>
             </div>
 
-            <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2">
-              {product.targetAudience.map((audience, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                {
+                  title: "Enterprise Companies",
+                  description: "Large organizations requiring complete data control and customization",
+                  icon: "/illustrations/building.svg",
+                  gradient: "from-blue-500 to-indigo-600"
+                },
+                {
+                  title: "Government Agencies",
+                  description: "Public sector organizations with strict security requirements",
+                  icon: "/illustrations/public-service.svg",
+                  gradient: "from-emerald-500 to-teal-600"
+                },
+                {
+                  title: "Healthcare Providers",
+                  description: "Medical institutions needing HIPAA compliance and data privacy",
+                  icon: "/illustrations/medical-care.svg",
+                  gradient: "from-purple-500 to-pink-600"
+                },
+                {
+                  title: "Tech Startups",
+                  description: "Growing companies seeking scalable recruitment solutions",
+                  icon: "/illustrations/working.svg",
+                  gradient: "from-orange-500 to-red-600"
+                }
+              ].map((card, index) => (
                 <motion.div
                   key={index}
-                  className="flex items-start gap-4 rounded-2xl bg-white p-8 shadow-lg"
+                  className="group h-full"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <UsersIcon className="h-6 w-6 text-primary-600 mt-1" />
-                  <p className="text-lg text-gray-600">{audience}</p>
+                  <div className="relative h-full rounded-2xl overflow-hidden bg-white/10 backdrop-blur-sm border border-white/20">
+                    {/* Hover Gradient */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-10`} />
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="relative p-8 flex flex-col h-full">
+                      {/* Illustration */}
+                      <div className="mb-6 flex justify-center">
+                        <div className="w-32 h-32 relative">
+                          <Image
+                            src={card.icon}
+                            alt={card.title}
+                            width={128}
+                            height={128}
+                            className="transform group-hover:scale-110 transition-transform duration-300"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Text Content */}
+                      <div className="flex-grow">
+                        <h3 className="text-xl font-bold text-white mb-3 text-center">
+                          {card.title}
+                        </h3>
+                        <p className="text-white/80 text-center">
+                          {card.description}
+                        </p>
+                      </div>
+
+                      {/* Shine Effect */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                        <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-white/30 to-transparent" />
+                        <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-white/30 to-transparent" />
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -499,9 +706,9 @@ export default function RecruitXPage() {
 
       {/* Why Choose RecruitX Section */}
       <AnimatedSection>
-        <section className="py-24 bg-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
+        <section className="py-24 relative overflow-hidden">
+          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 Why Choose RecruitX Self-Hosted?
               </h2>
@@ -510,28 +717,61 @@ export default function RecruitXPage() {
               </p>
             </div>
 
-            <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {product.whyChoose.map((reason, index) => (
                 <motion.div
                   key={index}
-                  className="relative"
+                  className="group relative"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div className="flex items-center gap-4 mb-6">
-                    <reason.icon className="h-8 w-8 text-primary-600" />
-                    <h3 className="text-xl font-bold text-gray-900">{reason.title}</h3>
+                  <div className="relative h-full rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
+                    {/* Gradient Background */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white opacity-50" />
+                    
+                    {/* Content */}
+                    <div className="relative p-8">
+                      {/* Icon Header */}
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-primary-100 rounded-xl blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                          <div className="relative p-3 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl">
+                            <reason.icon className="h-8 w-8 text-white" />
+                          </div>
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900">
+                          {reason.title}
+                        </h3>
+                      </div>
+
+                      {/* Feature List */}
+                      <ul className="space-y-4">
+                        {reason.items.map((item, idx) => (
+                          <motion.li
+                            key={idx}
+                            className="flex items-start gap-3 group/item"
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                          >
+                            <div className="flex-shrink-0 mt-1">
+                              <div className="p-1 bg-primary-100 rounded-full">
+                                <CheckIcon className="h-4 w-4 text-primary-600" />
+                              </div>
+                            </div>
+                            <span className="text-gray-600 group-hover/item:text-gray-900 transition-colors duration-300">
+                              {item}
+                            </span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Border Gradient */}
+                    <div className="absolute inset-0 border border-gradient-to-r from-primary-100 to-secondary-100 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
-                  <ul className="space-y-4">
-                    {reason.items.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <CheckIcon className="h-5 w-5 text-primary-600 mt-1" />
-                        <span className="text-gray-600">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </motion.div>
               ))}
             </div>
@@ -539,67 +779,63 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
-      {/* Technical Specifications Section */}
+      {/* Technical Specifications & Support Section - Combined */}
       <AnimatedSection>
-        <section className={`py-24 ${sectionStyles.pattern2} relative overflow-hidden`}>
-          {/* Dotted pattern overlay */}
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(0,112,243,0.05) 1px, transparent 0)`,
-            backgroundSize: '20px 20px'
-          }} />
-          
-          {/* Modern floating elements */}
-          <div className="absolute top-1/4 left-0 w-64 h-64 bg-gradient-to-br from-primary-100/30 to-transparent rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-1/4 right-0 w-48 h-48 bg-gradient-to-tl from-secondary-100/20 to-transparent rounded-full blur-3xl animate-float-delayed" />
-          
-          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
+        <section className="py-24 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-primary/[0.03] bg-[size:20px_20px]" />
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Technical Specifications
+                Technical Specifications & Support
               </h2>
               <p className="mt-4 text-lg text-gray-600">
-                Built with modern technologies for reliability and scalability
+                Everything you need to get started with RecruitX
               </p>
             </div>
 
-            <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
-              {/* Requirements */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Technical Requirements */}
               <motion.div
-                className="rounded-2xl bg-white/70 backdrop-blur-sm border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                className="rounded-2xl bg-white p-8 shadow-xl hover:shadow-2xl transition-all duration-300"
               >
                 <div className="flex items-center gap-4 mb-6">
-                  <ServerIcon className="h-8 w-8 text-primary-600" />
-                  <h3 className="text-xl font-bold text-gray-900">Deployment Requirements</h3>
+                  <div className="p-3 bg-primary-100 rounded-xl">
+                    <ServerIcon className="h-6 w-6 text-primary-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">System Requirements</h3>
                 </div>
                 <ul className="space-y-4">
                   {product.techSpecs.requirements.map((req, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <CheckIcon className="h-5 w-5 text-primary-600 mt-1" />
-                      <span className="text-gray-600">{req}</span>
+                    <li key={index} className="flex items-center text-gray-700">
+                      <CheckIcon className="h-5 w-5 text-primary-600 mr-3 flex-shrink-0" />
+                      {req}
                     </li>
                   ))}
                 </ul>
               </motion.div>
 
-              {/* Included Resources */}
+              {/* Support & Documentation */}
               <motion.div
-                className="rounded-2xl bg-white/70 backdrop-blur-sm border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="rounded-2xl bg-white p-8 shadow-xl hover:shadow-2xl transition-all duration-300"
               >
                 <div className="flex items-center gap-4 mb-6">
-                  <DocumentCheckIcon className="h-8 w-8 text-primary-600" />
-                  <h3 className="text-xl font-bold text-gray-900">What's Included</h3>
+                  <div className="p-3 bg-primary-100 rounded-xl">
+                    <DocumentCheckIcon className="h-6 w-6 text-primary-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">Support & Documentation</h3>
                 </div>
                 <ul className="space-y-4">
-                  {product.techSpecs.includes.map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <CheckIcon className="h-5 w-5 text-primary-600 mt-1" />
-                      <span className="text-gray-600">{item}</span>
+                  {[...product.techSpecs.includes, "24/7 Technical Support", "Regular Updates", "Community Access"].map((item, index) => (
+                    <li key={index} className="flex items-center text-gray-700">
+                      <CheckIcon className="h-5 w-5 text-primary-600 mr-3 flex-shrink-0" />
+                      {item}
                     </li>
                   ))}
                 </ul>
@@ -609,40 +845,50 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
-      {/* Product Screenshots */}
+      {/* Beautiful Interface Section */}
       <AnimatedSection>
-        <section className="py-24 bg-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <section className="py-24 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900 relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
+          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center mb-16">
+              <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                 Beautiful Interface, Powerful Features
               </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                Take a look at RecruitX's intuitive interface and powerful features
+              <p className="mt-4 text-lg text-white/80">
+                Designed for modern recruitment teams
               </p>
             </div>
 
-            <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {product.screenshots.map((screenshot, index) => (
                 <motion.div
                   key={index}
-                  className="relative overflow-hidden rounded-xl shadow-lg"
+                  className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Image
-                    src={screenshot.image}
-                    alt={screenshot.title}
-                    width={600}
-                    height={400}
-                    className="w-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="text-lg font-semibold text-white">{screenshot.title}</h3>
-                      <p className="text-sm text-white/80">{screenshot.description}</p>
+                  {/* Image */}
+                  <div className="relative aspect-video overflow-hidden">
+                    <Image
+                      src={screenshot.image}
+                      alt={screenshot.title}
+                      width={600}
+                      height={400}
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    />
+                    
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 className="text-lg font-semibold text-white mb-2">
+                          {screenshot.title}
+                        </h3>
+                        <p className="text-sm text-white/90">
+                          {screenshot.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -652,11 +898,11 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
-      {/* Customer Testimonials */}
+      {/* Testimonials Section */}
       <AnimatedSection>
-        <section className="py-24 bg-gray-50">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
+        <section className="py-24 bg-white relative overflow-hidden">
+          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 Trusted by Recruiters Worldwide
               </h2>
@@ -665,38 +911,63 @@ export default function RecruitXPage() {
               </p>
             </div>
 
-            <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
               {product.testimonials.map((testimonial, index) => (
                 <motion.div
                   key={index}
-                  className="relative rounded-2xl bg-white p-8 shadow-lg"
+                  className="relative group"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div className="flex items-center gap-4 mb-6">
-                    <Image
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      width={48}
-                      height={48}
-                      className="rounded-full"
-                    />
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">{testimonial.name}</h3>
-                      <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  <div className="relative rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 p-8 hover:bg-white/20 transition-colors duration-300">
+                    {/* Quote Icon */}
+                    <div className="absolute -top-4 -left-4">
+                      <div className="p-3 bg-primary-500 rounded-full">
+                        <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative">
+                      <div className="flex items-center mb-4">
+                        <Image
+                          src={testimonial.avatar}
+                          alt={testimonial.name}
+                          width={48}
+                          height={48}
+                          className="rounded-full"
+                        />
+                        <div className="ml-4">
+                          <h3 className="text-lg font-semibold text-white">
+                            {testimonial.name}
+                          </h3>
+                          <p className="text-sm text-white/80">{testimonial.role}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center mb-4">
+                        {[...Array(5)].map((_, i) => (
+                          <StarIcon
+                            key={i}
+                            className={`h-5 w-5 ${
+                              i < Math.floor(testimonial.rating)
+                                ? 'text-yellow-400'
+                                : 'text-gray-400'
+                            }`}
+                          />
+                        ))}
+                        <span className="ml-2 text-sm text-white/80">
+                          {testimonial.rating.toFixed(1)}
+                        </span>
+                      </div>
+
+                      <p className="text-white/90 italic">"{testimonial.content}"</p>
                     </div>
                   </div>
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <StarIcon
-                        key={i}
-                        className={`h-5 w-5 ${i < testimonial.rating ? 'text-yellow-400' : 'text-gray-200'}`}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-gray-600">{testimonial.content}</p>
                 </motion.div>
               ))}
             </div>
@@ -840,125 +1111,170 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
+      {/* Licensing Section */}
+      <AnimatedSection>
+        <section id="pricing" className="py-24 bg-gradient-to-b from-gray-50 to-white">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <motion.div 
+              className="mx-auto max-w-2xl text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Choose Your License
+              </h2>
+              <p className="mt-4 text-lg text-gray-600">
+                Get started with the perfect license for your business needs
+              </p>
+            </motion.div>
+
+            <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2">
+              {product.licenses.map((license, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.2 }}
+                  className="relative flex flex-col rounded-3xl bg-white p-8 shadow-xl ring-1 ring-gray-200 hover:shadow-2xl transition-all duration-300"
+                >
+                  {license.popular && (
+                    <div className="absolute -top-5 left-1/2 -translate-x-1/2">
+                      <span className="inline-flex items-center rounded-full bg-primary-50 px-4 py-1 text-xs font-medium text-primary-700 ring-1 ring-inset ring-primary-600/20">
+                        Most Popular
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="mb-8">
+                    <h3 className="text-2xl font-bold tracking-tight text-gray-900">
+                      {license.name}
+                    </h3>
+                    <div className="mt-4 flex items-baseline">
+                      <span className="text-5xl font-bold tracking-tight text-gray-900">{license.price}</span>
+                      <span className="text-lg font-semibold text-gray-600 ml-2">one-time</span>
+                    </div>
+                    
+                    <p className="mt-4 text-sm text-gray-500">
+                      {license.name === 'Regular License' 
+                        ? 'Perfect for companies managing their internal hiring process'
+                        : 'Ideal for businesses offering recruitment services to clients'}
+                    </p>
+                  </div>
+
+                  <ul className="mb-8 space-y-4 flex-1">
+                    {license.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start">
+                        <CheckIcon className="h-6 w-6 flex-shrink-0 text-primary-600 mt-0.5" />
+                        <span className="ml-3 text-base text-gray-600">
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button 
+                    className={`
+                      w-full rounded-xl px-8 py-4 text-base font-semibold shadow-sm transition-all duration-300
+                      ${license.popular
+                        ? 'bg-primary-600 text-white hover:bg-primary-500'
+                        : 'bg-primary-50 text-primary-600 hover:bg-primary-100'
+                      }
+                    `}
+                  >
+                    Get {license.name}
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </AnimatedSection>
+
       {/* Enhanced CTA Section */}
       <AnimatedSection>
-        <section className="relative py-24 overflow-hidden">
-          {/* Modern gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800" />
-          
-          {/* Decorative elements */}
-          <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
-          <div className="absolute -left-10 -top-10 w-40 h-40 bg-primary-400 rounded-full blur-3xl opacity-20" />
-          <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-primary-300 rounded-full blur-3xl opacity-20" />
+        <section className="py-40 bg-white relative overflow-hidden">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="relative rounded-3xl bg-gradient-to-b from-primary-600 to-primary-700 overflow-hidden">
+              {/* Background Pattern */}
+              <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
+              
+              <div className="relative px-8 py-16 sm:px-16 sm:py-24">
+                <div className="mx-auto max-w-2xl text-center">
+                  <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                    Ready to Transform Your Hiring Process?
+                  </h2>
+                  <p className="mt-4 text-lg text-primary-100">
+                    Take control of your recruitment process with RecruitX Self-Hosted
+                  </p>
 
-          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <motion.h2 
-                className="text-3xl font-bold tracking-tight text-white sm:text-4xl"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                Ready to Transform Your Hiring Process?
-              </motion.h2>
-              <motion.p 
-                className="mt-4 text-lg text-primary-50"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-              >
-                Take control of your recruitment process with RecruitX Self-Hosted
-              </motion.p>
+                  {/* Trust Metrics */}
+                  <div className="mt-12 flex justify-center space-x-12">
+                    {[
+                      { number: '500+', label: 'Happy Customers' },
+                      { number: '40+', label: 'Countries' },
+                      { number: '4.9/5', label: 'Customer Rating' }
+                    ].map((metric, index) => (
+                      <motion.div 
+                        key={index}
+                        className="text-center"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.4 + index * 0.1 }}
+                      >
+                        <div className="text-3xl font-bold text-white">{metric.number}</div>
+                        <div className="text-sm text-primary-100">{metric.label}</div>
+                      </motion.div>
+                    ))}
+                  </div>
 
-              {/* Steps with modern design */}
-              <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3">
-                {[
-                  { number: '1', title: 'Try the Demo', desc: 'Experience the full platform' },
-                  { number: '2', title: 'Choose License', desc: 'Select your perfect plan' },
-                  { number: '3', title: 'Deploy & Launch', desc: 'Get up and running quickly' }
-                ].map((step, index) => (
-                  <motion.div 
-                    key={index}
-                    className="text-center relative"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 + index * 0.1 }}
-                  >
-                    <div className="flex items-center justify-center w-12 h-12 mx-auto rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold">
-                      {step.number}
-                    </div>
-                    <h3 className="mt-4 text-lg font-semibold text-white">{step.title}</h3>
-                    <p className="mt-2 text-primary-100">{step.desc}</p>
-                  </motion.div>
-                ))}
-              </div>
+                  {/* CTA Buttons */}
+                  <div className="mt-12 flex justify-center gap-4">
+                    <motion.button 
+                      className="rounded-xl bg-white px-8 py-4 text-base font-semibold text-primary-600 hover:bg-primary-50 transition-colors duration-200 shadow-lg shadow-primary-900/20"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      Purchase Now
+                    </motion.button>
+                    <motion.a
+                      href="https://demo.recruitx.com"
+                      target="_blank"
+                      className="rounded-xl bg-primary-500/20 backdrop-blur-sm border border-white/20 px-8 py-4 text-base font-semibold text-white hover:bg-primary-500/30 transition-colors duration-200"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.6 }}
+                    >
+                      Try Live Demo
+                    </motion.a>
+                  </div>
 
-              {/* Trust Metrics with modern design */}
-              <div className="mt-12 flex justify-center space-x-12">
-                {[
-                  { number: '500+', label: 'Happy Customers' },
-                  { number: '40+', label: 'Countries' },
-                  { number: '4.9/5', label: 'Customer Rating' }
-                ].map((metric, index) => (
-                  <motion.div 
-                    key={index}
-                    className="text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
-                  >
-                    <div className="text-3xl font-bold text-white">{metric.number}</div>
-                    <div className="text-sm text-primary-100">{metric.label}</div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* CTA Buttons with modern design */}
-              <div className="mt-12 flex justify-center gap-4">
-                <motion.button 
-                  className="rounded-xl bg-white px-8 py-4 text-base font-semibold text-primary-600 hover:bg-primary-50 transition-colors duration-200 shadow-lg shadow-primary-900/20"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 }}
-                >
-                  Purchase Now
-                </motion.button>
-                <motion.a
-                  href="https://demo.recruitx.com"
-                  target="_blank"
-                  className="rounded-xl bg-primary-500/20 backdrop-blur-sm border border-white/20 px-8 py-4 text-base font-semibold text-white hover:bg-primary-500/30 transition-colors duration-200"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6 }}
-                >
-                  Try Live Demo
-                </motion.a>
-              </div>
-
-              {/* Trust Badges with modern design */}
-              <div className="mt-12 flex justify-center items-center gap-8">
-                {[
-                  { icon: ShieldCheckIcon, text: 'Secure Payment' },
-                  { icon: ClockIcon, text: 'Instant Access' },
-                  { icon: ChatBubbleBottomCenterTextIcon, text: '24/7 Support' }
-                ].map((badge, index) => (
-                  <motion.div 
-                    key={index}
-                    className="flex items-center text-primary-100"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.7 + index * 0.1 }}
-                  >
-                    <badge.icon className="h-5 w-5 mr-2" />
-                    <span className="text-sm">{badge.text}</span>
-                  </motion.div>
-                ))}
+                  {/* Trust Badges */}
+                  <div className="mt-12 flex justify-center items-center gap-8">
+                    {[
+                      { icon: ShieldCheckIcon, text: 'Secure Payment' },
+                      { icon: ClockIcon, text: 'Instant Access' },
+                      { icon: ChatBubbleBottomCenterTextIcon, text: '24/7 Support' }
+                    ].map((badge, index) => (
+                      <motion.div 
+                        key={index}
+                        className="flex items-center text-primary-100"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.7 + index * 0.1 }}
+                      >
+                        <badge.icon className="h-5 w-5 mr-2" />
+                        <span className="text-sm">{badge.text}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
