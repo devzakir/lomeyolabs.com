@@ -21,8 +21,8 @@ import {
 } from '@heroicons/react/24/solid'
 import AnimatedSection from '@/components/animation/AnimatedSection'
 import Testimonials from '@/components/Testimonials'
-import Lightbox from '@/components/Lightbox'
 import Pricing from '@/components/Pricing'
+import Screenshots from '@/components/Screenshots'
 
 // Product data
 const product = {
@@ -352,27 +352,31 @@ const licensesData = {
   ]
 }
 
+// Define your screenshots data
+const screenshotsData = {
+  title: "Beautiful Interface, Powerful Features",
+  subtitle: "Designed for modern recruitment teams",
+  screenshots: [
+    {
+      title: "Modern Dashboard",
+      description: "Get a complete overview of your recruitment process",
+      image: "/recruitx/1.jpg"
+    },
+    {
+      title: "Candidate Management",
+      description: "Efficiently manage and track candidates",
+      image: "/recruitx/2.jpg"
+    },
+    {
+      title: "Job Listings",
+      description: "Create and manage job postings with ease",
+      image: "/recruitx/4.jpg"
+    }
+    // Add more screenshots as needed
+  ]
+}
+
 export default function RecruitXPage() {
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [lightbox, setLightbox] = useState({
-    isOpen: false,
-    currentImage: ''
-  });
-
-  const openLightbox = (image) => {
-    setLightbox({
-      isOpen: true,
-      currentImage: image
-    });
-  };
-
-  const closeLightbox = () => {
-    setLightbox({
-      isOpen: false,
-      currentImage: ''
-    });
-  };
-
   return (
     <div className="bg-white">
       {/* Hero Section */}
@@ -893,58 +897,9 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
-      {/* Beautiful Interface Section */}
+      {/* Screenshots Section */}
       <AnimatedSection>
-        <section className="py-24 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900 relative overflow-hidden">
-          <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
-          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center mb-16">
-              <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                Beautiful Interface, Powerful Features
-              </h2>
-              <p className="mt-4 text-lg text-white/80">
-                Designed for modern recruitment teams
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {product.screenshots.map((screenshot, index) => (
-                <motion.div
-                  key={index}
-                  className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  onClick={() => openLightbox(screenshot.image)}
-                >
-                  {/* Image */}
-                  <div className="relative aspect-video overflow-hidden">
-                    <Image
-                      src={screenshot.image}
-                      alt={screenshot.title}
-                      width={600}
-                      height={400}
-                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-                    />
-                    
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <h3 className="text-lg font-semibold text-white mb-2">
-                          {screenshot.title}
-                        </h3>
-                        <p className="text-sm text-white/90">
-                          {screenshot.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <Screenshots {...screenshotsData} />
       </AnimatedSection>
 
       {/* FAQ Section */}
@@ -1074,13 +1029,6 @@ export default function RecruitXPage() {
           </div>
         </section>
       </AnimatedSection>
-
-      {/* Lightbox Component */}
-      <Lightbox 
-        isOpen={lightbox.isOpen} 
-        image={lightbox.currentImage} 
-        onClose={closeLightbox} 
-      />
     </div>
   )
 } 
