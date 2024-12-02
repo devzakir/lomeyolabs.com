@@ -31,6 +31,7 @@ import {
 } from '@heroicons/react/24/solid'
 import AnimatedSection from '@/components/animation/AnimatedSection'
 import Testimonials from '@/components/Testimonials'
+import Lightbox from '@/components/Lightbox'
 
 // Product data
 const product = {
@@ -254,7 +255,7 @@ const product = {
       description: 'Centralize and automate your candidate processing'
     },
     {
-      image: '/recruitx/3.jpg',
+      image: '/recruitx/4.jpg',
       title: 'Professional Employer Branding',
       description: 'Build a strong employer brand to attract top talent'
     }
@@ -340,7 +341,6 @@ export default function RecruitXPage() {
     currentImage: ''
   });
 
-  // Add this function to handle lightbox
   const openLightbox = (image) => {
     setLightbox({
       isOpen: true,
@@ -1138,37 +1138,12 @@ export default function RecruitXPage() {
         </section>
       </AnimatedSection>
 
-      {/* Lightbox Modal */}
-      {lightbox.isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-          onClick={closeLightbox}
-        >
-          <div className="relative max-w-7xl mx-auto">
-            {/* Close button */}
-            <button
-              className="absolute -top-12 right-0 text-white hover:text-primary-300 transition-colors"
-              onClick={closeLightbox}
-            >
-              <XMarkIcon className="h-8 w-8" />
-            </button>
-
-            {/* Image */}
-            <div className="relative aspect-[16/9] w-full">
-              <Image
-                src={lightbox.currentImage}
-                alt="Screenshot preview"
-                fill
-                className="object-contain"
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                priority
-              />
-            </div>
-          </div>
-
-          {/* Navigation arrows could be added here */}
-        </div>
-      )}
+      {/* Lightbox Component */}
+      <Lightbox 
+        isOpen={lightbox.isOpen} 
+        image={lightbox.currentImage} 
+        onClose={closeLightbox} 
+      />
     </div>
   )
 } 
