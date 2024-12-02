@@ -1,8 +1,6 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Tab } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -783,7 +781,6 @@ export default function RecruitXPage() {
           </div>
         </section>
       </AnimatedSection>
-
 
       {/* Licensing Section */}
       <AnimatedSection>
