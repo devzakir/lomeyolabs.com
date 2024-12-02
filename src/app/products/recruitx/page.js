@@ -22,6 +22,7 @@ import Testimonials from '@/components/Testimonials'
 import Pricing from '@/components/Pricing'
 import Screenshots from '@/components/Screenshots'
 import FAQ from '@/components/FAQ'
+import TechnicalSpecs from '@/components/TechnicalSpecs'
 
 // Product data
 const product = {
@@ -136,6 +137,8 @@ const product = {
     }
   ],
   techSpecs: {
+    title: "Technical Specifications & Support",
+    subtitle: "Everything you need to get started with RecruitX",
     requirements: [
       'PHP 8.2+',
       'MySQL 8.0+',
@@ -156,68 +159,72 @@ const product = {
     ]
   },
   faq: {
-    licensing: [
-      {
-        question: 'Can I modify the source code?',
-        answer: 'Yes, both licenses include full source code access and modification rights.'
-      },
-      {
-        question: 'Can I resell the platform?',
-        answer: 'No, You can not resell the platform or the source code. However, you can charge users for platform access.'
-      },
-      {
-        question: 'Are updates included?',
-        answer: '6 months of updates included with both licenses. However, currently our product are unable to be updated, causing bugs and security issues.'
-      },
-      {
-        question: 'Can I host multiple instances?',
-        answer: 'Each license covers one domain. Additional licenses needed for multiple instances. Purchase additional licenses if you need to host multiple instances.'
-      },
-      {
-        question: 'What is the difference between Regular and Extended License?',
-        answer: 'The Regular License is perfect for companies managing their internal hiring process, while the Extended License is ideal for businesses offering recruitment services to clients.'
-      },
-      {
-        question: 'Can I upgrade my license in the future?',
-        answer: 'Yes, you can upgrade your license at any time. Contact our support team for more information.'
-      }
-    ],
-    technical: [
-      {
-        question: 'What technology or framework is used in RecruitX?',
-        answer: 'Built with Laravel 10 (PHP 8.2) backend and modern frontend stack including TailwindCSS, Livewire 3, and essential JavaScript libraries for charts and file handling.'
-      },
-      {
-        question: 'What development tools are included?',
-        answer: 'Includes Laravel Debugbar, Telescope, PHPUnit/Pest for testing, and Laravel Pint for code styling to ensure high code quality.'
-      },
-      {
-        question: 'What security features are implemented?',
-        answer: 'Features Laravel Sanctum/Passport for authentication, XSS prevention, reCAPTCHA, and comprehensive error tracking.'
-      },
-      {
-        question: 'What frontend technologies are used?',
-        answer: 'Uses Vite, TailwindCSS, and modern JavaScript libraries for data visualization, file uploads, and user onboarding.'
-      }
-    ],
-    support: [
-      {
-        question: 'What support is included?',
-        answer: 'Both licenses include basic technical support and documentation access.'
-      },
-      {
-        question: 'Can I access a demo account?',
-        answer: 'Yes, we have a public demo account that you can use to explore the application. No login required.'
-      },
-      {
-        question: 'What support channels are available?',
-        answer: 'You can contact our support team via email, or through our online support portal.'
-      },
-      {
-        question: 'How long is the response time for support requests?',
-        answer: 'Our support team aims to respond to support requests within 24 hours during weekdays.'
-      }
-    ]
+    title: "Frequently Asked Questions",
+    subtitle: "Everything you need to know about our products",
+    categories: {
+      licensing: [
+        {
+          question: 'Can I modify the source code?',
+          answer: 'Yes, both licenses include full source code access and modification rights.'
+        },
+        {
+          question: 'Can I resell the platform?',
+          answer: 'No, You can not resell the platform or the source code. However, you can charge users for platform access.'
+        },
+        {
+          question: 'Are updates included?',
+          answer: '6 months of updates included with both licenses. However, currently our product are unable to be updated, causing bugs and security issues.'
+        },
+        {
+          question: 'Can I host multiple instances?',
+          answer: 'Each license covers one domain. Additional licenses needed for multiple instances. Purchase additional licenses if you need to host multiple instances.'
+        },
+        {
+          question: 'What is the difference between Regular and Extended License?',
+          answer: 'The Regular License is perfect for companies managing their internal hiring process, while the Extended License is ideal for businesses offering recruitment services to clients.'
+        },
+        {
+          question: 'Can I upgrade my license in the future?',
+          answer: 'Yes, you can upgrade your license at any time. Contact our support team for more information.'
+        }
+      ],
+      technical: [
+        {
+          question: 'What technology or framework is used in RecruitX?',
+          answer: 'Built with Laravel 10 (PHP 8.2) backend and modern frontend stack including TailwindCSS, Livewire 3, and essential JavaScript libraries for charts and file handling.'
+        },
+        {
+          question: 'What development tools are included?',
+          answer: 'Includes Laravel Debugbar, Telescope, PHPUnit/Pest for testing, and Laravel Pint for code styling to ensure high code quality.'
+        },
+        {
+          question: 'What security features are implemented?',
+          answer: 'Features Laravel Sanctum/Passport for authentication, XSS prevention, reCAPTCHA, and comprehensive error tracking.'
+        },
+        {
+          question: 'What frontend technologies are used?',
+          answer: 'Uses Vite, TailwindCSS, and modern JavaScript libraries for data visualization, file uploads, and user onboarding.'
+        }
+      ],
+      support: [
+        {
+          question: 'What support is included?',
+          answer: 'Both licenses include basic technical support and documentation access.'
+        },
+        {
+          question: 'Can I access a demo account?',
+          answer: 'Yes, we have a public demo account that you can use to explore the application. No login required.'
+        },
+        {
+          question: 'What support channels are available?',
+          answer: 'You can contact our support team via email, or through our online support portal.'
+        },
+        {
+          question: 'How long is the response time for support requests?',
+          answer: 'Our support team aims to respond to support requests within 24 hours during weekdays.'
+        }
+      ]
+    }
   },
   selfHostBenefits: [
     {
@@ -258,79 +265,93 @@ const product = {
       ]
     }
   ],
-  screenshots: [
-    {
-      image: '/recruitx/1.jpg',
-      title: 'Streamlined Hiring Process',
-      description: 'Everything you need for efficient recruitment in one place'
-    },
-    {
-      image: '/recruitx/2.jpg',
-      title: 'Smart Candidate Management',
-      description: 'Centralize and automate your candidate processing'
-    },
-    {
-      image: '/recruitx/4.jpg',
-      title: 'Professional Employer Branding',
-      description: 'Build a strong employer brand to attract top talent'
-    }
-  ],
-  testimonials: [
-    {
-      avatar: '/products/recruitx/testimonial1.jpg',
-      name: 'John Doe',
-      role: 'HR Manager at Tech Corp',
-      rating: 4.9,
-      content: 'RecruitX has revolutionized our hiring process. It\'s easy to use and has helped us save time and resources.'
-    },
-    {
-      avatar: '/products/recruitx/testimonial2.jpg',
-      name: 'Jane Smith',
-      role: 'Recruitment Consultant at HR Solutions',
-      rating: 4.8,
-      content: 'RecruitX has been a game-changer for our company. It\'s powerful and flexible, and we couldn\'t be happier with our decision.'
-    },
-    {
-      avatar: '/products/recruitx/testimonial3.jpg',
-      name: 'Bob Johnson',
-      role: 'Founder at Startup Hub',
-      rating: 4.7,
-      content: 'RecruitX has been a great investment for our startup. It\'s helped us attract top talent and streamline our hiring process.'
-    }
-  ],
-  licenses: [
-    {
-      name: 'Regular License',
-      price: '$499',
-      description: 'Perfect for internal hiring teams',
-      features: [
-        'Free platform usage',
-        'Complete source code',
-        'Single domain deployment',
-        'Technical documentation',
-        'Basic support package',
-        '6 months of updates'
-      ],
-      recommended: false,
-      buttonText: 'Purchase Regular License'
-    },
-    {
-      name: 'Extended License',
-      price: '$1,499',
-      description: 'Ideal for commercial deployment',
-      features: [
-        'Charge users for platform access',
-        'Complete source code',
-        'Single domain deployment',
-        'Technical documentation',
-        'Priority support package',
-        '12 months of updates',
-        'Commercial use rights'
-      ],
-      recommended: true,
-      buttonText: 'Purchase Extended License'
-    }
-  ],
+  screenshots: {
+    title: "Beautiful Interface, Powerful Features",
+    subtitle: "Designed for modern recruitment teams",
+    items: [
+      {
+        image: '/recruitx/1.jpg',
+        title: 'Streamlined Hiring Process',
+        description: 'Everything you need for efficient recruitment in one place'
+      },
+      {
+        image: '/recruitx/2.jpg',
+        title: 'Smart Candidate Management',
+        description: 'Centralize and automate your candidate processing'
+      },
+      {
+        image: '/recruitx/4.jpg',
+        title: 'Professional Employer Branding',
+        description: 'Build a strong employer brand to attract top talent'
+      }
+    ]
+  },
+  testimonials: {
+    title: "Hear from the People Who Trust LomeyoLabs",
+    subtitle: "What our customers are saying about RecruitX",
+    items: [
+      {
+        avatar: '/products/recruitx/testimonial1.jpg',
+        name: 'John Doe',
+        role: 'HR Manager at Tech Corp',
+        rating: 4.9,
+        content: 'RecruitX has revolutionized our hiring process. It\'s easy to use and has helped us save time and resources.'
+      },
+      {
+        avatar: '/products/recruitx/testimonial2.jpg',
+        name: 'Jane Smith',
+        role: 'Recruitment Consultant at HR Solutions',
+        rating: 4.8,
+        content: 'RecruitX has been a game-changer for our company. It\'s powerful and flexible, and we couldn\'t be happier with our decision.'
+      },
+      {
+        avatar: '/products/recruitx/testimonial3.jpg',
+        name: 'Bob Johnson',
+        role: 'Founder at Startup Hub',
+        rating: 4.7,
+        content: 'RecruitX has been a great investment for our startup. It\'s helped us attract top talent and streamline our hiring process.'
+      }
+    ]
+  },
+  pricing: {
+    title: "Choose Your License",
+    subtitle: "Select the perfect license for your recruitment needs",
+    licenses: [
+      {
+        name: "Regular License",
+        description: "Perfect for internal hiring teams",
+        price: "$499",
+        recommended: false,
+        features: [
+          "Free platform usage",
+          "Complete source code",
+          "Single domain deployment",
+          "Technical documentation",
+          "Basic support package",
+          "6 months of updates",
+        ],
+        buttonText: "Purchase Regular License",
+        href: "#" // Optional
+      },
+      {
+        name: "Extended License",
+        description: "Ideal for commercial use",
+        price: "$1,499",
+        recommended: true,
+        features: [
+          "Charge users for platform access",
+          "Complete source code",
+          "Single domain deployment",
+          "Technical documentation",
+          "Priority support package",
+          "6 months of updates",
+          "Commercial use rights"
+        ],
+        buttonText: "Purchase Extended License",
+        href: "#" // Optional
+      }
+    ]
+  }
 }
 
 // Enhanced section styles with more variety
@@ -347,70 +368,6 @@ const sectionStyles = {
   // Clean solid backgrounds with subtle overlays
   light: "bg-white bg-opacity-70 backdrop-blur-sm",
   dark: "bg-gray-50 bg-opacity-70 backdrop-blur-sm"
-}
-
-const licensesData = {
-  title: "Choose Your License",
-  subtitle: "Select the perfect license for your recruitment needs",
-  licenses: [
-    {
-      name: "Regular License",
-      description: "Perfect for internal hiring teams",
-      price: "$499",
-      recommended: false,
-      features: [
-        "Free platform usage",
-        "Complete source code",
-        "Single domain deployment",
-        "Technical documentation",
-        "Basic support package",
-        "6 months of updates",
-      ],
-      buttonText: "Purchase Regular License",
-      href: "#" // Optional
-    },
-    {
-      name: "Extended License",
-      description: "Ideal for commercial use",
-      price: "$1,499",
-      recommended: true,
-      features: [
-        "Charge users for platform access",
-        "Complete source code",
-        "Single domain deployment",
-        "Technical documentation",
-        "Priority support package",
-        "6 months of updates",
-        "Commercial use rights"
-      ],
-      buttonText: "Purchase Extended License",
-      href: "#" // Optional
-    }
-  ]
-}
-
-// Define your screenshots data
-const screenshotsData = {
-  title: "Beautiful Interface, Powerful Features",
-  subtitle: "Designed for modern recruitment teams",
-  screenshots: [
-    {
-      title: "Modern Dashboard",
-      description: "Get a complete overview of your recruitment process",
-      image: "/recruitx/1.jpg"
-    },
-    {
-      title: "Candidate Management",
-      description: "Efficiently manage and track candidates",
-      image: "/recruitx/2.jpg"
-    },
-    {
-      title: "Job Listings",
-      description: "Create and manage job postings with ease",
-      image: "/recruitx/4.jpg"
-    }
-    // Add more screenshots as needed
-  ]
 }
 
 export default function RecruitXPage() {
@@ -784,12 +741,12 @@ export default function RecruitXPage() {
 
       {/* Licensing Section */}
       <AnimatedSection>
-        <Pricing {...licensesData} />
+        <Pricing {...product.pricing} />
       </AnimatedSection>
 
       {/* Testimonials Section */}
       <AnimatedSection>
-        <Testimonials />
+        <Testimonials {...product.testimonials} />
       </AnimatedSection>
 
       {/* Why Choose RecruitX Section */}
@@ -869,78 +826,16 @@ export default function RecruitXPage() {
 
       {/* Technical Specifications & Support Section - Combined */}
       <AnimatedSection>
-        <section className="py-24 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
-          <div className="absolute inset-0 bg-grid-primary/[0.03] bg-[size:20px_20px]" />
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center mb-16">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Technical Specifications & Support
-              </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                Everything you need to get started with RecruitX
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Technical Requirements */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="rounded-2xl bg-white p-8 shadow-xl hover:shadow-2xl transition-all duration-300"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-primary-100 rounded-xl">
-                    <ServerIcon className="h-6 w-6 text-primary-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900">System Requirements</h3>
-                </div>
-                <ul className="space-y-4">
-                  {product.techSpecs.requirements.map((req, index) => (
-                    <li key={index} className="flex items-center text-gray-700">
-                      <CheckIcon className="h-5 w-5 text-primary-600 mr-3 flex-shrink-0" />
-                      {req}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-
-              {/* Support & Documentation */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="rounded-2xl bg-white p-8 shadow-xl hover:shadow-2xl transition-all duration-300"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-primary-100 rounded-xl">
-                    <DocumentCheckIcon className="h-6 w-6 text-primary-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900">Support & Documentation</h3>
-                </div>
-                <ul className="space-y-4">
-                  {product.techSpecs.includes.map((item, index) => (
-                    <li key={index} className="flex items-center text-gray-700">
-                      <CheckIcon className="h-5 w-5 text-primary-600 mr-3 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </div>
-          </div>
-        </section>
+        <TechnicalSpecs {...product.techSpecs} />
       </AnimatedSection>
-
       {/* Screenshots Section */}
       <AnimatedSection>
-        <Screenshots {...screenshotsData} />
+        <Screenshots {...product.screenshots} />
       </AnimatedSection>
 
       {/* FAQ Section */}
       <AnimatedSection>
-        <FAQ faqs={product.faq} />
+        <FAQ {...product.faq} />
       </AnimatedSection>
 
       {/* Enhanced CTA Section */}

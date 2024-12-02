@@ -103,32 +103,35 @@ const product = {
   licenses: [
     {
       name: 'Regular License',
-      price: '$49',
-      description: 'Perfect for small to medium businesses',
+      description: 'Perfect for Free Job Boards',
+      price: '$69',
       features: [
-        'Single installation',
+        'Full source code',
         '6 months support',
-        'Source code access',
-        'Bug fixes & updates',
-        'Documentation access'
+        'Single domain use',
+        'Free updates',
+        'Documentation access',
+        'Let users use platform free of charge'
       ],
-      recommended: false,
-      buttonText: 'Purchase Regular License'
+      buttonText: 'Purchase Regular License',
+      href: '#'
     },
     {
       name: 'Extended License',
-      price: '$249',
-      description: 'Ideal for large enterprises',
+      description: 'Perfect for Commercial Use',
+      price: '$199',
       features: [
-        'Multiple installations',
-        '12 months support',
-        'Source code access',
-        'Priority support',
-        'Custom modifications',
-        'SLA agreement'
+        'Full source code',
+        '6 months support',
+        'Single domain use',
+        'Free updates',
+        'Documentation access',
+        'Monetize your platform',
+        'Charge users for services'
       ],
-      recommended: true,
-      buttonText: 'Purchase Extended License'
+      buttonText: 'Purchase Extended License',
+      href: '#',
+      recommended: true
     }
   ],
   faqs: {
@@ -152,7 +155,159 @@ const product = {
         answer: 'Yes, you can upgrade from regular to extended license by paying the difference.'
       }
     ]
-  }
+  },
+  perfectFor: [
+    {
+      title: 'Entrepreneurs',
+      description: 'Starting job board businesses',
+      icon: BuildingOfficeIcon
+    },
+    {
+      title: 'Developers',
+      description: 'Building client solutions',
+      icon: CodeBracketIcon
+    },
+    {
+      title: 'Organizations',
+      description: 'Creating career portals',
+      icon: UserGroupIcon
+    },
+    {
+      title: 'Educational Institutions',
+      description: 'Managing placement portals',
+      icon: DocumentCheckIcon
+    },
+    {
+      title: 'Recruitment Agencies',
+      description: 'Needing branded platforms',
+      icon: BuildingOfficeIcon
+    }
+  ],
+  features: {
+    jobSeekers: {
+      title: 'For Job Seekers',
+      features: [
+        'Beautiful, intuitive dashboard',
+        'Advanced job search with filters',
+        'Company search & filtering',
+        'Professional profile management',
+        'Resume & cover letter submissions',
+        'Real-time employer chat',
+        'Job bookmarking system',
+        'Smart job alerts',
+        'Mobile-responsive experience'
+      ]
+    },
+    employers: {
+      title: 'For Employers',
+      features: [
+        'Streamlined company dashboard',
+        'Efficient job posting & management',
+        'Comprehensive account settings',
+        'Advanced candidate search',
+        'Real-time candidate chat',
+        'Custom application questions',
+        'Candidate bookmarking',
+        'Application tracking system',
+        'Multiple pricing plans'
+      ]
+    }
+  },
+  administrativeFeatures: {
+    title: 'Complete Management Solution',
+    features: [
+      'Multi-language & currency support',
+      '10+ payment gateways (online & offline)',
+      'GDPR compliance built-in',
+      'Customizable email templates',
+      'Full content management system',
+      'Social media login integration',
+      'Country-based job filtering',
+      'Blog management',
+      'Custom pages & menus',
+      'Comprehensive documentation'
+    ]
+  },
+  technicalExcellence: {
+    title: 'Technical Excellence',
+    features: [
+      'SEO optimized structure',
+      'Fully responsive design',
+      'Clean, documented code',
+      'Regular updates',
+      'Modern Laravel framework',
+      'Easy customization',
+      'API support',
+      'Performance optimized'
+    ]
+  },
+  whyChooseFeatures: {
+    sections: [
+      {
+        title: 'Complete Solution',
+        features: [
+          'No monthly fees',
+          'One-time purchase',
+          'Full source code',
+          'Lifetime free updates',
+          'Regular new features',
+          'Professional support'
+        ]
+      },
+      {
+        title: 'Built for Growth',
+        features: [
+          'Scalable architecture',
+          'Multiple payment options',
+          'Custom branding',
+          'Full customization',
+          'API integration',
+          'Multi-language support'
+        ]
+      },
+      {
+        title: 'Enterprise Features',
+        features: [
+          'Advanced ATS',
+          'Custom workflows',
+          'Team collaboration',
+          'Comprehensive reporting',
+          'Email automation',
+          'Location-based jobs'
+        ]
+      }
+    ]
+  },
+  technicalRequirements: {
+    title: 'Technical Requirements',
+    requirements: [
+      'PHP 7.4+',
+      'MySQL 5.7+',
+      'Redis (optional)',
+      '2GB RAM minimum',
+      '1vCPU minimum',
+      '10GB storage recommended'
+    ]
+  },
+  documentation: {
+    title: 'Well-Documented & Supported',
+    features: [
+      'Detailed documentation',
+      'Video tutorials',
+      'Installation guides',
+      'Regular updates',
+      'Community support',
+      'Professional assistance'
+    ]
+  },
+  recentUpdates: [
+    'Laravel 10 compatibility',
+    'PWA integration',
+    'Multiple homepage layouts',
+    'Enhanced job search',
+    'New payment gateways',
+    'Performance optimizations'
+  ]
 }
 
 // ... rest of the implementation follows similar structure to RecruitX page ... 
@@ -229,6 +384,15 @@ export default function JobpilotPage() {
       <AnimatedSection>
         <section className="py-16 bg-white border-b">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
+
+          <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl font-bold">Launch Your Dream Job Board Platform in Minutes</h2>
+            </motion.div>
             <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -300,33 +464,7 @@ export default function JobpilotPage() {
             </motion.div>
 
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                {
-                  title: 'Entrepreneurs',
-                  description: 'Starting job board businesses',
-                  icon: BuildingOfficeIcon
-                },
-                {
-                  title: 'Developers',
-                  description: 'Building client solutions',
-                  icon: CodeBracketIcon
-                },
-                {
-                  title: 'Organizations',
-                  description: 'Creating career portals',
-                  icon: UserGroupIcon
-                },
-                {
-                  title: 'Educational Institutions',
-                  description: 'Managing placement portals',
-                  icon: DocumentCheckIcon
-                },
-                {
-                  title: 'Recruitment Agencies',
-                  description: 'Needing branded platforms',
-                  icon: BuildingOfficeIcon
-                }
-              ].map((item, index) => (
+              {product.perfectFor.map((item, index) => (
                 <motion.div
                   key={item.title}
                   initial={{ opacity: 0, y: 20 }}
@@ -362,75 +500,32 @@ export default function JobpilotPage() {
             </motion.div>
 
             <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
-              {/* Job Seekers Features */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="bg-gray-50 rounded-xl p-8"
-              >
-                <h3 className="text-2xl font-bold mb-8 flex items-center">For Job Seekers</h3>
-                <div className="space-y-4">
-                  {[
-                    'Beautiful, intuitive dashboard',
-                    'Advanced job search with filters',
-                    'Company search & filtering',
-                    'Professional profile management',
-                    'Resume & cover letter submissions',
-                    'Real-time employer chat',
-                    'Job bookmarking system',
-                    'Smart job alerts',
-                    'Mobile-responsive experience'
-                  ].map((feature, index) => (
-                    <motion.div
-                      key={feature}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center space-x-3 bg-white p-4 rounded-lg shadow-sm"
-                    >
-                      <CheckIcon className="h-5 w-5 text-primary-600" />
-                      <span>{feature}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Employers Features */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="bg-gray-50 rounded-xl p-8"
-              >
-                <h3 className="text-2xl font-bold mb-8 flex items-center">For Employers</h3>
-                <div className="space-y-4">
-                  {[
-                    'Streamlined company dashboard',
-                    'Efficient job posting & management',
-                    'Comprehensive account settings',
-                    'Advanced candidate search',
-                    'Real-time candidate chat',
-                    'Custom application questions',
-                    'Candidate bookmarking',
-                    'Application tracking system',
-                    'Multiple pricing plans'
-                  ].map((feature, index) => (
-                    <motion.div
-                      key={feature}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center space-x-3 bg-white p-4 rounded-lg shadow-sm"
-                    >
-                      <CheckIcon className="h-5 w-5 text-primary-600" />
-                      <span>{feature}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
+              {[product.features.jobSeekers, product.features.employers].map((section, index) => (
+                <motion.div
+                  key={section.title}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-gray-50 rounded-xl p-8"
+                >
+                  <h3 className="text-2xl font-bold mb-8 flex items-center">{section.title}</h3>
+                  <div className="space-y-4">
+                    {section.features.map((feature, index) => (
+                      <motion.div
+                        key={feature}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                        className="flex items-center space-x-3 bg-white p-4 rounded-lg shadow-sm"
+                      >
+                        <CheckIcon className="h-5 w-5 text-primary-600" />
+                        <span>{feature}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -451,175 +546,43 @@ export default function JobpilotPage() {
             </motion.div>
 
             <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
-              {/* Management Features */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-xl p-8 shadow-sm"
-              >
-                <h3 className="text-2xl font-bold mb-8">Complete Management Solution</h3>
-                <div className="space-y-4">
-                  {[
-                    'Multi-language & currency support',
-                    '10+ payment gateways (online & offline)',
-                    'GDPR compliance built-in',
-                    'Customizable email templates',
-                    'Full content management system',
-                    'Social media login integration',
-                    'Country-based job filtering',
-                    'Blog management',
-                    'Custom pages & menus',
-                    'Comprehensive documentation'
-                  ].map((feature, index) => (
-                    <motion.div
-                      key={feature}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center space-x-3"
-                    >
-                      <CheckIcon className="h-5 w-5 text-primary-600" />
-                      <span>{feature}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Technical Excellence */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-xl p-8 shadow-sm"
-              >
-                <h3 className="text-2xl font-bold mb-8">Technical Excellence</h3>
-                <div className="space-y-4">
-                  {[
-                    'SEO optimized structure',
-                    'Fully responsive design',
-                    'Clean, documented code',
-                    'Regular updates',
-                    'Modern Laravel framework',
-                    'Easy customization',
-                    'API support',
-                    'Performance optimized'
-                  ].map((feature, index) => (
-                    <motion.div
-                      key={feature}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center space-x-3"
-                    >
-                      <CheckIcon className="h-5 w-5 text-primary-600" />
-                      <span>{feature}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
+              {[product.administrativeFeatures, product.technicalExcellence].map((section, index) => (
+                <motion.div
+                  key={section.title}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-white rounded-xl p-8 shadow-sm"
+                >
+                  <h3 className="text-2xl font-bold mb-8">{section.title}</h3>
+                  <div className="space-y-4">
+                    {section.features.map((feature, index) => (
+                      <motion.div
+                        key={feature}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                        className="flex items-center space-x-3"
+                      >
+                        <CheckIcon className="h-5 w-5 text-primary-600" />
+                        <span>{feature}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
       </AnimatedSection>
 
       {/* Pricing Section */}
-      <AnimatedSection>
-        <section id="pricing" className="py-24 bg-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl font-bold">License Options</h2>
-              <p className="mt-4 text-lg text-gray-600">Choose the perfect license for your needs</p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-              {/* Regular License */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="relative bg-white rounded-2xl shadow-sm border border-gray-200 p-8"
-              >
-                <h3 className="text-2xl font-bold mb-2">Regular License</h3>
-                <p className="text-gray-600 mb-4">Perfect for Free Job Boards</p>
-                <div className="text-4xl font-bold mb-6">$69</div>
-                <div className="space-y-4 mb-8">
-                  {[
-                    'Full source code',
-                    '6 months support',
-                    'Single domain use',
-                    'Free updates',
-                    'Documentation access',
-                    'Let users use platform free of charge'
-                  ].map((feature) => (
-                    <div key={feature} className="flex items-center space-x-3">
-                      <CheckIcon className="h-5 w-5 text-primary-600" />
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <motion.a
-                  href="#"
-                  className="block w-full text-center py-3 px-6 rounded-xl bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Purchase Regular License
-                </motion.a>
-              </motion.div>
-
-              {/* Extended License */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="relative bg-primary-900 rounded-2xl shadow-lg p-8 text-white"
-              >
-                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4">
-                  <span className="bg-gradient-to-r from-primary-600 to-primary-400 text-white px-4 py-1 rounded-full text-sm font-medium">
-                    Popular Choice
-                  </span>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">Extended License</h3>
-                <p className="text-primary-200 mb-4">Perfect for Commercial Use</p>
-                <div className="text-4xl font-bold mb-6">$199</div>
-                <div className="space-y-4 mb-8">
-                  {[
-                    'Full source code',
-                    '6 months support',
-                    'Single domain use',
-                    'Free updates',
-                    'Documentation access',
-                    'Monetize your platform',
-                    'Charge users for services'
-                  ].map((feature) => (
-                    <div key={feature} className="flex items-center space-x-3">
-                      <CheckIcon className="h-5 w-5 text-primary-300" />
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <motion.a
-                  href="#"
-                  className="block w-full text-center py-3 px-6 rounded-xl bg-white text-primary-600 font-semibold hover:bg-primary-50 transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Purchase Extended License
-                </motion.a>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
+      <Pricing 
+        title="License Options"
+        subtitle="Choose the perfect license for your business needs"
+        licenses={product.licenses}
+      />
 
       {/* Why Choose Jobpilot */}
       <AnimatedSection>
@@ -636,41 +599,7 @@ export default function JobpilotPage() {
             </motion.div>
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-              {[
-                {
-                  title: 'Complete Solution',
-                  features: [
-                    'No monthly fees',
-                    'One-time purchase',
-                    'Full source code',
-                    'Lifetime free updates',
-                    'Regular new features',
-                    'Professional support'
-                  ]
-                },
-                {
-                  title: 'Built for Growth',
-                  features: [
-                    'Scalable architecture',
-                    'Multiple payment options',
-                    'Custom branding',
-                    'Full customization',
-                    'API integration',
-                    'Multi-language support'
-                  ]
-                },
-                {
-                  title: 'Enterprise Features',
-                  features: [
-                    'Advanced ATS',
-                    'Custom workflows',
-                    'Team collaboration',
-                    'Comprehensive reporting',
-                    'Email automation',
-                    'Location-based jobs'
-                  ]
-                }
-              ].map((section, index) => (
+              {product.whyChooseFeatures.sections.map((section, index) => (
                 <motion.div
                   key={section.title}
                   initial={{ opacity: 0, y: 20 }}
@@ -707,15 +636,9 @@ export default function JobpilotPage() {
                 viewport={{ once: true }}
                 className="bg-white rounded-xl p-8 shadow-sm"
               >
-                <h3 className="text-2xl font-bold mb-8">Technical Requirements</h3>
+                <h3 className="text-2xl font-bold mb-8">{product.technicalRequirements.title}</h3>
                 <div className="space-y-4">
-                  {[
-                    'PHP 7.4+',
-                    'MySQL 5.7+',
-                    'Redis (optional)',
-                    '2GB RAM minimum',
-                    '10GB storage recommended'
-                  ].map((req, index) => (
+                  {product.technicalRequirements.requirements.map((req, index) => (
                     <motion.div
                       key={req}
                       initial={{ opacity: 0, y: 10 }}
@@ -738,16 +661,9 @@ export default function JobpilotPage() {
                 viewport={{ once: true }}
                 className="bg-white rounded-xl p-8 shadow-sm"
               >
-                <h3 className="text-2xl font-bold mb-8">Well-Documented & Supported</h3>
+                <h3 className="text-2xl font-bold mb-8">{product.documentation.title}</h3>
                 <div className="space-y-4">
-                  {[
-                    'Detailed documentation',
-                    'Video tutorials',
-                    'Installation guides',
-                    'Regular updates',
-                    'Community support',
-                    'Professional assistance'
-                  ].map((feature, index) => (
+                  {product.documentation.features.map((feature, index) => (
                     <motion.div
                       key={feature}
                       initial={{ opacity: 0, y: 10 }}
@@ -791,14 +707,7 @@ export default function JobpilotPage() {
             </motion.div>
 
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                'Laravel 10 compatibility',
-                'PWA integration',
-                'Multiple homepage layouts',
-                'Enhanced job search',
-                'New payment gateways',
-                'Performance optimizations'
-              ].map((update, index) => (
+              {product.recentUpdates.map((update, index) => (
                 <motion.div
                   key={update}
                   initial={{ opacity: 0, scale: 0.95 }}

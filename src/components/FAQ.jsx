@@ -3,8 +3,12 @@
 import { motion } from 'framer-motion'
 import { Tab } from '@headlessui/react'
 
-export default function FAQ({ faqs }) {
-  const categories = Object.keys(faqs)
+export default function FAQ({ 
+  title = "Frequently Asked Questions",
+  subtitle = "Everything you need to know about our products",
+  categories = {}
+}) {
+  const categoryKeys = Object.keys(categories)
 
   return (
     <section className="py-24 bg-gradient-to-b from-gray-200 to-white relative overflow-hidden">
@@ -18,21 +22,18 @@ export default function FAQ({ faqs }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <span className="text-primary-600 font-semibold text-sm uppercase tracking-wider">
-            Support & Documentation
-          </span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Frequently Asked Questions
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            {title}
           </h2>
           <p className="mt-4 text-lg text-gray-600">
-            Everything you need to know about our products
+            {subtitle}
           </p>
         </motion.div>
 
         <div className="mt-16 max-w-4xl mx-auto">
           <Tab.Group>
             <Tab.List className="flex space-x-2 rounded-2xl bg-white p-2 shadow-lg shadow-gray-200/50 mb-12">
-              {categories.map((category) => (
+              {categoryKeys.map((category) => (
                 <Tab
                   key={category}
                   className={({ selected }) =>
@@ -49,10 +50,10 @@ export default function FAQ({ faqs }) {
               ))}
             </Tab.List>
             <Tab.Panels>
-              {categories.map((category) => (
+              {categoryKeys.map((category) => (
                 <Tab.Panel key={category}>
                   <div className="space-y-6">
-                    {faqs[category].map((faq, index) => (
+                    {categories[category].map((faq, index) => (
                       <motion.div
                         key={index}
                         className="group rounded-2xl bg-white border border-gray-100 

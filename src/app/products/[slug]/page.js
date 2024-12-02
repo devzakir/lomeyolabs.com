@@ -19,6 +19,7 @@ import {
 } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import Link from 'next/link'
+import Testimonials from '@/components/Testimonials'
 
 // Product data
 const products = [
@@ -340,48 +341,17 @@ export default function ProductDetail({ params }) {
 
       {/* Testimonials */}
       <section className="relative bg-gray-900 py-24 sm:py-32">
-        <div className="absolute inset-0 opacity-10 bg-[url('/patterns/circuit.svg')]" />
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Trusted by Developers Worldwide
-            </h2>
-            <p className="mt-4 text-lg text-gray-300">
-              See what our customers have to say about their experience
-            </p>
-          </div>
-          
-          <motion.div 
-            className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2"
-            variants={{
-              hidden: { opacity: 0 },
-              show: {
-                opacity: 1,
-                transition: { staggerChildren: 0.2 }
-              }
-            }}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-          >
-            {product.testimonials.map((testimonial) => (
-              <motion.div
-                key={testimonial.id}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  show: { opacity: 1, y: 0 }
-                }}
-                className="flex flex-col bg-white/5 backdrop-blur-sm rounded-2xl p-8"
-              >
-                <p className="text-lg text-gray-300 leading-relaxed">{testimonial.content}</p>
-                <div className="mt-6">
-                  <p className="font-semibold text-white">{testimonial.author}</p>
-                  <p className="text-sm text-gray-400">{testimonial.role} at {testimonial.company}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+        <Testimonials
+          title="Trusted by Developers Worldwide"
+          subtitle="See what our customers have to say about their experience"
+          items={product.testimonials.map(testimonial => ({
+            name: testimonial.author,
+            role: testimonial.role,
+            company: testimonial.company,
+            content: testimonial.content,
+            image: testimonial.avatar || "https://via.placeholder.com/150"
+          }))}
+        />
       </section>
 
       {/* Product Stats */}

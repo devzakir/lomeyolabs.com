@@ -6,9 +6,9 @@ import { useState } from 'react'
 import Lightbox from './Lightbox'
 
 export default function Screenshots({ 
-  title = "Beautiful Interface, Powerful Features",
-  subtitle = "Designed for modern recruitment teams",
-  screenshots = []
+  title,
+  subtitle,
+  items = []
 }) {
   const [lightbox, setLightbox] = useState({
     isOpen: false,
@@ -43,7 +43,7 @@ export default function Screenshots({
         </div>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {screenshots.map((screenshot, index) => (
+          {items.map((screenshot, index) => (
             <motion.div 
               key={index}
               className="group relative aspect-[16/10] overflow-hidden rounded-xl bg-gray-900/5 cursor-pointer"

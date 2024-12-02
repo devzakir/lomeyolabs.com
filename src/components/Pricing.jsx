@@ -4,8 +4,8 @@ import { motion } from 'framer-motion'
 import { CheckIcon } from '@heroicons/react/24/solid'
 
 export default function Pricing({ 
-  title = "Choose Your License",
-  subtitle = "Select the perfect license for your recruitment needs",
+  title,
+  subtitle,
   licenses = []
 }) {
   return (
