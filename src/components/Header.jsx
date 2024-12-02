@@ -24,7 +24,7 @@ const menuItems = {
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-neutral-100/50 shadow-sm">
+    <header className="z-50 w-full bg-white/80 backdrop-blur-xl border-b border-neutral-100/50 shadow-sm">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
         <div className="flex w-full items-center justify-between py-5">
           <div className="flex items-center">

@@ -6,21 +6,11 @@ import { Tab } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
-  StarIcon,
   CheckIcon,
-  DocumentTextIcon,
-  CurrencyDollarIcon,
-  ArrowDownTrayIcon,
-  UserGroupIcon,
   ChartBarIcon,
   ShieldCheckIcon,
-  CloudArrowUpIcon,
   CogIcon,
   BuildingOfficeIcon,
-  UsersIcon,
-  CalendarIcon,
-  EnvelopeIcon,
-  XMarkIcon,
   DocumentCheckIcon,
   ServerIcon,
   LockClosedIcon,
@@ -1026,7 +1016,7 @@ export default function RecruitXPage() {
               </p>
             </div>
 
-            <div className="max-w-3xl mx-auto space-y-8">
+            <div className="max-w-3xl mx-auto space-y-8 mt-12">
               {product.faq.map((item, index) => (
                 <motion.div
                   key={index}
