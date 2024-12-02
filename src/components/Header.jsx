@@ -54,7 +54,7 @@ export default function Header() {
             <div className="flex items-center">
               <Link href="/" className="group flex items-center transition-all duration-300">
                 <Image
-                  src="/LomeyoLabs-light.png"
+                  src="/lomeyolabs-light.png"
                   alt="Lomeyo Labs"
                   width={150}
                   height={40}
