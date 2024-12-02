@@ -137,39 +137,22 @@ const product = {
   ],
   techSpecs: {
     requirements: [
-      'PHP 7.4+',
-      'MySQL 5.7+',
+      'PHP 8.2+',
+      'MySQL 8.0+',
       'Redis (optional)',
       'Minimum 2GB RAM',
-      '10GB storage (recommended)'
+      'Minimum 1vCPU',
+      'Nginx or Apache',
+      '20GB storage (recommended)'
     ],
     includes: [
       'Complete source code',
       'Technical documentation',
       'API documentation',
       'Installation guide',
-      'Video tutorials',
       'Code comments',
-      'Best practices guide',
-      'Security recommendations'
-    ]
-  },
-  support: {
-    resources: [
-      'Detailed installation guide',
-      'Technical documentation',
-      'API documentation',
-      'Video tutorials',
-      'Code comments',
-      'Best practices guide',
-      'Security recommendations'
-    ],
-    options: [
+      'Security recommendations',
       'Basic email support',
-      'Community forums',
-      'Documentation access',
-      'Optional premium support',
-      'Custom development services'
     ]
   },
   faq: [
@@ -183,15 +166,19 @@ const product = {
     },
     {
       question: 'Can I resell the platform?',
-      answer: 'The Extended License allows commercial use and charging users.'
+      answer: 'No, You can not resell the platform or the source code. However, you can charge users for platform access.'
     },
     {
       question: 'Are updates included?',
-      answer: 'Regular License includes 6 months of updates, Extended includes 12 months.'
+      answer: '6 months of updates included with both licenses. However, currently our product are unable to be updated, causing bugs and security issues.'
     },
     {
       question: 'Can I host multiple instances?',
-      answer: 'Each license covers one domain. Additional licenses needed for multiple instances.'
+      answer: 'Each license covers one domain. Additional licenses needed for multiple instances. Purchase additional licenses if you need to host multiple instances.'
+    },
+    {
+      question: 'Can I access a demo account?',
+      answer: 'Yes, we have a public demo account that you can use to explore the application. No login required.'
     }
   ],
   selfHostBenefits: [
@@ -782,17 +769,20 @@ export default function RecruitXPage() {
                     ))}
                   </ul>
 
-                  <motion.button
+                  <motion.a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`w-full rounded-xl px-6 py-4 text-base font-semibold shadow-sm transition-all duration-200 ${
+                    className={`w-full rounded-xl px-6 py-4 text-base font-semibold shadow-sm transition-all duration-200 text-center ${
                       license.recommended
                         ? 'bg-white text-primary-600 hover:bg-primary-50'
                         : 'bg-primary-600 text-white hover:bg-primary-500'
                     }`}
                   >
                     {license.buttonText}
-                  </motion.button>
+                  </motion.a>
                 </motion.div>
               ))}
             </div>
@@ -934,7 +924,7 @@ export default function RecruitXPage() {
                   <h3 className="text-xl font-bold text-gray-900">Support & Documentation</h3>
                 </div>
                 <ul className="space-y-4">
-                  {[...product.techSpecs.includes, "24/7 Technical Support", "Regular Updates", "Community Access"].map((item, index) => (
+                  {product.techSpecs.includes.map((item, index) => (
                     <li key={index} className="flex items-center text-gray-700">
                       <CheckIcon className="h-5 w-5 text-primary-600 mr-3 flex-shrink-0" />
                       {item}
@@ -1079,7 +1069,8 @@ export default function RecruitXPage() {
 
                   {/* CTA Buttons */}
                   <div className="mt-12 flex justify-center gap-4">
-                    <motion.button 
+                    <motion.a 
+                      href="#pricing"
                       className="rounded-xl bg-white px-8 py-4 text-base font-semibold text-primary-600 hover:bg-primary-50 transition-colors duration-200 shadow-lg shadow-primary-900/20"
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -1087,7 +1078,7 @@ export default function RecruitXPage() {
                       transition={{ delay: 0.5 }}
                     >
                       Purchase Now
-                    </motion.button>
+                    </motion.a>
                     <motion.a
                       href="https://demo.recruitx.com"
                       target="_blank"
