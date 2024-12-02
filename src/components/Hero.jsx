@@ -54,7 +54,7 @@ const Hero = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            LomeyoLabs is your go-to hub for PHP Scripts, Figma/HTML Templates, 
+            Lomeyo Labs is your go-to hub for PHP Scripts, Figma/HTML Templates, 
             Self-hosted Software, and everything in between!
           </motion.p>
 

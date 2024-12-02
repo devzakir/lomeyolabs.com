@@ -48,7 +48,7 @@ export default function WhyChooseUs() {
           className="mx-auto max-w-2xl text-center"
         >
           <h2 className="text-3xl font-heading font-bold tracking-tight text-dark sm:text-4xl">
-            Why Go for LomeyoLabs Products
+            Why Go for Lomeyo Labs Products
           </h2>
           <p className="mt-4 text-lg leading-8 text-dark/80">
             Here&apos;s why businesses prefer our products to solve their problems

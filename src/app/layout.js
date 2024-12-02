@@ -18,7 +18,7 @@ const lexend = Lexend({
 })
 
 export const metadata = {
-  title: 'LomeyoLabs - Digital Products & Solutions',
+  title: 'Lomeyo Labs - Digital Products & Solutions',
   description: 'Premium digital products and solutions for modern businesses',
   icons: {
     icon: '/favicon.png',

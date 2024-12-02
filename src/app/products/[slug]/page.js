@@ -340,7 +340,7 @@ export default function ProductDetail({ params }) {
       </section>
 
       {/* Testimonials */}
-      <section className="relative bg-gray-900 py-24 sm:py-32">
+      <section className="bg-gray-900">
         <Testimonials
           title="Trusted by Developers Worldwide"
           subtitle="See what our customers have to say about their experience"
