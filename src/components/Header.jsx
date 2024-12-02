@@ -9,16 +9,15 @@ import Image from 'next/image'
 
 const menuItems = {
   main: [
-    { name: 'Jobpilot', href: '/jobpilot' },
-    { name: 'UI Bundle', href: '/ui-bundle' },
-    { name: 'Free Templates', href: '/free-templates' },
+    { name: 'RecruitX', href: '/products/recruitx' },
+    { name: 'Jobpilot', href: 'https://templatecookie.com/demo/jobpilot-job-portal-script-php-laravel' },
+    // { name: 'Free Templates', href: '/free-templates' },
   ],
   resources: [
-    { name: 'Documentation', href: '/docs' },
-    { name: 'Customer Support', href: '/support' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'License', href: '/license' },
-    { name: 'Contact Us', href: '/contact' },
+    { name: 'Documentation', href: 'https://templatecookie.com/docs' },
+    { name: 'Customer Support', href: 'https://templatecookie.com/get-support' },
+    { name: 'Blog', href: 'https://templatecookie.com/blog' },
+    { name: 'Contact Us', href: 'https://templatecookie.com/contact-us' },
   ]
 }
 
@@ -31,7 +30,7 @@ export default function Header() {
         <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <p className="text-sm leading-6 text-white">
-              <strong className="font-semibold">Brand Update in Progress! </strong>
+              {/* <strong className="font-semibold">Brand Update in Progress! </strong> */}
  We're transitioning from Templatecookie to Lomeyo Labs, a Lomeyo LLC brand.
               {/* Templatecookie is now Lomeyo Labs, a Lomeyo LLC brand. Same great products and team! */}
             </p>
@@ -78,7 +77,7 @@ export default function Header() {
                 </Link>
               ))}
 
-              <Menu as="div" className="relative inline-block text-left">
+              {/* <Menu as="div" className="relative inline-block text-left">
                 <Menu.Button className="group inline-flex items-center text-sm font-medium text-dark/80 hover:text-primary transition-all duration-300">
                   Resources
                   <ChevronDownIcon className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:rotate-180" aria-hidden="true" />
@@ -115,10 +114,10 @@ export default function Header() {
                     </div>
                   </Menu.Items>
                 </Transition>
-              </Menu>
+              </Menu> */}
 
               <Link 
-                href="/products" 
+                href="https://templatecookie.com/products" 
                 className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
               >
                 <span className="relative z-10">Latest Products</span>

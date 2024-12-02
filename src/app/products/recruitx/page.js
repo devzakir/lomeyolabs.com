@@ -400,20 +400,23 @@ export default function RecruitXPage() {
               {product.description}
             </p>
             <div className="mt-10 flex justify-center gap-4">
-              <motion.button 
+              <motion.a
+                href="#pricing"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center rounded-xl bg-primary-600 px-8 py-4 text-base font-semibold text-white hover:bg-primary-700 transition-all duration-300 shadow-lg shadow-primary-600/20"
               >
                 Purchase Now - {product.price}
-              </motion.button>
-              <motion.button 
+              </motion.a>
+              <motion.a href="https://recruitx.templatecookie.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center rounded-xl bg-white px-8 py-4 text-base font-semibold text-primary-600 hover:bg-primary-50 transition-all duration-300 shadow-lg shadow-gray-200/50"
               >
                 Try Live Demo
-              </motion.button>
+              </motion.a>
             </div>
           </motion.div>
 

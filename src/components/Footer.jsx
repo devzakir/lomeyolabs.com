@@ -7,22 +7,22 @@ import { useEffect, useState } from 'react'
 
 const navigation = {
   products: [
-    { name: 'All Products', href: '/products' },
-    { name: 'Templates', href: '/templates' },
-    { name: 'Scripts', href: '/scripts' },
-    { name: 'UI Kits', href: '/ui-kits' },
+    { name: 'All Products', href: '/' },
+    { name: 'Templates', href: '/' },
+    { name: 'Scripts', href: '/' },
+    { name: 'UI Kits', href: '/' },
   ],
   resources: [
-    { name: 'Documentation', href: '/docs' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Support', href: '/support' },
-    { name: 'Changelog', href: '/changelog' },
+    { name: 'Documentation', href: '/' },
+    { name: 'Blog', href: '/' },
+    { name: 'Support', href: '/' },
+    { name: 'Changelog', href: '/' },
   ],
   company: [
-    { name: 'About', href: '/about' },
-    { name: 'Careers', href: '/careers' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Partners', href: '/partners' },
+    { name: 'About', href: '/' },
+    { name: 'Careers', href: '/' },
+    { name: 'Contact', href: '/' },
+    { name: 'Partners', href: '/' },
   ]
 }
 
