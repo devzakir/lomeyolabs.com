@@ -23,6 +23,7 @@ import AnimatedSection from '@/components/animation/AnimatedSection'
 import Testimonials from '@/components/Testimonials'
 import Pricing from '@/components/Pricing'
 import Screenshots from '@/components/Screenshots'
+import FAQ from '@/components/FAQ'
 
 // Product data
 const product = {
@@ -156,32 +157,70 @@ const product = {
       'Basic email support',
     ]
   },
-  faq: [
-    {
-      question: 'Can I modify the source code?',
-      answer: 'Yes, both licenses include full source code access and modification rights.'
-    },
-    {
-      question: 'What support is included?',
-      answer: 'Both licenses include basic technical support and documentation access.'
-    },
-    {
-      question: 'Can I resell the platform?',
-      answer: 'No, You can not resell the platform or the source code. However, you can charge users for platform access.'
-    },
-    {
-      question: 'Are updates included?',
-      answer: '6 months of updates included with both licenses. However, currently our product are unable to be updated, causing bugs and security issues.'
-    },
-    {
-      question: 'Can I host multiple instances?',
-      answer: 'Each license covers one domain. Additional licenses needed for multiple instances. Purchase additional licenses if you need to host multiple instances.'
-    },
-    {
-      question: 'Can I access a demo account?',
-      answer: 'Yes, we have a public demo account that you can use to explore the application. No login required.'
-    }
-  ],
+  faq: {
+    licensing: [
+      {
+        question: 'Can I modify the source code?',
+        answer: 'Yes, both licenses include full source code access and modification rights.'
+      },
+      {
+        question: 'Can I resell the platform?',
+        answer: 'No, You can not resell the platform or the source code. However, you can charge users for platform access.'
+      },
+      {
+        question: 'Are updates included?',
+        answer: '6 months of updates included with both licenses. However, currently our product are unable to be updated, causing bugs and security issues.'
+      },
+      {
+        question: 'Can I host multiple instances?',
+        answer: 'Each license covers one domain. Additional licenses needed for multiple instances. Purchase additional licenses if you need to host multiple instances.'
+      },
+      {
+        question: 'What is the difference between Regular and Extended License?',
+        answer: 'The Regular License is perfect for companies managing their internal hiring process, while the Extended License is ideal for businesses offering recruitment services to clients.'
+      },
+      {
+        question: 'Can I upgrade my license in the future?',
+        answer: 'Yes, you can upgrade your license at any time. Contact our support team for more information.'
+      }
+    ],
+    technical: [
+      {
+        question: 'What technology or framework is used in RecruitX?',
+        answer: 'Built with Laravel 10 (PHP 8.2) backend and modern frontend stack including TailwindCSS, Livewire 3, and essential JavaScript libraries for charts and file handling.'
+      },
+      {
+        question: 'What development tools are included?',
+        answer: 'Includes Laravel Debugbar, Telescope, PHPUnit/Pest for testing, and Laravel Pint for code styling to ensure high code quality.'
+      },
+      {
+        question: 'What security features are implemented?',
+        answer: 'Features Laravel Sanctum/Passport for authentication, XSS prevention, reCAPTCHA, and comprehensive error tracking.'
+      },
+      {
+        question: 'What frontend technologies are used?',
+        answer: 'Uses Vite, TailwindCSS, and modern JavaScript libraries for data visualization, file uploads, and user onboarding.'
+      }
+    ],
+    support: [
+      {
+        question: 'What support is included?',
+        answer: 'Both licenses include basic technical support and documentation access.'
+      },
+      {
+        question: 'Can I access a demo account?',
+        answer: 'Yes, we have a public demo account that you can use to explore the application. No login required.'
+      },
+      {
+        question: 'What support channels are available?',
+        answer: 'You can contact our support team via email, or through our online support portal.'
+      },
+      {
+        question: 'How long is the response time for support requests?',
+        answer: 'Our support team aims to respond to support requests within 24 hours during weekdays.'
+      }
+    ]
+  },
   selfHostBenefits: [
     {
       icon: LockClosedIcon,
@@ -904,41 +943,8 @@ export default function RecruitXPage() {
 
       {/* FAQ Section */}
       <AnimatedSection>
-        <section className={`py-24 ${sectionStyles.light} relative overflow-hidden`}>
-          <div className="absolute inset-0 bg-grid-primary-900/[0.02] bg-[size:20px_20px]" />
-          
-          <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Frequently Asked Questions
-              </h2>
-              <p className="mt-4 text-lg text-gray-600">
-                Everything you need to know about RecruitX Self-Hosted
-              </p>
-            </div>
-
-            <div className="max-w-3xl mx-auto space-y-8 mt-12">
-              {product.faq.map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="rounded-2xl bg-white/70 backdrop-blur-sm border border-gray-100 p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                >
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">
-                    {item.question}
-                  </h3>
-                  <p className="text-gray-600">
-                    {item.answer}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <FAQ faqs={product.faq} />
       </AnimatedSection>
-
 
       {/* Enhanced CTA Section */}
       <AnimatedSection>
