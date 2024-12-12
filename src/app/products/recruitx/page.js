@@ -60,7 +60,7 @@ const product = {
       {
         title: 'Streamlined Hiring Process',
         description: 'Everything you need for efficient recruitment in one place',
-        image: '/products/recruitx/hiring.png',
+        image: '/recruitx/all-jobs.png',
         benefits: [
           'Easy job posting and management',
           'Custom application forms',
@@ -75,7 +75,7 @@ const product = {
       {
         title: 'Smart Candidate Management',
         description: 'Centralize and automate your candidate processing',
-        image: '/products/recruitx/candidates.png',
+        image: '/recruitx/candidate-inbox.png',
         benefits: [
           'Centralized candidate profiles',
           'Automatic application processing',
@@ -90,15 +90,15 @@ const product = {
       {
         title: 'Professional Employer Branding',
         description: 'Build a strong employer brand to attract top talent',
-        image: '/products/recruitx/branding.png',
+        image: '/recruitx/career-page.png',
         benefits: [
           'Customizable career pages',
           'Branded email communications',
           'Custom domain support',
-          'Social media integration',
+          'Social media links',
           'Mobile-responsive design',
           'Company culture showcase',
-          'Job preview customization'
+          'Job preview image generation'
         ]
       }
     ]
@@ -270,19 +270,34 @@ const product = {
     subtitle: "Designed for modern recruitment teams",
     items: [
       {
-        image: '/recruitx/1.jpg',
-        title: 'Streamlined Hiring Process',
-        description: 'Everything you need for efficient recruitment in one place'
+        image: '/recruitx/all-jobs.png',
+        title: 'All Jobs Management',
+        description: 'Centralized dashboard to manage job postings, collaborate with team members, and control different job types with specific permissions'
       },
       {
-        image: '/recruitx/2.jpg',
-        title: 'Smart Candidate Management',
-        description: 'Centralize and automate your candidate processing'
+        image: '/recruitx/brand-settings.png',
+        title: 'Brand Control Panel',
+        description: 'Customize every aspect of RecruitX - from logos and colors to favicons and company details, all from one intuitive interface'
       },
       {
-        image: '/recruitx/4.jpg',
-        title: 'Professional Employer Branding',
-        description: 'Build a strong employer brand to attract top talent'
+        image: '/recruitx/candidate-inbox.png',
+        title: 'Candidate Inbox',
+        description: 'Efficiently manage hundreds of applications, communicate with candidates, and collaborate with your team in real-time'
+      },
+      {
+        image: '/recruitx/career-page.png',
+        title: 'Professional Career Page',
+        description: 'Showcase your employer brand with a beautifully designed, fully customizable career page that attracts top talent'
+      },
+      {
+        image: '/recruitx/job-posting.png',
+        title: 'Smart Job Posting Wizard',
+        description: 'Create compelling job posts, customize application forms, and set up screening questions - all in one streamlined workflow'
+      },
+      {
+        image: '/recruitx/organization-settings.png',
+        title: 'Organization Management',
+        description: 'Complete control over career page settings, team member roles, and permissions with easy invite and management tools'
       }
     ]
   },
@@ -749,9 +764,9 @@ export default function RecruitXPage() {
       </AnimatedSection>
 
       {/* Testimonials Section */}
-      <AnimatedSection>
+      {/* <AnimatedSection>
         <Testimonials {...product.testimonials} />
-      </AnimatedSection>
+      </AnimatedSection> */}
 
       {/* Why Choose RecruitX Section */}
       <AnimatedSection>
@@ -893,7 +908,7 @@ export default function RecruitXPage() {
                       Purchase Now
                     </motion.a>
                     <motion.a
-                      href="https://demo.recruitx.com"
+                      href="https://recruitx.templatecookie.com"
                       target="_blank"
                       className="rounded-xl bg-primary-500/20 backdrop-blur-sm border border-white/20 px-8 py-4 text-base font-semibold text-white hover:bg-primary-500/30 transition-colors duration-200"
                       initial={{ opacity: 0, y: 20 }}

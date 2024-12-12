@@ -27,11 +27,11 @@ const Lightbox = ({ isOpen, image, onClose }) => {
 
   return (
     <div 
-      className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" 
+      className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 md:p-8" 
       onClick={onClose}
     >
       <div 
-        className="relative max-w-7xl mx-auto"
+        className="relative w-full max-w-[90%] mx-auto"
         onClick={handleContentClick}
       >
         <button
@@ -42,19 +42,21 @@ const Lightbox = ({ isOpen, image, onClose }) => {
           <XMarkIcon className="h-8 w-8" />
         </button>
 
-        <div className="relative w-[1000px] h-[600px]">
-          <Image
-            src={image}
-            alt="Screenshot preview"
-            fill
-            className="object-contain rounded-lg"
-            sizes="(max-width: 1280px) 100vw, 1280px"
-            priority
-            quality={100}
-            onError={(e) => {
-              console.error('Image failed to load:', image);
-            }}
-          />
+        <div className="relative">
+          <div className="aspect-[16/9] w-full max-w-[1600px] mx-auto">
+            <Image
+              src={image}
+              alt="Screenshot preview"
+              fill
+              className="object-contain rounded-lg"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1600px"
+              priority
+              quality={100}
+              onError={(e) => {
+                console.error('Image failed to load:', image);
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
