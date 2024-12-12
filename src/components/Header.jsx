@@ -48,7 +48,7 @@ export default function Header() {
         </div>
       )}
 
-      <header className="z-50 w-full bg-white/80 backdrop-blur-xl border-b border-neutral-100/50 shadow-sm">
+      <header className="z-50 w-full bg-white backdrop-blur-xl border-b border-gray-200 shadow-sm">
         <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
           <div className="flex w-full items-center justify-between py-5">
             <div className="flex items-center">
@@ -70,7 +70,7 @@ export default function Header() {
                 <Link 
                   key={item.name}
                   href={item.href} 
-                  className="group relative text-sm font-medium text-dark/80 hover:text-primary transition-all duration-300"
+                  className="group relative text-sm font-medium text-gray-600 hover:text-primary-600 transition-all duration-300"
                 >
                   {item.name}
                   <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary scale-x-0 transition-transform group-hover:scale-x-100" />
@@ -130,7 +130,7 @@ export default function Header() {
                 {({ open }) => (
                   <>
                     <div>
-                      <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-dark/80 hover:bg-primary/5 hover:text-primary focus:outline-none">
+                      <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-primary-50 hover:text-primary-600 focus:outline-none">
                         <span className="sr-only">Open main menu</span>
                         {open ? (
                           <XMarkIcon className="block h-6 w-6" aria-hidden="true" />

@@ -27,7 +27,7 @@ import TechnicalSpecs from '@/components/TechnicalSpecs'
 // Product data
 const product = {
   id: 12,
-  name: 'RecruitX - Self-Hosted Recruitment System',
+  name: 'Self-Hosted Recruitment Software for Small Businesses',
   description: 'Transform your hiring process with RecruitX\'s powerful self-hosted recruitment solution. Get complete control over your data, unlimited customization options, and the freedom to build your perfect hiring workflow.',
   image: '/products/recruitx/hero.png',
   price: 'From $499',
@@ -393,10 +393,10 @@ export default function RecruitXPage() {
               <SparklesIcon className="w-4 h-4 mr-2" />
               {product.category}
             </span>
-            <h1 className="text-4xl font-heading font-bold tracking-tight text-neutral-dark sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-heading font-bold tracking-normal text-gray-900 sm:text-5xl lg:text-6xl">
               {product.name}
             </h1>
-            <p className="mt-6 text-xl text-neutral-dark/80">
+            <p className="mt-6 text-xl text-gray-600">
               {product.description}
             </p>
             <div className="mt-10 flex justify-center gap-4">
@@ -408,7 +408,8 @@ export default function RecruitXPage() {
               >
                 Purchase Now - {product.price}
               </motion.a>
-              <motion.a href="https://recruitx.templatecookie.com"
+              <motion.a 
+                href="https://recruitx.templatecookie.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
