@@ -1,15 +1,15 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Tab, Dialog } from '@headlessui/react'
 import AnimatedSection from '@/components/animation/AnimatedSection'
+import { supabaseClient } from '../../../../supabaseClient'
 
-import { 
-  StarIcon, 
-  CheckIcon, 
-  CloudArrowDownIcon, 
-  CodeBracketIcon,
+import {
+  StarIcon,
+  CheckIcon,
+  CloudArrowDownIcon,
   DocumentTextIcon,
   CurrencyDollarIcon,
   ArrowDownTrayIcon,
@@ -21,81 +21,27 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Testimonials from '@/components/Testimonials'
 
-// Product data
-const products = [
-  {
-    id: 1,
-    name: 'Taskify - Project Management System',
-    description: 'Complete project management solution with team collaboration features',
-    image: 'https://templatecookie.com/storage/image/1710224864_65eff5e06cdb1.png',
-    price: '$49',
-    features: ['Task Management', 'Team Collaboration', 'Time Tracking', 'Project Reports'],
-    category: 'PHP Scripts',
-    longDescription: `A comprehensive project management system built with Laravel and Vue.js. Perfect for teams of all sizes looking to streamline their project workflows.`,
-    techSpecs: {
-      requirements: [
-        'PHP 8.1+',
-        'MySQL 5.7+',
-        'Node.js 16+',
-        'Composer 2.0+'
-      ],
-      includes: [
-        'Source code',
-        'Database schema',
-        'API documentation',
-        'Installation guide'
-      ]
-    },
-    highlights: [
-      'Easy installation wizard',
-      'REST API included',
-      'Multi-language support',
-      'Regular updates'
-    ],
-    screenshots: [
-      {
-        id: 1,
-        title: 'Dashboard Overview',
-        url: 'https://templatecookie.com/storage/image/1710224864_65eff5e06cdb1.png'
-      },
-      {
-        id: 2,
-        title: 'Task Management',
-        url: 'https://templatecookie.com/storage/image/1710224877_65eff5eddffea.png'
-      },
-      {
-        id: 3,
-        title: 'Team Collaboration',
-        url: 'https://templatecookie.com/storage/image/1709116010_65df0a6a0d900.png'
-      }
-    ],
-    testimonials: [
-      {
-        id: 1,
-        content: "This product has completely transformed how we manage our projects. The interface is intuitive and the features are exactly what we needed.",
-        author: "Sarah Johnson",
-        role: "Project Manager",
-        company: "Tech Solutions Inc"
-      },
-      {
-        id: 2,
-        content: "The best project management tool we have used. The support team is incredibly responsive and helpful.",
-        author: "Michael Chen",
-        role: "CTO",
-        company: "StartupX"
-      }
-    ]
+// Function to fetch product data from Supabase
+const fetchProductData = async (productId) => {
+  const { data, error } = await supabaseClient
+    .from('products')
+    .select('*')
+    .eq('id', productId)
+    .single() // Fetch a single product
+
+  if (error) {
+    console.error('Error fetching product:', error)
+    return null
   }
-  // Add more products as needed
-]
+  return data
+}
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function ProductDetail({ params }) {
-  // Unwrap params using React.use()
-  const unwrappedParams = use(params)
+  const productId = params.slug // Assuming params.slug is the UUID
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -110,20 +56,14 @@ export default function ProductDetail({ params }) {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      try {
-        // Use unwrappedParams.slug instead of params.slug
-        const productId = parseInt(unwrappedParams.slug)
-        const foundProduct = products.find(p => p.id === productId)
-        setProduct(foundProduct || null)
-      } catch (error) {
-        console.error('Error fetching product:', error)
-      } finally {
-        setLoading(false)
-      }
+      setLoading(true)
+      const productData = await fetchProductData(productId)
+      setProduct(productData)
+      setLoading(false)
     }
 
     fetchProduct()
-  }, [unwrappedParams.slug])
+  }, [productId])
 
   if (loading) {
     return <div>Loading...</div>
@@ -139,45 +79,41 @@ export default function ProductDetail({ params }) {
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-primary-100 opacity-50" />
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
             <span className="inline-flex items-center rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700 mb-4">
-              {product.category}
+              {product?.category}
             </span>
             <h1 className="text-4xl font-heading font-bold tracking-tight text-neutral-dark sm:text-5xl">
-              {product.name}
+              {product?.name}
             </h1>
-            <p className="mt-4 text-xl text-neutral-dark/80 max-w-3xl mx-auto">
-              {product.description}
-            </p>
-
             <div className="mt-8 flex justify-center gap-4">
               <button className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-colors">
                 <CurrencyDollarIcon className="h-5 w-5 mr-2" />
-                Purchase for {product.price}
+                Purchase for ${product?.price}
               </button>
-              <button className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl bg-neutral-light text-neutral-dark hover:bg-primary-50 transition-colors">
+              <a href={product?.demo_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl bg-neutral-light text-neutral-dark hover:bg-primary-50 transition-colors">
                 <ArrowDownTrayIcon className="h-5 w-5 mr-2" />
                 Live Preview
-              </button>
+              </a>
             </div>
           </motion.div>
 
           {/* Product Preview */}
-          <motion.div 
+          <motion.div
             className="mt-16 relative"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="aspect-[16/9] rounded-xl overflow-hidden bg-white shadow-2xl">
-              <img 
-                src={product.image}
-                alt={product.name}
+              <img
+                src={product?.preview_url}
+                alt={product?.name}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -211,29 +147,20 @@ export default function ProductDetail({ params }) {
           <Tab.Panels className="mt-8">
             <Tab.Panel className="focus:outline-none">
               <div className="prose prose-lg max-w-none">
-                <h3 className="text-2xl font-bold text-neutral-dark">Product Overview</h3>
-                <p className="text-neutral-dark/80">{product.longDescription}</p>
-                
+                <p className="mt-4 text-xl text-neutral-dark/80 max-w-3xl mx-auto">
+                  {product?.description?.split('\n').map((line, index) => (
+                    <p key={index} className="mb-4">{line}</p>
+                  )) || "No description available."}
+                </p>
+
                 <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
                   <div className="bg-neutral-50 rounded-xl p-6">
                     <h4 className="text-lg font-semibold text-neutral-dark mb-4">Key Features</h4>
                     <ul className="space-y-3">
-                      {product.features.map((feature, index) => (
+                      {Object.values(product?.features || {}).map((feature, index) => (
                         <li key={index} className="flex items-center text-neutral-dark/80">
                           <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
                           {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  <div className="bg-neutral-50 rounded-xl p-6">
-                    <h4 className="text-lg font-semibold text-neutral-dark mb-4">Highlights</h4>
-                    <ul className="space-y-3">
-                      {product.highlights.map((highlight, index) => (
-                        <li key={index} className="flex items-center text-neutral-dark/80">
-                          <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
-                          {highlight}
                         </li>
                       ))}
                     </ul>
@@ -249,24 +176,12 @@ export default function ProductDetail({ params }) {
                   <div className="bg-neutral-50 rounded-xl p-6">
                     <h4 className="text-lg font-semibold text-neutral-dark mb-4">System Requirements</h4>
                     <ul className="space-y-3">
-                      {product.techSpecs.requirements.map((req, index) => (
+                      {/* {product.techSpecs.requirements.map((req, index) => (
                         <li key={index} className="flex items-center text-neutral-dark/80">
                           <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
                           {req}
                         </li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  <div className="bg-neutral-50 rounded-xl p-6">
-                    <h4 className="text-lg font-semibold text-neutral-dark mb-4">What's Included</h4>
-                    <ul className="space-y-3">
-                      {product.techSpecs.includes.map((item, index) => (
-                        <li key={index} className="flex items-center text-neutral-dark/80">
-                          <CheckIcon className="h-5 w-5 text-primary-600 mr-2" />
-                          {item}
-                        </li>
-                      ))}
+                      ))} */}
                     </ul>
                   </div>
                 </div>
@@ -277,7 +192,7 @@ export default function ProductDetail({ params }) {
               <div className="prose prose-lg max-w-none">
                 <h3 className="text-2xl font-bold text-neutral-dark">Documentation</h3>
                 <p className="text-neutral-dark/80">Access our comprehensive documentation to get started quickly:</p>
-                
+
                 <div className="mt-8 grid grid-cols-1 gap-6">
                   {['Installation Guide', 'Configuration Guide', 'API Documentation', 'User Manual'].map((doc, index) => (
                     <div key={index} className="flex items-center p-4 bg-neutral-50 rounded-lg">
@@ -300,8 +215,8 @@ export default function ProductDetail({ params }) {
             <h2 className="text-3xl font-bold tracking-tight text-gray-900">Product Screenshots</h2>
             <p className="mt-4 text-lg text-gray-600">Take a closer look at the features and interface</p>
           </div>
-          
-          <motion.div 
+
+          <motion.div
             className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
             variants={{
               hidden: { opacity: 0 },
@@ -314,25 +229,25 @@ export default function ProductDetail({ params }) {
             whileInView="show"
             viewport={{ once: true }}
           >
-            {product.screenshots.map((screenshot) => (
+            {product?.images && Object.values(product.images).map((imageUrl, index) => (
               <motion.div
-                key={screenshot.id}
+                key={index}
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   show: { opacity: 1, y: 0 }
                 }}
                 className="cursor-pointer"
-                onClick={() => setSelectedImage(screenshot)}
+                onClick={() => setSelectedImage(imageUrl)}
               >
                 <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-gray-100">
                   <Image
-                    src={screenshot.url}
-                    alt={screenshot.title}
+                    src={imageUrl}
+                    alt={`Product screenshot ${index + 1}`}
                     fill
                     className="object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </div>
-                <p className="mt-2 text-sm text-gray-600">{screenshot.title}</p>
+                <p className="mt-2 text-sm text-gray-600">{`Product screenshot ${index + 1}`}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -341,7 +256,7 @@ export default function ProductDetail({ params }) {
 
       {/* Testimonials */}
       <section className="bg-gray-900">
-        <Testimonials
+        {/* <Testimonials
           title="Trusted by Developers Worldwide"
           subtitle="See what our customers have to say about their experience"
           items={product.testimonials.map(testimonial => ({
@@ -351,7 +266,7 @@ export default function ProductDetail({ params }) {
             content: testimonial.content,
             image: testimonial.avatar || "https://via.placeholder.com/150"
           }))}
-        />
+        /> */}
       </section>
 
       {/* Product Stats */}
@@ -398,22 +313,29 @@ export default function ProductDetail({ params }) {
       </section>
 
       {/* Image Lightbox */}
-      <Dialog 
-        open={!!selectedImage} 
+      <Dialog
+        open={!!selectedImage}
         onClose={() => setSelectedImage(null)}
         className="relative z-50"
       >
         <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
-        
+
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="mx-auto max-w-5xl">
-            <div className="relative">
+          <Dialog.Panel className="mx-auto w-full max-h-[90vh] max-w-5xl">
+            <div className="relative w-full h-full">
               <Image
-                src={selectedImage?.url || ''}
-                alt={selectedImage?.title || ''}
+                src={selectedImage || ''}
+                alt="Product screenshot"
+                className="rounded-lg object-contain w-full h-full"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1920px"
+                priority
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  maxHeight: '90vh'
+                }}
                 width={1920}
                 height={1080}
-                className="rounded-lg"
               />
               <button
                 onClick={() => setSelectedImage(null)}
@@ -436,8 +358,8 @@ export default function ProductDetail({ params }) {
             <h2 className="text-3xl font-bold tracking-tight text-gray-900">Related Products</h2>
             <p className="mt-4 text-lg text-gray-600">Discover more solutions that might interest you</p>
           </div>
-          
-          <motion.div 
+
+          <motion.div
             className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
             variants={{
               hidden: { opacity: 0 },
@@ -450,7 +372,9 @@ export default function ProductDetail({ params }) {
             whileInView="show"
             viewport={{ once: true }}
           >
-            {products.slice(0, 3).map(relatedProduct => (
+            {/* Fetch related products from Supabase if needed */}
+            {/* Example: products.slice(0, 3).map(relatedProduct => ( */}
+            {/* {products.slice(0, 3).map(relatedProduct => (
               <Link 
                 key={relatedProduct.id}
                 href={`/products/${relatedProduct.id}`}
@@ -470,14 +394,14 @@ export default function ProductDetail({ params }) {
                   </h3>
                   <p className="mt-2 text-gray-600">{relatedProduct.description}</p>
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="text-lg font-bold text-primary-600">{relatedProduct.price}</span>
+                    <span className="text-lg font-bold text-primary-600">${relatedProduct.price}</span>
                     <span className="text-sm font-medium text-primary-600 group-hover:underline">
                       Learn More →
                     </span>
                   </div>
                 </div>
               </Link>
-            ))}
+            ))} */}
           </motion.div>
         </div>
       </section>
@@ -494,7 +418,7 @@ export default function ProductDetail({ params }) {
                 View Documentation →
               </button>
             </div>
-            
+
             <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-primary-50">
               <CloudArrowDownIcon className="h-12 w-12 text-primary-600 mb-4" />
               <h3 className="text-xl font-bold text-gray-900 mb-2">Updates & Releases</h3>
@@ -503,7 +427,7 @@ export default function ProductDetail({ params }) {
                 View Changelog →
               </button>
             </div>
-            
+
             <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-primary-50">
               <StarIcon className="h-12 w-12 text-primary-600 mb-4" />
               <h3 className="text-xl font-bold text-gray-900 mb-2">Premium Support</h3>
