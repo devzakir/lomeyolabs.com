@@ -66,11 +66,20 @@ export default function ProductDetail({ params }) {
   }, [productId])
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
+      </div>
+    )
   }
 
   if (!product) {
-    return <div>Product not found</div>
+    return <div className="text-center py-12">
+      <h3 className="text-lg font-medium text-gray-900">No products found</h3>
+      <p className="mt-2 text-sm text-gray-500">
+        Try adjusting your search or filter to find what you're looking for.
+      </p>
+    </div>
   }
 
   return (
