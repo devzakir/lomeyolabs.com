@@ -64,3 +64,11 @@ Vercel (pairs perfectly with Next.js)
 - Better performance potential
 - More flexibility for custom features
 
+
+
+# LomeyoLabs Goal
+- [ ] Establish a unified Lomeyo brand presence, Moving from Templatecookie.com Branding to LomeyoLabs.com Branding.
+- [ ] Consolidate products from various platforms (Gumroad, Figma Community, Github, Codecanyon, etc.) under LomeyoLabs.com.
+- [ ] Offer products and services directly to customers through the website.
+- [ ] Implement a customer support system with email ticketing and documentation.
+- [ ] Create a customer dashboard for managing orders, subscriptions, and support requests.
