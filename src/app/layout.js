@@ -2,6 +2,7 @@ import { Open_Sans, Lexend } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -29,9 +30,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${openSans.variable} ${lexend.variable} font-sans`}>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   )
