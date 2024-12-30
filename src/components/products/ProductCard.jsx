@@ -8,13 +8,12 @@ export default function ProductCard({ product, variants }) {
   return (
     <motion.div variants={variants}>
       <Link 
-        // href={`/products/${product.id}`} 
-        href={`/products/recruitx`} 
+        href={`/products/${product.id}`} 
         className="group block rounded-2xl bg-white/90 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
       >
         <div className="relative aspect-[16/9] overflow-hidden">
           <Image
-            src={product.image}
+            src={product.preview_url}
             alt={product.name}
             className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
             width={500}
@@ -36,7 +35,7 @@ export default function ProductCard({ product, variants }) {
             </p>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            {product.features.slice(0, 2).map((feature, index) => (
+            {Object.values(product?.features || {}).slice(0, 2).map((feature, index) => (
               <span
                 key={index}
                 className="inline-flex items-center rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700"

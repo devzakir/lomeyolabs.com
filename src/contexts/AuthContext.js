@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { supabaseClient } from '@/lib/supabaseClient'
 
 const AuthContext = createContext({})
 
@@ -13,13 +13,13 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     // Check active sessions and sets the user
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
       setLoading(false)
     })
 
     // Listen for changes on auth state (logged in, signed out, etc.)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabaseClient.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
 
@@ -28,23 +28,35 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
         email,
         password,
       })
 
-      if (error) throw error
+      if (error) {
+        console.error('Login error:', error.message)
+        return { success: false, error: error.message }
+      }
+
+      if (!data?.user) {
+        return { success: false, error: 'No user data received' }
+      }
 
       // After successful login, fetch user profile
-      const { data: profile, error: profileError } = await supabase
+      const { data: profile, error: profileError } = await supabaseClient
         .from('profiles')
         .select('*')
         .eq('id', data.user.id)
         .single()
 
-      if (profileError) throw profileError
+      if (profileError) {
+        console.error('Profile fetch error:', profileError.message)
+        // Don't fail the login if profile fetch fails
+        setUser(data.user)
+      } else {
+        setUser({ ...data.user, ...profile })
+      }
 
-      setUser({ ...data.user, ...profile })
       return { success: true }
     } catch (error) {
       console.error('Error logging in:', error.message)
@@ -55,7 +67,7 @@ export function AuthProvider({ children }) {
   const register = async (userData) => {
     try {
       // Register the user
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error } = await supabaseClient.auth.signUp({
         email: userData.email,
         password: userData.password,
         options: {
@@ -69,7 +81,7 @@ export function AuthProvider({ children }) {
       if (error) throw error
 
       // Create a profile record
-      const { error: profileError } = await supabase
+      const { error: profileError } = await supabaseClient
         .from('profiles')
         .insert([
           {
@@ -91,7 +103,7 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      const { error } = await supabase.auth.signOut()
+      const { error } = await supabaseClient.auth.signOut()
       if (error) throw error
       
       setUser(null)

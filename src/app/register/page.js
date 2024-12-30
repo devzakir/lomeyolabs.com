@@ -41,10 +41,10 @@ export default function Register() {
       if (result.success) {
         router.push('/dashboard')
       } else {
-        setError('Failed to create account')
+        setError(result.error || 'Failed to create account')
       }
     } catch (err) {
-      setError('Failed to create account')
+      setError(err.message || 'Failed to create account')
     }
 
     setLoading(false)

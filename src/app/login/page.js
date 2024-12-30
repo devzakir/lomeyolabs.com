@@ -23,10 +23,10 @@ export default function Login() {
       if (result.success) {
         router.push('/dashboard')
       } else {
-        setError('Failed to login')
+        setError(result.error || 'Failed to login')
       }
     } catch (err) {
-      setError('Failed to login')
+      setError(err.message || 'An unexpected error occurred')
     }
 
     setLoading(false)
