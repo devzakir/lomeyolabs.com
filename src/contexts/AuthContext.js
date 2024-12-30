@@ -75,6 +75,7 @@ export function AuthProvider({ children }) {
             full_name: userData.full_name,
             company_name: userData.company_name,
           },
+          emailRedirectTo: `${window.location.origin}/login`,
         },
       })
 
@@ -107,7 +108,7 @@ export function AuthProvider({ children }) {
       if (error) throw error
       
       setUser(null)
-      router.push('/')
+      router.push('/login')
     } catch (error) {
       console.error('Error logging out:', error.message)
     }

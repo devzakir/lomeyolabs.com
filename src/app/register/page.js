@@ -15,6 +15,7 @@ export default function Register() {
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [confirmationSent, setConfirmationSent] = useState(false)
   const router = useRouter()
   const { register } = useAuth()
 
@@ -39,7 +40,7 @@ export default function Register() {
     try {
       const result = await register(formData)
       if (result.success) {
-        router.push('/dashboard')
+        setConfirmationSent(true)
       } else {
         setError(result.error || 'Failed to create account')
       }
@@ -48,6 +49,32 @@ export default function Register() {
     }
 
     setLoading(false)
+  }
+
+  if (confirmationSent) {
+    return (
+      <div className="bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Check your email</h2>
+              <p className="text-gray-600 mb-4">
+                We've sent a confirmation email to <span className="font-medium">{formData.email}</span>
+              </p>
+              <p className="text-gray-600">
+                Please click the link in the email to verify your account.
+              </p>
+              <Link 
+                href="/login" 
+                className="mt-6 inline-block text-primary-600 hover:text-primary-500"
+              >
+                Return to login
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
