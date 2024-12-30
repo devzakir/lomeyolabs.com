@@ -11,7 +11,7 @@
 ### Database Structure in Supabase
 
 1. Products Table Setup
-- [ ] Create products table schema
+- [x] Create products table schema
 ```sql
 products:
 - id: uuid
@@ -27,7 +27,7 @@ products:
 ```
 
 2. Users Table Setup
-- [ ] Extend Supabase auth table
+- [x] Extend Supabase auth table
 ```sql
 users:
 - id: uuid (from auth)
@@ -51,8 +51,8 @@ orders:
 ```
 
 ### Dynamic Components Implementation
-- [ ] Product listings with filters
-- [ ] User authentication 
+- [x] Product listings with filters
+- [x] User authentication 
 - [ ] User dashboard
 - [ ] Product management admin panel
 
