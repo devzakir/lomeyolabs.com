@@ -89,10 +89,10 @@ export default function PurchasesPage() {
           </div>
           <div className="text-center">
             <a
-              href="/dashboard"
+              href="/dashboard/purchase-history"
               className="inline-block px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
-              View Dashboard
+              Download your product
             </a>
           </div>
         </div>
