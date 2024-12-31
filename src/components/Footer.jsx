@@ -40,7 +40,7 @@ export default function Footer() {
       
       {/* Decorative Pattern */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[url('/patterns/circuit.svg')] opacity-10" />
+        <div className="absolute inset-0 opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-br from-primary-400/10 via-transparent to-primary-800/20" />
       </div>
 

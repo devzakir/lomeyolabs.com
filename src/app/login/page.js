@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
 
@@ -11,7 +11,20 @@ export default function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const { login } = useAuth()
+  const searchParams = useSearchParams()
+  const { login, user } = useAuth()
+
+  useEffect(() => {
+    // If user is already logged in, redirect them
+    if (user) {
+      const redirect = searchParams.get('redirect')
+      if (redirect) {
+        router.push(redirect)
+      } else {
+        router.push('/dashboard') // or wherever your default redirect should go
+      }
+    }
+  }, [user, router, searchParams])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

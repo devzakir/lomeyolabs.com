@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import { Tab, Dialog } from '@headlessui/react'
 import AnimatedSection from '@/components/animation/AnimatedSection'
 import { supabaseClient } from '../../../lib/supabaseClient'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/contexts/AuthContext'
 
 import {
   StarIcon,
@@ -18,8 +20,6 @@ import {
   ShieldCheckIcon
 } from '@heroicons/react/24/solid'
 import Image from 'next/image'
-import Link from 'next/link'
-import Testimonials from '@/components/Testimonials'
 
 // Function to fetch product data from Supabase
 const fetchProductData = async (productId) => {
@@ -45,6 +45,8 @@ export default function ProductDetail({ params }) {
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedImage, setSelectedImage] = useState(null)
+  const router = useRouter()
+  const { user } = useAuth()
 
   // Stats data
   const stats = [
@@ -64,6 +66,45 @@ export default function ProductDetail({ params }) {
 
     fetchProduct()
   }, [productId])
+
+  const handlePurchase = async () => {
+    if (!user) {
+      const currentPath = `/products/${productId}`
+      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`)
+      return
+    }
+
+    try {
+      setLoading(true)
+      
+      const response = await fetch('/api/create-invoice', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: product.id,
+          productName: product.name,
+          price: product.price,
+          userId: user.id,
+          userEmail: user.email
+        }),
+      })
+
+      const data = await response.json()
+      
+      if (data.url) {
+        window.location.href = data.url // Redirect to Stripe Checkout
+      } else {
+        throw new Error(data.error || 'Failed to create invoice')
+      }
+    } catch (error) {
+      console.error('Error creating invoice:', error)
+      alert('Failed to process purchase. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   if (loading) {
     return (
@@ -101,7 +142,10 @@ export default function ProductDetail({ params }) {
               {product?.name}
             </h1>
             <div className="mt-8 flex justify-center gap-4">
-              <button className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-colors">
+              <button 
+                onClick={handlePurchase}
+                className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-colors"
+              >
                 <CurrencyDollarIcon className="h-5 w-5 mr-2" />
                 Purchase for ${product?.price}
               </button>
