@@ -23,7 +23,7 @@ export default function Products() {
         setLoading(true)
         const { data, error } = await supabaseClient
           .from('products')
-          .select('*')
+          .select('id,name,description,price,category,features,preview_url')
 
         if (error) {
           throw error

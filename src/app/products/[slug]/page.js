@@ -25,7 +25,7 @@ import Image from 'next/image'
 const fetchProductData = async (productId) => {
   const { data, error } = await supabaseClient
     .from('products')
-    .select('*')
+    .select('id,name,description,price,category,features,preview_url,images')
     .eq('id', productId)
     .single() // Fetch a single product
 
