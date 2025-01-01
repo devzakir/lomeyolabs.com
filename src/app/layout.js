@@ -3,6 +3,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { AuthProvider } from '@/contexts/AuthContext'
+import { AdminAuthProvider } from '@/contexts/AdminAuthContext'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -31,9 +32,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${openSans.variable} ${lexend.variable} font-sans`}>
         <AuthProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <AdminAuthProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </AdminAuthProvider>
         </AuthProvider>
       </body>
     </html>
