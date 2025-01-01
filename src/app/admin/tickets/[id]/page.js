@@ -162,108 +162,110 @@ export default function AdminTicketDetail({ params }) {
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-gray-900">Ticket Details</h1>
-        <button
-          onClick={() => router.back()}
-          className="text-gray-600 hover:text-gray-900"
-        >
-          ← Back to Tickets
-        </button>
-      </div>
+    <div className="min-h-full">
+      <div className="py-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-gray-900">Ticket #{params.id}</h1>
+            <button
+              onClick={() => router.back()}
+              className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            >
+              ← Back to Tickets
+            </button>
+          </div>
 
-      {/* Ticket Info */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="p-6">
-          <div className="space-y-6">
-            {/* Ticket Header */}
-            <div className="border-b pb-4">
-              <h2 className="text-xl font-medium text-gray-900 mb-4">
-                {ticket.subject}
-              </h2>
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">From:</span>
-                  <span className="text-sm font-medium text-gray-900">
-                    {ticket.profiles?.email}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">Priority:</span>
-                  <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityColor(ticket.priority)}`}>
-                    {ticket.priority}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">Status:</span>
-                  <select
-                    value={newStatus}
-                    onChange={(e) => handleStatusChange(e.target.value)}
-                    className={`px-2 py-1 text-xs font-medium rounded-full border-0 ${getStatusColor(newStatus)}`}
-                  >
-                    <option value="open">Open</option>
-                    <option value="pending">Pending</option>
-                    <option value="closed">Closed</option>
-                  </select>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">Created:</span>
-                  <span className="text-sm text-gray-900">
-                    {formatDateTime(ticket.created_at)}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Messages */}
-            <div className="space-y-4 max-h-[600px] overflow-y-auto p-4 bg-gray-50 rounded-lg">
-              {ticket.ticket_messages?.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.is_agent ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div className={`rounded-lg p-4 max-w-[80%] ${
-                    message.is_agent 
-                      ? 'bg-primary-100 text-primary-900' 
-                      : 'bg-white shadow-sm border border-gray-100'
-                  }`}>
-                    <p className="text-sm">{message.message}</p>
-                    <p className="text-xs text-gray-500 mt-2">
-                      {formatDateTime(message.created_at)} • 
-                      {message.is_agent ? ' Admin Response' : ' Customer'}
-                    </p>
+          <div className="mt-6 space-y-6">
+            {/* Ticket Information Card */}
+            <div className="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+              <div className="px-4 py-5 sm:p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                  {ticket?.subject}
+                </h2>
+                
+                <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">Status</dt>
+                    <dd className="mt-1">
+                      <select
+                        value={newStatus}
+                        onChange={(e) => handleStatusChange(e.target.value)}
+                        className={`mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6`}
+                      >
+                        <option value="open">Open</option>
+                        <option value="pending">Pending</option>
+                        <option value="closed">Closed</option>
+                      </select>
+                    </dd>
                   </div>
-                </div>
-              ))}
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">Created</dt>
+                    <dd className="mt-1 text-sm text-gray-900">
+                      {formatDateTime(ticket?.created_at)}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">Customer</dt>
+                    <dd className="mt-1 text-sm text-gray-900">
+                      {ticket?.profiles?.email}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
             </div>
 
-            {/* Reply Form */}
-            <form onSubmit={handleSendMessage} className="space-y-4">
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Reply to Customer
-                </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                  placeholder="Type your response..."
-                />
+            {/* Messages Section */}
+            <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+              <div className="p-4 sm:p-6">
+                <h3 className="text-lg font-medium text-gray-900 mb-4">Conversation</h3>
+                <div className="space-y-4 max-h-[600px] overflow-y-auto p-4 bg-gray-50 rounded-lg">
+                  {ticket?.ticket_messages?.map((message) => (
+                    <div
+                      key={message.id}
+                      className={`flex ${message.is_agent ? 'justify-end' : 'justify-start'}`}
+                    >
+                      <div className={`rounded-lg p-4 max-w-[80%] ${
+                        message.is_agent 
+                          ? 'bg-primary-600 text-white' 
+                          : 'bg-white shadow-sm border border-gray-200'
+                      }`}>
+                        <p className="text-sm">{message.message}</p>
+                        <p className={`text-xs mt-2 ${message.is_agent ? 'text-primary-100' : 'text-gray-500'}`}>
+                          {formatDateTime(message.created_at)} • 
+                          {message.is_agent ? ' Admin Response' : ' Customer'}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Reply Form */}
+                <form onSubmit={handleSendMessage} className="mt-6">
+                  <div>
+                    <label htmlFor="message" className="sr-only">
+                      Reply to customer
+                    </label>
+                    <textarea
+                      id="message"
+                      rows={4}
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                      placeholder="Type your response..."
+                    />
+                  </div>
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      type="submit"
+                      disabled={sending || !newMessage.trim()}
+                      className="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:opacity-50"
+                    >
+                      {sending ? 'Sending...' : 'Send Response'}
+                    </button>
+                  </div>
+                </form>
               </div>
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  disabled={sending || !newMessage.trim()}
-                  className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
-                >
-                  {sending ? 'Sending...' : 'Send Response'}
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
