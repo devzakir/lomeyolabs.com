@@ -12,6 +12,7 @@ export default function DashboardLayout({ children }) {
   const menuItems = [
     { id: 'profile', label: 'Profile', icon: '👤', href: '/dashboard' },
     { id: 'orders', label: 'Orders', icon: '📦', href: '/dashboard/orders' },
+    { id: 'tickets', label: 'Support Tickets', icon: '🎫', href: '/dashboard/tickets' },
     { id: 'purchase-history', label: 'Purchase History', icon: '🛍️', href: '/dashboard/purchase-history' },
     { id: 'settings', label: 'Settings', icon: '⚙️', href: '/dashboard/settings' },
   ]
