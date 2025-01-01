@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/lib/supabaseClient'
+import { useAdminAuth } from '@/contexts/AdminAuthContext'
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
@@ -13,35 +14,52 @@ const formatDate = (dateString) => {
 export default function AdminTickets() {
   const [tickets, setTickets] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const router = useRouter()
+  const { admin } = useAdminAuth()
 
   useEffect(() => {
-    fetchTickets()
-  }, [])
+    const checkAndFetchTickets = async () => {
+      if (!admin) return;
 
-  const fetchTickets = async () => {
-    try {
-      const { data, error } = await supabaseClient
-        .from('tickets')
-        .select(`
-          *,
-          ticket_messages (
-            id,
-            message,
-            created_at,
-            is_agent
-          )
-        `)
-        .order('created_at', { ascending: false })
+      try {
+        // First verify admin status
+        const { data: adminCheck, error: adminError } = await supabaseClient
+          .from('admin_users')
+          .select('id')
+          .eq('id', admin.id)
+          .single()
 
-      if (error) throw error
-      setTickets(data || [])
-    } catch (error) {
-      console.error('Error fetching tickets:', error)
-    } finally {
-      setLoading(false)
+        if (adminError || !adminCheck) {
+          console.error('Admin verification failed:', adminError)
+          setError('Admin verification failed')
+          return
+        }
+
+        // Simplified query without relationships
+        const { data, error } = await supabaseClient
+          .from('tickets')
+          .select('*')
+          .order('created_at', { ascending: false })
+
+        if (error) {
+          console.error('Error fetching tickets:', error)
+          setError(error.message)
+          return
+        }
+
+        console.log('Fetched tickets:', data)
+        setTickets(data || [])
+      } catch (err) {
+        console.error('Unexpected error:', err)
+        setError('An unexpected error occurred')
+      } finally {
+        setLoading(false)
+      }
     }
-  }
+
+    checkAndFetchTickets()
+  }, [admin])
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -53,7 +71,28 @@ export default function AdminTickets() {
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className="p-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="p-6">
+        <div className="bg-red-50 text-red-600 p-4 rounded-lg">
+          Error: {error}
+        </div>
+      </div>
+    )
   }
 
   return (
