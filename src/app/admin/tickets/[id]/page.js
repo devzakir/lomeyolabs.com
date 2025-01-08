@@ -13,7 +13,7 @@ const formatDateTime = (dateString) => {
   const ampm = hours >= 12 ? 'PM' : 'AM'
   const formattedHours = hours % 12 || 12
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes
-  
+
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} ${formattedHours}:${formattedMinutes} ${ampm}`
 }
 
@@ -23,6 +23,7 @@ export default function AdminTicketDetail({ params }) {
   const [newStatus, setNewStatus] = useState('')
   const [sending, setSending] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [userEmail, setUserEmail] = useState(null)
   const router = useRouter()
   const { admin } = useAdminAuth()
 
@@ -34,7 +35,7 @@ export default function AdminTicketDetail({ params }) {
 
   const fetchTicket = async () => {
     try {
-      // Fetch ticket details
+      // First get ticket details
       const { data: ticketData, error: ticketError } = await supabaseClient
         .from('tickets')
         .select('*')
@@ -42,6 +43,18 @@ export default function AdminTicketDetail({ params }) {
         .single()
 
       if (ticketError) throw ticketError
+
+      // Get user email from profiles table
+      const { data: profileData, error: profileError } = await supabaseClient
+        .from('profiles')
+        .select('email')
+        .eq('id', ticketData.user_id)
+        .single()
+
+      if (profileError) {
+      } else {        
+        setUserEmail(profileData?.email)
+      }
 
       // Fetch messages separately
       const { data: messagesData, error: messagesError } = await supabaseClient
@@ -55,14 +68,13 @@ export default function AdminTicketDetail({ params }) {
       // Combine the data
       const fullTicket = {
         ...ticketData,
-        ticket_messages: messagesData
+        ticket_messages: messagesData,
+        user_email: profileData?.email // Add user email to ticket object
       }
 
-      console.log('Fetched ticket:', fullTicket)
       setTicket(fullTicket)
       setNewStatus(fullTicket.status)
     } catch (error) {
-      console.error('Error fetching ticket:', error)
     } finally {
       setLoading(false)
     }
@@ -74,18 +86,43 @@ export default function AdminTicketDetail({ params }) {
 
     setSending(true)
     try {
+      // First create the message in database (your existing code)
       const { error: messageError } = await supabaseClient
         .from('ticket_messages')
         .insert([
           {
             ticket_id: ticket.id,
-            user_id: admin.id, // Add the admin's user_id
+            user_id: admin.id,
             message: newMessage,
             is_agent: true
           }
         ])
 
       if (messageError) throw messageError
+
+      // Then send email notification if we have user's email
+      if (userEmail) {
+        try {
+          const response = await fetch('/api/tickets/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ticketId: ticket.id,
+              message: newMessage,
+              userEmail: userEmail
+            }),
+          })
+
+          if (!response.ok) {
+            console.error('Failed to send email notification')
+          }
+        } catch (emailError) {
+          console.error('Error sending email:', emailError)
+          // Continue execution even if email fails
+        }
+      }
 
       setNewMessage('')
       fetchTicket()
@@ -102,7 +139,7 @@ export default function AdminTicketDetail({ params }) {
     try {
       const { error } = await supabaseClient
         .from('tickets')
-        .update({ 
+        .update({
           status,
           updated_at: new Date().toISOString()
         })
@@ -182,7 +219,7 @@ export default function AdminTicketDetail({ params }) {
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">
                   {ticket?.subject}
                 </h2>
-                
+
                 <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div>
                     <dt className="text-sm font-medium text-gray-500">Status</dt>
@@ -224,14 +261,13 @@ export default function AdminTicketDetail({ params }) {
                       key={message.id}
                       className={`flex ${message.is_agent ? 'justify-end' : 'justify-start'}`}
                     >
-                      <div className={`rounded-lg p-4 max-w-[80%] ${
-                        message.is_agent 
-                          ? 'bg-primary-600 text-white' 
+                      <div className={`rounded-lg p-4 max-w-[80%] ${message.is_agent
+                          ? 'bg-primary-600 text-white'
                           : 'bg-white shadow-sm border border-gray-200'
-                      }`}>
+                        }`}>
                         <p className="text-sm">{message.message}</p>
                         <p className={`text-xs mt-2 ${message.is_agent ? 'text-primary-100' : 'text-gray-500'}`}>
-                          {formatDateTime(message.created_at)} • 
+                          {formatDateTime(message.created_at)} •
                           {message.is_agent ? ' Admin Response' : ' Customer'}
                         </p>
                       </div>
