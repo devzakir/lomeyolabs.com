@@ -113,13 +113,16 @@ export default function AdminTicketDetail({ params }) {
               message: newMessage,
               userEmail: userEmail
             }),
-          })
+          });
+
+          const data = await response.json(); // Get the response data
 
           if (!response.ok) {
-            console.error('Failed to send email notification')
+            console.error('Email error details:', data);
+            throw new Error(data.error || 'Failed to send email');
           }
         } catch (emailError) {
-          console.error('Error sending email:', emailError)
+          console.error('Error sending email:', emailError);
           // Continue execution even if email fails
         }
       }
