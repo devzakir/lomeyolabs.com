@@ -1,71 +1,39 @@
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { ServerClient } from 'postmark';
+import nodemailer from 'nodemailer';
 
-// Validate API key format
-function isValidPostmarkAPIKey(key) {
-  // Postmark API keys are typically in UUID format
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  return uuidRegex.test(key);
-}
+// Create Gmail transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
-// Create a client using your Postmark server token
-const postmarkClient = new ServerClient(process.env.POSTMARK_API_KEY || '');
-
-async function testPostmarkConnection() {
+// Test Gmail connection
+async function testGmailConnection() {
   try {
-    // Validate API key format first
-    if (!process.env.POSTMARK_API_KEY) {
-      throw new Error('Postmark API key is missing');
-    }
-
-    if (!isValidPostmarkAPIKey(process.env.POSTMARK_API_KEY)) {
-      throw new Error('Postmark API key format is invalid');
+    // Validate credentials
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+      throw new Error('Gmail credentials are missing');
     }
 
     // Log configuration (safely)
-    console.log('Postmark Configuration:', {
-      apiKeyPresent: true,
-      apiKeyFormat: 'Valid UUID format',
-      fromEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL
+    console.log('Gmail Configuration:', {
+      gmailUser: process.env.GMAIL_USER,
+      credentialsPresent: true
     });
 
-    // Verify sender email
-    if (!process.env.NEXT_PUBLIC_SUPPORT_EMAIL) {
-      throw new Error('Support email is missing');
-    }
-
-    // Try sending a test email
-    const result = await postmarkClient.sendEmail({
-      From: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
-      To: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
-      Subject: 'Test Email',
-      TextBody: 'This is a test email from Postmark',
-      MessageStream: "outbound"
-    });
-
-    console.log('Postmark test successful:', {
-      messageId: result.MessageID,
-      status: 'Sent'
-    });
-
+    // Verify connection
+    await transporter.verify();
+    console.log('Gmail connection successful');
     return true;
   } catch (error) {
-    console.error('Postmark test failed:', {
+    console.error('Gmail test failed:', {
       name: error.name,
-      message: error.message,
-      code: error.code,
-      statusCode: error.statusCode,
-      response: error.response?.body
+      message: error.message
     });
-
-    if (error.code === 10) {
-      throw new Error('Invalid Postmark API key - Please check your Server Token');
-    }
-    if (error.code === 300) {
-      throw new Error('Invalid sender email signature');
-    }
-
     throw error;
   }
 }
@@ -76,8 +44,8 @@ export async function POST(request) {
 
     // Log environment check
     console.log('Environment check:', {
-      hasPostmarkKey: !!process.env.POSTMARK_API_KEY,
-      supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
+      hasGmailUser: !!process.env.GMAIL_USER,
+      hasGmailPassword: !!process.env.GMAIL_APP_PASSWORD,
       nodeEnv: process.env.NODE_ENV
     });
 
@@ -95,8 +63,8 @@ export async function POST(request) {
       throw new Error('Missing required fields');
     }
 
-    // Test Postmark connection
-    await testPostmarkConnection();
+    // Test Gmail connection
+    await testGmailConnection();
 
     const supabase = createRouteHandlerClient({ cookies });
 
@@ -115,12 +83,12 @@ export async function POST(request) {
       throw new Error('Ticket not found');
     }
 
-    // Send email via Postmark
-    const emailResult = await postmarkClient.sendEmail({
-      From: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
-      To: 'hello@adishakti.xyz',
-      Subject: `Re: ${ticket.subject} [Ticket #${ticketId}]`,
-      HtmlBody: `
+    // Send email via Gmail
+    const mailOptions = {
+      from: process.env.GMAIL_USER,
+      to: userEmail,
+      subject: `Re: ${ticket.subject} [Ticket #${ticketId}]`,
+      html: `
         <div>
           <p>${message}</p>
           <hr/>
@@ -128,25 +96,22 @@ export async function POST(request) {
           <p>Ticket ID: ${ticketId}</p>
         </div>
       `,
-      TextBody: `${message}\n\n---\nTo respond to this ticket, simply reply to this email.\nTicket ID: ${ticketId}`,
-      ReplyTo: `ticket.${ticketId}@adishakti.xyz`,
-      MessageStream: "outbound"
-    });
+      text: `${message}\n\n---\nTo respond to this ticket, simply reply to this email.\nTicket ID: ${ticketId}`,
+      replyTo: `ticket.${ticketId}@adishakti.xyz`,
+    };
 
-    console.log('Postmark response:', emailResult);
+    const emailResult = await transporter.sendMail(mailOptions);
+    console.log('Gmail response:', emailResult);
 
     return Response.json({ 
       success: true,
-      messageId: emailResult.MessageID 
+      messageId: emailResult.messageId 
     });
 
   } catch (error) {
     console.error('Final error in email sending:', {
       name: error.name,
       message: error.message,
-      code: error.code,
-      statusCode: error.statusCode,
-      response: error.response?.body,
       stack: error.stack
     });
     
@@ -154,9 +119,6 @@ export async function POST(request) {
       error: error.message || 'Failed to send email',
       details: {
         name: error.name,
-        code: error.code,
-        statusCode: error.statusCode,
-        response: error.response?.body
       }
     }, { 
       status: 500 
