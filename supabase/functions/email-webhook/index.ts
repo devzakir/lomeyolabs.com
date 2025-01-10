@@ -18,15 +18,14 @@ const supabaseClient = createClient(
 )
 
 function extractActualMessage(message: string): string {
-  // Remove any trailing arrows, dashes, and extra spaces
+  // First, remove any trailing arrows, dashes, and extra spaces
   let cleanMessage = message.replace(/>\s*>+\s*$/, '').trim();
   
-  // Try to split by both email patterns
-  const templateSplit = cleanMessage.split(/On .+<hello@templatecookie\.com> wrote:/);
-  const userSplit = cleanMessage.split(/On .+<[^>]+> wrote:/);
+  // Match pattern starting with "On" followed by day and month
+  const onPattern = /\s*On\s+(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*/s;
   
-  // Take the first part (the actual message)
-  cleanMessage = (templateSplit[0] || userSplit[0] || cleanMessage).trim();
+  // Remove everything from "On [day], [month]" to the end
+  cleanMessage = cleanMessage.replace(onPattern, '').trim();
   
   // Remove any remaining ">" characters at the start of lines
   cleanMessage = cleanMessage.replace(/^>\s*/gm, '');
