@@ -97,7 +97,6 @@ export async function POST(request) {
         </div>
       `,
       text: `${message}\n\n---\nTo respond to this ticket, simply reply to this email.\nTicket ID: ${ticketId}`,
-      replyTo: `ticket.${ticketId}@adishakti.xyz`,
     };
 
     const emailResult = await transporter.sendMail(mailOptions);
