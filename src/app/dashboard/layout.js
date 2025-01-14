@@ -59,7 +59,7 @@ export default function DashboardLayout({ children }) {
   return (
     <AuthGuard>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-40">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar Navigation */}
             <motion.div 

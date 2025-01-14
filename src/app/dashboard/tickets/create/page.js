@@ -4,13 +4,27 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { useAuth } from '@/contexts/AuthContext'
+import { motion } from 'framer-motion'
+import { 
+  ArrowLeftIcon,
+  InformationCircleIcon,
+  PaperClipIcon,
+  XMarkIcon
+} from '@heroicons/react/24/outline'
+import Link from 'next/link'
 
 export default function CreateTicketPage() {
-  const [subject, setSubject] = useState('')
-  const [message, setMessage] = useState('')
-  const [priority, setPriority] = useState('normal')
+  const [formData, setFormData] = useState({
+    subject: '',
+    message: '',
+    priority: 'normal',
+    category: '',
+    product: 'JobPilot',
+    purchase_code: ''
+  })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [attachments, setAttachments] = useState([])
   const router = useRouter()
   const { user } = useAuth()
 
@@ -20,125 +34,251 @@ export default function CreateTicketPage() {
     setError(null)
 
     try {
-      // First create the ticket
+      // Create ticket
       const { data: ticket, error: ticketError } = await supabaseClient
         .from('tickets')
-        .insert([
-          {
-            user_id: user.id,
-            subject,
-            status: 'open',
-            priority
-          }
-        ])
+        .insert([{
+          user_id: user.id,
+          subject: formData.subject,
+          status: 'open',
+          priority: formData.priority,
+          category: formData.category,
+          product: formData.product,
+          purchase_code: formData.purchase_code
+        }])
         .select()
         .single()
 
       if (ticketError) throw ticketError
 
-      // Then create the initial message
+      // Create initial message
       const { error: messageError } = await supabaseClient
         .from('ticket_messages')
-        .insert([
-          {
-            ticket_id: ticket.id,
-            user_id: user.id,
-            message,
-            is_agent: false
-          }
-        ])
+        .insert([{
+          ticket_id: ticket.id,
+          user_id: user.id,
+          message: formData.message,
+          is_agent: false
+        }])
 
       if (messageError) throw messageError
 
       router.push('/dashboard/tickets')
     } catch (error) {
-      console.error('Error creating ticket:', error)
+      console.error('Error:', error)
       setError('Failed to create ticket. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files)
+    setAttachments([...attachments, ...files])
+  }
+
+  const removeAttachment = (index) => {
+    setAttachments(attachments.filter((_, i) => i !== index))
+  }
+
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-gray-800">Create New Ticket</h2>
-        <button
-          onClick={() => router.back()}
-          className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800"
-        >
-          ← Back
-        </button>
+    <div className="max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <Link 
+            href="/dashboard/tickets"
+            className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-2"
+          >
+            <ArrowLeftIcon className="w-4 h-4 mr-1" />
+            Back to Tickets
+          </Link>
+          <h1 className="text-2xl font-bold text-gray-900">Create Support Ticket</h1>
+        </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
+      {/* Information Box */}
+      <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-8">
+        <div className="flex gap-3">
+          <InformationCircleIcon className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <h3 className="font-medium text-blue-900">Find solution quicker by following steps below</h3>
+            <ul className="text-sm text-blue-700 space-y-1">
+              <li>• Check our documentation online for the answer to your question.</li>
+              <li>• Support query need to be within Envato item support policy.</li>
+              <li>• You should maintain only one support ticket at a time.</li>
+              <li>• Ticket should provide as much issue details as possible.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Support Hours */}
+      <div className="bg-pink-50 border border-pink-100 rounded-lg p-4 mb-8 text-center">
+        <p className="text-pink-900">
+          We are available from Monday to Friday 9 AM to 5 PM (GMT +6)
+        </p>
+      </div>
+
+      {/* Form */}
+      <div className="bg-white rounded-xl">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
+            <div className="bg-red-50 text-red-800 p-4 rounded-lg text-sm">
               {error}
             </div>
           )}
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Product */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Select Product*
+              </label>
+              <select
+                value={formData.product}
+                onChange={(e) => setFormData({ ...formData, product: e.target.value })}
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                required
+              >
+                <option value="JobPilot">JobPilot</option>
+                <option value="RecruitX">RecruitX</option>
+              </select>
+            </div>
+
+            {/* Purchase Code */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Purchase Code*
+              </label>
+              <input
+                type="text"
+                value={formData.purchase_code}
+                onChange={(e) => setFormData({ ...formData, purchase_code: e.target.value })}
+                className="block w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                placeholder="Envato product purchase code"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Category */}
           <div>
-            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-              Subject
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Category*
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {['Installation Support', 'Product Issue', 'Billing Issue', 'Feature Request', 'General Inquiry'].map((cat) => (
+                <label
+                  key={cat}
+                  className={`flex items-center justify-center px-3 py-2 border rounded-lg cursor-pointer text-sm ${
+                    formData.category === cat
+                      ? 'bg-primary-50 border-primary-200 text-primary-700'
+                      : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="category"
+                    value={cat}
+                    checked={formData.category === cat}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="sr-only"
+                    required
+                  />
+                  {cat}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Subject */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Subject*
             </label>
             <input
               type="text"
-              id="subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-primary-500"
+              value={formData.subject}
+              onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+              className="block w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              placeholder="What is causing you trouble?"
               required
             />
           </div>
 
+          {/* Message */}
           <div>
-            <label htmlFor="priority" className="block text-sm font-medium text-gray-700 mb-1">
-              Priority
-            </label>
-            <select
-              id="priority"
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-primary-500"
-            >
-              <option value="low">Low</option>
-              <option value="normal">Normal</option>
-              <option value="high">High</option>
-              <option value="urgent">Urgent</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-              Message
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Message*
             </label>
             <textarea
-              id="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               rows={6}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-primary-500"
+              className="block w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              placeholder="Add as much information as possible to understand your problem better."
               required
             />
           </div>
 
-          <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg"
-            >
-              Cancel
-            </button>
-            <button
+          {/* Attachments */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-3">
+              Attachments
+            </label>
+            
+            {/* File List */}
+            {attachments.length > 0 && (
+              <div className="mb-3 space-y-2">
+                {attachments.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <PaperClipIcon className="h-4 w-4 text-gray-400" />
+                      <span className="text-sm text-gray-600">{file.name}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeAttachment(index)}
+                      className="text-gray-400 hover:text-gray-500"
+                    >
+                      <XMarkIcon className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Upload Button */}
+            <div className="flex items-center gap-4">
+              <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  multiple
+                  className="hidden"
+                  accept=".png,.jpg,.jpeg,.pdf,.doc,.docx"
+                />
+                <PaperClipIcon className="h-4 w-4" />
+                Attach Files
+              </label>
+              <span className="text-sm text-gray-500">
+                Supported formats: PNG, JPG, PDF, DOC
+              </span>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-end">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50"
             >
-              {loading ? 'Creating...' : 'Create Ticket'}
-            </button>
+              {loading ? 'Creating...' : 'Create Support Ticket'}
+            </motion.button>
           </div>
         </form>
       </div>
