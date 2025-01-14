@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { useAuth } from '@/contexts/AuthContext'
@@ -34,11 +34,7 @@ export default function TicketDetailPage({ params }) {
   const router = useRouter()
   const { user } = useAuth()
 
-  useEffect(() => {
-    fetchTicket()
-  }, [params.id])
-
-  const fetchTicket = async () => {
+  const fetchTicket = useCallback(async () => {
     try {
       const { data, error } = await supabaseClient
         .from('tickets')
@@ -62,7 +58,11 @@ export default function TicketDetailPage({ params }) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.id])
+
+  useEffect(() => {
+    fetchTicket();
+  }, [fetchTicket])
 
   const handleSendMessage = async (e) => {
     e.preventDefault()

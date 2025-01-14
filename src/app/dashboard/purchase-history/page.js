@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabaseClient } from '@/lib/supabaseClient'
 
@@ -9,11 +9,7 @@ export default function PurchaseHistory() {
   const [purchases, setPurchases] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchPurchaseHistory()
-  }, [user])
-
-  const fetchPurchaseHistory = async () => {
+  const fetchPurchaseHistory = useCallback(async () => {
     try {
       if (!user) return
 
@@ -47,7 +43,11 @@ export default function PurchaseHistory() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    fetchPurchaseHistory()
+  }, [fetchPurchaseHistory])
 
   if (loading) {
     return (

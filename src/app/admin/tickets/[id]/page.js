@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { useAdminAuth } from '@/contexts/AdminAuthContext'
@@ -27,13 +27,7 @@ export default function AdminTicketDetail({ params }) {
   const router = useRouter()
   const { admin } = useAdminAuth()
 
-  useEffect(() => {
-    if (admin) {
-      fetchTicket()
-    }
-  }, [admin, params.id])
-
-  const fetchTicket = async () => {
+  const fetchTicket = useCallback(async () => {
     try {
       // First get ticket details
       const { data: ticketData, error: ticketError } = await supabaseClient
@@ -78,7 +72,13 @@ export default function AdminTicketDetail({ params }) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.id])
+
+  useEffect(() => {
+    if (admin) {
+      fetchTicket()
+    }
+  }, [admin, fetchTicket])
 
   const handleSendMessage = async (e) => {
     e.preventDefault()

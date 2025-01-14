@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
@@ -20,13 +20,7 @@ export default function TicketsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const { user } = useAuth()
 
-  useEffect(() => {
-    if (user) {
-      fetchTickets()
-    }
-  }, [user])
-
-  const fetchTickets = async () => {
+  const fetchTickets = useCallback(async () => {
     try {
       const { data, error } = await supabaseClient
         .from('tickets')
@@ -49,7 +43,11 @@ export default function TicketsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user.id])
+
+  useEffect(() => {
+    fetchTickets()
+  }, [fetchTickets])
 
   const getStatusColor = (status) => {
     switch (status) {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { useAdminAuth } from '@/contexts/AdminAuthContext'
@@ -19,11 +19,7 @@ export default function AdminTickets() {
   const router = useRouter()
   const { admin } = useAdminAuth()
 
-  useEffect(() => {
-    if (admin) fetchTickets()
-  }, [admin, filter])
-
-  const fetchTickets = async () => {
+  const fetchTickets = useCallback(async () => {
     try {
       let query = supabaseClient
         .from('tickets')
@@ -42,7 +38,11 @@ export default function AdminTickets() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [filter])
+
+  useEffect(() => {
+    fetchTickets()
+  }, [fetchTickets])
 
   const getStatusColor = (status) => {
     switch (status) {

@@ -20,7 +20,7 @@ export default function AdminLayout({ children }) {
         router.push('/admin/tickets')
       }
     }
-  }, [admin, loading, pathname])
+  }, [admin, loading, pathname, router])
 
   if (loading) {
     return <div>Loading...</div>

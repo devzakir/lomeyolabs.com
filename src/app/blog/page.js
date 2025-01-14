@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Calendar, User } from 'lucide-react';
-import supabaseClient from "../../lib/supabaseClient";
+import { supabaseClient } from "../../lib/supabaseClient";
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
