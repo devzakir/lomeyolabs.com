@@ -186,13 +186,13 @@ export default function TicketDetailPage({ params }) {
       {/* Header Section */}
       <div className="flex items-center justify-between">
         <div>
-          <button
-            onClick={() => router.back()}
+        <button
+          onClick={() => router.back()}
             className="mb-2 text-sm text-gray-500 hover:text-gray-700 inline-flex items-center"
-          >
+        >
             <ArrowLeft className="w-4 h-4 mr-1" />
             Back to Tickets
-          </button>
+        </button>
           <h1 className="text-2xl font-bold text-gray-900">#{params.id}: {ticket.subject}</h1>
         </div>
         <div className="flex items-center gap-2">
@@ -229,8 +229,8 @@ export default function TicketDetailPage({ params }) {
                 {ticket.ticket_messages?.length || 0}
               </p>
             </div>
+            </div>
           </div>
-        </div>
 
         {/* Messages Section */}
         <div className="p-6">
@@ -266,9 +266,9 @@ export default function TicketDetailPage({ params }) {
             <form onSubmit={handleSendMessage} className="space-y-4">
               <div>
                 <textarea
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder="Type your message..."
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type your message..."
                   rows={3}
                   className="w-full rounded-lg border focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
                   required
@@ -288,8 +288,8 @@ export default function TicketDetailPage({ params }) {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  disabled={sending || !newMessage.trim()}
+              type="submit"
+              disabled={sending || !newMessage.trim()}
                   className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50"
                 >
                   <Send className="w-4 h-4 mr-2" />
