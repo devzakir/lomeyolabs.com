@@ -14,7 +14,7 @@ const CompanyStats = dynamic(() => import('@/components/CompanyStats'))
 const AnimatedSection = dynamic(() => import('@/components/animation/AnimatedSection'))
 
 const defaultTestimonials = {
-  title: "Hear from the People Who Trust Lomeyo Labs",
+  title: "Hear from the People Who Trust LomeyoLabs",
   subtitle: "What our customers are saying",
   items: [
     {

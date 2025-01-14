@@ -55,7 +55,7 @@ export default function CompanyStats() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl font-heading font-bold tracking-tight text-dark sm:text-5xl">
-            Lomeyo Labs: Your Trusted Tech Partner
+          LomeyoLabs: Your Trusted Tech Partner
           </h2>
           <p className="mt-6 text-lg leading-8 text-dark/80">
             With a dedicated and skilled team, we&apos;ve developed software products and collaborated with businesses to drive growth through tech-enabled solutions!

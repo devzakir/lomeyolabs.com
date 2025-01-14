@@ -302,7 +302,7 @@ const product = {
     ]
   },
   testimonials: {
-    title: "Hear from the People Who Trust Lomeyo Labs",
+    title: "Hear from the People Who Trust LomeyoLabs",
     subtitle: "What our customers are saying about RecruitX",
     items: [
       {

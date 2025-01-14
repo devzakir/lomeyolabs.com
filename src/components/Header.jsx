@@ -10,8 +10,8 @@ import Image from 'next/image'
 const menuItems = {
   main: [
     { name: 'RecruitX', href: '/products/recruitx' },
-    { name: 'Jobpilot', href: 'https://templatecookie.com/demo/jobpilot-job-portal-script-php-laravel' },
-    // { name: 'Free Templates', href: '/free-templates' },
+    { name: 'Jobpilot', href: '/products/jobpilot' },
+    { name: 'Our Products', href: '/products' },
   ],
   resources: [
     { name: 'Documentation', href: 'https://templatecookie.com/docs' },
@@ -30,9 +30,8 @@ export default function Header() {
         <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <p className="text-sm leading-6 text-white">
-              {/* <strong className="font-semibold">Brand Update in Progress! </strong> */}
- We're transitioning from Templatecookie to Lomeyo Labs, a Lomeyo LLC brand.
-              {/* Templatecookie is now Lomeyo Labs, a Lomeyo LLC brand. Same great products and team! */}
+              We're transitioning from Templatecookie to LomeyoLabs, a Lomeyo LLC brand.
+              {/* Templatecookie is now LomeyoLabs, a Lomeyo LLC brand. Same great products and team! */}
             </p>
           </div>
           <div className="flex flex-1 justify-end">
@@ -54,8 +53,8 @@ export default function Header() {
             <div className="flex items-center">
               <Link href="/" className="group flex items-center transition-all duration-300">
                 <Image
-                  src="/lomeyolabs-light.png"
-                  alt="Lomeyo Labs"
+                  src="/lomeyolabs-light.svg"
+                  alt="LomeyoLabs"
                   width={150}
                   height={40}
                   className="h-8 w-auto transition-transform duration-300 group-hover:scale-105"
@@ -70,7 +69,7 @@ export default function Header() {
                 <Link 
                   key={item.name}
                   href={item.href} 
-                  className="group relative text-sm font-medium text-gray-600 hover:text-primary-600 transition-all duration-300"
+                  className="group relative text-base font-medium text-gray-600 hover:text-primary-600 transition-all duration-300"
                 >
                   {item.name}
                   <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary scale-x-0 transition-transform group-hover:scale-x-100" />
@@ -117,10 +116,10 @@ export default function Header() {
               </Menu> */}
 
               <Link 
-                href="https://templatecookie.com/products" 
-                className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                href="/login" 
+                className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-base font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
               >
-                <span className="relative z-10">Latest Products</span>
+                <span className="relative z-10">Login</span>
               </Link>
             </div>
 

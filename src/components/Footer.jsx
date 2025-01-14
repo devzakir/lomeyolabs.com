@@ -7,23 +7,17 @@ import { useEffect, useState } from 'react'
 
 const navigation = {
   products: [
-    { name: 'All Products', href: '/' },
-    { name: 'Templates', href: '/' },
-    { name: 'Scripts', href: '/' },
-    { name: 'UI Kits', href: '/' },
-  ],
-  resources: [
-    { name: 'Documentation', href: '/' },
-    { name: 'Blog', href: '/' },
-    { name: 'Support', href: '/' },
-    { name: 'Changelog', href: '/' },
+    { name: 'All Products', href: '/products' },
+    { name: 'Figma Templates', href: '/' },
   ],
   company: [
     { name: 'About', href: '/' },
-    { name: 'Careers', href: '/' },
     { name: 'Contact', href: '/' },
-    { name: 'Partners', href: '/' },
-  ]
+  ],
+  resources: [
+    { name: 'Documentation', href: '/' },
+    { name: 'Custommer Support', href: '/' },
+  ],
 }
 
 export default function Footer() {
@@ -54,7 +48,7 @@ export default function Footer() {
           className="mb-20"
         >
           <Link 
-            href="https://codecanyon.net/user/Lomeyo Labs" 
+            href="https://codecanyon.net/user/LomeyoLabs" 
             className="group block max-w-2xl mx-auto relative overflow-hidden rounded-2xl bg-dark-light/30 backdrop-blur-sm border border-primary-400/20 hover:border-primary-400/40 transition-colors"
             target="_blank"
             rel="noopener noreferrer"
@@ -123,7 +117,7 @@ export default function Footer() {
         >
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <p className="text-lg text-white/80">
-              <span className="font-semibold text-white">Lomeyo Labs</span> is proudly crafted by{' '}
+              <span className="font-semibold text-white">LomeyoLabs</span> is proudly crafted by{' '}
               <span className="text-primary-300 font-semibold">Lomeyo, LLC</span>
             </p>
             <p className="text-white/70">

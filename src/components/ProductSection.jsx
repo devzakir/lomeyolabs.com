@@ -96,7 +96,7 @@ export default function ProductSection() {
             Awesome Line of Problem-Solving Products
           </h2>
           <p className="mt-4 text-lg leading-8 text-dark/80">
-            Lomeyo Labs saves you time and resources to build and scale fast!
+            LomeyoLabs saves you time and resources to build and scale fast!
           </p>
         </motion.div>
 
