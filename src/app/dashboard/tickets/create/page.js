@@ -12,6 +12,8 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export default function CreateTicketPage() {
   const [formData, setFormData] = useState({
@@ -212,11 +214,10 @@ export default function CreateTicketPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Message*
             </label>
-            <textarea
+            <ReactQuill
               value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              rows={6}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              onChange={(value) => setFormData({ ...formData, message: value })}
+              className="block w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               placeholder="Add as much information as possible to understand your problem better."
               required
             />

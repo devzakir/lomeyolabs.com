@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
+
 import {
   CheckIcon,
   ShieldCheckIcon,
@@ -14,12 +14,10 @@ import {
   UserGroupIcon,
   UserIcon, 
   BuildingOfficeIcon, 
-  CheckCircleIcon,
   SparklesIcon,
   ClockIcon
 } from '@heroicons/react/24/outline'
 import AnimatedSection from '@/components/animation/AnimatedSection'
-import Screenshots from '@/components/Screenshots'
 import Pricing from '@/components/Pricing'
 import FAQ from '@/components/FAQ'
 import TechnicalSpecs from '@/components/TechnicalSpecs'
@@ -123,7 +121,7 @@ const product = {
         'Let users use platform free of charge'
       ],
       buttonText: 'Purchase Regular License',
-      href: '#'
+      href: 'https://codecanyon.net/item/jobpilot-job-portal-laravel-script/37897822'
     },
     {
       name: 'Extended License',
@@ -139,7 +137,7 @@ const product = {
         'Charge users for services'
       ],
       buttonText: 'Purchase Extended License',
-      href: '#',
+      href: 'https://codecanyon.net/item/jobpilot-job-portal-laravel-script/37897822',
       recommended: true
     }
   ],
@@ -147,7 +145,7 @@ const product = {
     'Technical': [
       {
         question: 'What technology stack is used?',
-        answer: 'Jobpilot is built with Laravel 10, Vue.js 3, and MySQL, following modern development practices and patterns.'
+        answer: 'Jobpilot is built with Laravel 10, jquery 3.2, and MySQL, following modern development practices and patterns.'
       },
       {
         question: 'What development tools are included?',
@@ -425,7 +423,7 @@ export default function JobpilotPage() {
           >
             <div className="aspect-[16/9] relative">
               <Image
-                src="https://templatecookie.com/storage/image/1709116010_65df0a6a0d900.png"
+                src="https://rosjxfydjsfhbpimtuos.supabase.co/storage/v1/object/public/images/premium-products/jobpilot/jobpilot.png?t=2025-01-15T02%3A23%3A14.073Z"
                 alt="Jobpilot Dashboard Preview"
                 fill
                 className="object-cover rounded-xl"
@@ -461,7 +459,7 @@ export default function JobpilotPage() {
                 viewport={{ once: true }}
                 className="text-center p-6 rounded-xl bg-gray-50"
               >
-                <div className="text-4xl font-bold text-primary-600 mb-2">580+</div>
+                <div className="text-4xl font-bold text-primary-600 mb-2">600+</div>
                 <div className="text-gray-600">Happy Customers</div>
               </motion.div>
               
