@@ -11,8 +11,8 @@ const navigation = {
     { name: 'Figma Templates', href: '/' },
   ],
   company: [
-    { name: 'About', href: '/' },
-    { name: 'Contact', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' },
   ],
   resources: [
     { name: 'Documentation', href: 'https://templatecookie.helpcenter.guide' },

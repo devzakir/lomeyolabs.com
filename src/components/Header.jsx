@@ -11,6 +11,7 @@ const menuItems = {
   main: [
     { name: 'RecruitX', href: '/products/recruitx' },
     { name: 'Jobpilot', href: '/products/jobpilot' },
+    { name: 'Adlisting', href: '/products/adlisting' },
     { name: 'Our Products', href: '/products' },
   ],
   resources: [

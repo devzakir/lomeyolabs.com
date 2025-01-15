@@ -96,7 +96,8 @@ const product = {
         'Documentation access'
       ],
       buttonText: 'Purchase Regular License',
-      href: 'https://codecanyon.net/item/adlisting-laravel-classified-ads/34961310'
+      href: 'https://go.templatecookie.com/adlisting-regular'
+      
     },
     {
       name: 'Extended License',
@@ -111,7 +112,7 @@ const product = {
         'Monetize your platform'
       ],
       buttonText: 'Purchase Extended License',
-      href: 'https://codecanyon.net/item/adlisting-laravel-classified-ads/34961310',
+      href: 'https://go.templatecookie.com/adlisting-extended',
       recommended: true
     }
   ],
