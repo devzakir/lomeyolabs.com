@@ -15,8 +15,8 @@ const navigation = {
     { name: 'Contact', href: '/' },
   ],
   resources: [
-    { name: 'Documentation', href: '/' },
-    { name: 'Custommer Support', href: '/' },
+    { name: 'Documentation', href: 'https://templatecookie.helpcenter.guide' },
+    { name: 'Support', href: '/support' },
   ],
 }
 
