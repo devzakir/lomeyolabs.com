@@ -65,10 +65,32 @@ export default function CreateTicketPage() {
 
       if (messageError) throw messageError
 
+      // Handle file uploads
+      const fileUploadPromises = attachments.map(async (file) => {
+        const { data, error } = await supabaseClient
+          .storage
+          .from('ticket-attachments')
+          .upload(`tickets/${ticket.id}/${file.name}`, file)
+
+        if (error) throw error
+
+        // Create attachment record in ticket_messages
+        await supabaseClient
+          .from('ticket_messages')
+          .insert([{
+            ticket_id: ticket.id,
+            user_id: user.id,
+            message: `Attachment: ${file.name}`,
+            is_agent: false
+          }])
+      })
+
+      await Promise.all(fileUploadPromises)
+
       router.push('/dashboard/tickets')
     } catch (error) {
       console.error('Error:', error)
-      setError('Failed to create ticket. Please try again.')
+      setError(`Failed to create ticket: ${error.message || 'Please try again.'}`)
     } finally {
       setLoading(false)
     }
