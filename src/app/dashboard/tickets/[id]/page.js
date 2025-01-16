@@ -5,15 +5,9 @@ import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { useAuth } from '@/contexts/AuthContext'
 import { motion } from 'framer-motion'
-import {
-  ArrowLeft,
-  Clock,
-  MessageCircle,
-  CheckCircle,
-  AlertCircle,
-  Plus,
-  Send
-} from 'lucide-react'
+import { ArrowLeft, Clock, MessageCircle, CheckCircle, AlertCircle, Plus, Send } from 'lucide-react'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const formatDateTime = (dateString) => {
   const date = new Date(dateString)
@@ -31,6 +25,8 @@ export default function TicketDetailPage({ params }) {
   const [newMessage, setNewMessage] = useState('')
   const [sending, setSending] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [attachments, setAttachments] = useState([])
+  const [selectedImageCount, setSelectedImageCount] = useState(0)
   const router = useRouter()
   const { user } = useAuth()
 
@@ -66,24 +62,37 @@ export default function TicketDetailPage({ params }) {
 
   const handleSendMessage = async (e) => {
     e.preventDefault()
-    if (!newMessage.trim()) return
+    if (!newMessage.trim() && attachments.length === 0) return
 
     setSending(true)
     try {
-      const { error } = await supabaseClient
-        .from('ticket_messages')
-        .insert([
-          {
-            ticket_id: ticket.id,
-            user_id: user.id,
-            message: newMessage,
-            is_agent: false
-          }
-        ])
+      const messageData = {
+        ticket_id: ticket.id,
+        user_id: user.id,
+        message: newMessage,
+        is_agent: false,
+      }
 
-      if (error) throw error
+      const { error: messageError } = await supabaseClient
+        .from('ticket_messages')
+        .insert([messageData])
+
+      if (messageError) throw messageError
+
+      if (attachments.length > 0) {
+        const attachmentPromises = attachments.map(async (file) => {
+          const { error: uploadError } = await supabaseClient
+            .from('attachments')
+            .insert([{ file_name: file.name, file_url: file.url }])
+
+          if (uploadError) throw uploadError
+        })
+
+        await Promise.all(attachmentPromises)
+      }
 
       setNewMessage('')
+      setAttachments([])
       fetchTicket()
     } catch (error) {
       console.error('Error:', error)
@@ -103,43 +112,6 @@ export default function TicketDetailPage({ params }) {
       default:
         return <AlertCircle className="w-5 h-5 text-gray-500" />
     }
-  }
-
-  const dummyTicket = {
-    id: 'TIK-001',
-    subject: 'Cannot access account',
-    category: 'Account Access',
-    status: 'in_progress',
-    priority: 'high',
-    created: '2024-12-28',
-    lastUpdate: '2024-12-29',
-    messages: [
-      {
-        id: 1,
-        sender: 'John Doe',
-        role: 'user',
-        content: 'I cannot log into my account. It keeps saying "invalid credentials" even though I\'m sure my password is correct.',
-        timestamp: '2024-12-28 09:30',
-        attachments: [{
-          name: 'error_screenshot.png',
-          url: '/placeholder.jpg'
-        }]
-      },
-      {
-        id: 2,
-        role: 'support',
-        sender: 'Sarah Support',
-        content: 'Hi John, I\'m sorry to hear you\'re having trouble accessing your account. Could you please try clearing your browser cache and cookies? If that doesn\'t work, I can help you reset your password.',
-        timestamp: '2024-12-28 09:45'
-      },
-      {
-        id: 3,
-        sender: 'John Doe',
-        role: 'user',
-        content: 'I tried clearing the cache but still having the same issue.',
-        timestamp: '2024-12-28 10:15'
-      }
-    ]
   }
 
   if (loading) {
@@ -228,15 +200,15 @@ export default function TicketDetailPage({ params }) {
               className={`flex ${message.user_id === user.id ? 'justify-end' : 'justify-start'}`}
             >
               <div className={`max-w-[80%] ${message.role === 'user'
-                  ? 'bg-primary-50 border-primary-100'
-                  : 'bg-gray-50 border-gray-100'
+                ? 'bg-primary-50 border-primary-100'
+                : 'bg-gray-50 border-gray-100'
                 } border rounded-lg p-4`}
               >
                 <div className="flex items-center space-x-2 mb-2">
                   <span className="font-medium">{message.sender}</span>
-                  <span className="text-sm text-gray-500">{message.timestamp}</span>
+                  <span className="text-sm text-gray-500">{formatDateTime(message.created_at)}</span>
                 </div>
-                <p className="text-gray-800 mb-2">{message.message}</p>
+                <span className="text-gray-800 mb-2">{message.message.replace(/<[^>]+>/g, '')}</span>
                 {message.attachments && message.attachments.length > 0 && (
                   <div className="mt-2 space-y-2">
                     {message.attachments.map((attachment, index) => (
@@ -266,29 +238,45 @@ export default function TicketDetailPage({ params }) {
 
       {/* Reply Form */}
       <div className="mt-6 border-t pt-6">
-        <textarea
-          placeholder="Type your reply..."
-          className="w-full p-3 border rounded-lg mb-4"
-          rows={3}
-        />
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <label className="cursor-pointer bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg flex items-center space-x-2">
-              <input type="file" className="hidden" multiple />
-              <Plus className="w-4 h-4" />
-              <span>Attach Files</span>
-            </label>
-            <p className="text-sm text-gray-500">Supported formats: PNG, JPG, PDF</p>
+        <form onSubmit={handleSendMessage}>
+          <ReactQuill
+            value={newMessage}
+            onChange={setNewMessage}
+            placeholder="Type your reply..."
+            className="mb-4"
+            style={{ height: '120px', width: '100%' }}
+          />
+          <div className="flex items-center justify-between mt-16">
+            <div className="flex items-center space-x-4">
+              <label className="cursor-pointer bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg flex items-center space-x-2">
+                <input
+                  type="file"
+                  className="hidden"
+                  multiple
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files);
+                    setAttachments(files);
+                    setSelectedImageCount(files.length);
+                  }}
+                />
+                <Plus className="w-4 h-4" />
+                <span>Attach Files</span>
+              </label>
+              <p className="text-sm text-gray-500">
+                {selectedImageCount > 0 ? `${selectedImageCount} image(s) selected` : 'No images selected'}
+              </p>
+            </div>
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 flex items-center space-x-2"
+            >
+              <Send className="w-4 h-4" />
+              <span>Send Reply</span>
+            </motion.button>
           </div>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 flex items-center space-x-2"
-          >
-            <Send className="w-4 h-4" />
-            <span>Send Reply</span>
-          </motion.button>
-        </div>
+        </form>
       </div>
     </div>
   )
