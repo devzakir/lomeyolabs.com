@@ -3,6 +3,7 @@
 import { Fragment, useState, useEffect } from 'react'
 import { Menu, Transition, Disclosure } from '@headlessui/react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
@@ -26,6 +27,14 @@ const menuItems = {
 export default function Header() {
   const [showBanner, setShowBanner] = useState(true)
   const { user } = useAuth()
+  const pathname = usePathname()
+
+  const isActive = (href) => {
+    if (href === '/') {
+      return pathname === href
+    }
+    return pathname.startsWith(href)
+  }
 
   return (
     <>
@@ -72,10 +81,19 @@ export default function Header() {
                 <Link 
                   key={item.name}
                   href={item.href} 
-                  className="group relative text-base font-medium text-gray-600 hover:text-primary-600 transition-all duration-300"
+                  className={`group relative text-base font-medium transition-all duration-300
+                    ${isActive(item.href) 
+                      ? 'text-primary-600' 
+                      : 'text-gray-600 hover:text-primary-600'
+                    }`}
                 >
                   {item.name}
-                  <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary scale-x-0 transition-transform group-hover:scale-x-100" />
+                  <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-primary transition-transform duration-300
+                    ${isActive(item.href) 
+                      ? 'scale-x-100' 
+                      : 'scale-x-0 group-hover:scale-x-100'
+                    }`} 
+                  />
                 </Link>
               ))}
 
@@ -122,14 +140,22 @@ export default function Header() {
                 {user ? (
                   <Link 
                     href="/dashboard" 
-                    className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-base font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                    className={`bg-gradient-to-r from-primary-600 to-primary-500 
+                      inline-flex items-center justify-center px-6 py-2.5 
+                      text-base font-medium text-white rounded-lg overflow-hidden 
+                      transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5
+                      ${isActive('/dashboard') ? 'ring-2 ring-primary-300' : ''}`}
                   >
                     <span className="relative z-10">Dashboard</span>
                   </Link>
                 ) : (
                   <Link 
                     href="/login" 
-                    className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-base font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                    className={`bg-gradient-to-r from-primary-600 to-primary-500 
+                      inline-flex items-center justify-center px-6 py-2.5 
+                      text-base font-medium text-white rounded-lg overflow-hidden 
+                      transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5
+                      ${isActive('/login') ? 'ring-2 ring-primary-300' : ''}`}
                   >
                     <span className="relative z-10">Login</span>
                   </Link>
@@ -154,6 +180,7 @@ export default function Header() {
                     </div>
 
                     <Transition
+                      show={open}
                       enter="transition duration-200 ease-out"
                       enterFrom="transform scale-95 opacity-0"
                       enterTo="transform scale-100 opacity-100"
@@ -167,7 +194,11 @@ export default function Header() {
                             <div key={item.name}>
                               <Link
                                 href={item.href}
-                                className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
+                                className={`block px-3 py-2 text-base font-medium rounded-lg transition-all duration-300
+                                  ${isActive(item.href)
+                                    ? 'bg-primary-50 text-primary-600'
+                                    : 'text-dark/80 hover:text-primary-600 hover:bg-primary/5'
+                                  }`}
                               >
                                 {item.name}
                               </Link>
