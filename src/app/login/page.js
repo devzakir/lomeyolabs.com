@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
@@ -8,11 +8,10 @@ import { motion } from 'framer-motion'
 import { 
   EnvelopeIcon, 
   LockClosedIcon,
-  ArrowRightIcon,
   ExclamationCircleIcon
 } from '@heroicons/react/24/outline'
 
-function LoginContent() {
+export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -23,12 +22,8 @@ function LoginContent() {
 
   useEffect(() => {
     if (user) {
-      const redirect = searchParams.get('redirect')
-      if (redirect) {
-        router.push(redirect)
-      } else {
-        router.push('/dashboard')
-      }
+      const redirect = searchParams.get('redirect') || '/dashboard'
+      router.push(redirect)
     }
   }, [user, router, searchParams])
 
@@ -40,7 +35,8 @@ function LoginContent() {
     try {
       const result = await login(email, password)
       if (result.success) {
-        router.push('/dashboard')
+        const redirect = searchParams.get('redirect') || '/dashboard'
+        router.push(redirect)
       } else {
         setError(result.error || 'Failed to login')
       }
@@ -175,7 +171,6 @@ function LoginContent() {
                   ) : (
                     <>
                       Sign in
-                      <ArrowRightIcon className="ml-2 -mr-1 h-4 w-4" />
                     </>
                   )}
                 </motion.button>
@@ -185,13 +180,5 @@ function LoginContent() {
         </div>
       </div>
     </div>
-  )
-}
-
-export default function Login() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <LoginContent />
-    </Suspense>
   )
 } 
