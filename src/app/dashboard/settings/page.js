@@ -145,7 +145,7 @@ export default function Settings() {
               <div className="h-10 w-10 rounded-lg bg-primary-50 flex items-center justify-center">
                 <UserIcon className="h-5 w-5 text-primary-600" />
               </div>
-              <div>
+            <div>
                 <h2 className="text-lg font-semibold text-gray-900">Profile Information</h2>
                 <p className="text-sm text-gray-500">Update your account details</p>
               </div>
@@ -154,7 +154,7 @@ export default function Settings() {
 
           <div className="p-6">
             <form onSubmit={handleProfileUpdate} className="space-y-6">
-              {success && (
+          {success && (
                 <motion.div 
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -299,18 +299,18 @@ export default function Settings() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Current Password */}
-                <div>
-                  <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700">
-                    Current Password
-                  </label>
+              <div>
+                <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700">
+                  Current Password
+                </label>
                   <div className="mt-1 relative">
-                    <input
+                <input
                       type={showPassword.current ? 'text' : 'password'}
-                      id="currentPassword"
-                      name="currentPassword"
-                      value={formData.currentPassword}
-                      onChange={handleChange}
-                      required
+                  id="currentPassword"
+                  name="currentPassword"
+                  value={formData.currentPassword}
+                  onChange={handleChange}
+                  required
                       className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
                     <button
@@ -325,21 +325,21 @@ export default function Settings() {
                       )}
                     </button>
                   </div>
-                </div>
+              </div>
 
                 {/* New Password */}
-                <div>
-                  <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">
-                    New Password
-                  </label>
+              <div>
+                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">
+                  New Password
+                </label>
                   <div className="mt-1 relative">
-                    <input
+                <input
                       type={showPassword.new ? 'text' : 'password'}
-                      id="newPassword"
-                      name="newPassword"
-                      value={formData.newPassword}
-                      onChange={handleChange}
-                      required
+                  id="newPassword"
+                  name="newPassword"
+                  value={formData.newPassword}
+                  onChange={handleChange}
+                  required
                       className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
                     <button
@@ -354,24 +354,24 @@ export default function Settings() {
                       )}
                     </button>
                   </div>
-                </div>
+              </div>
 
                 {/* Confirm Password */}
-                <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                    Confirm New Password
-                  </label>
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                  Confirm New Password
+                </label>
                   <div className="mt-1 relative">
-                    <input
+                <input
                       type={showPassword.confirm ? 'text' : 'password'}
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      required
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
                       className="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
-                    <button
+                <button
                       type="button"
                       onClick={() => togglePasswordVisibility('confirm')}
                       className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
@@ -381,7 +381,7 @@ export default function Settings() {
                       ) : (
                         <EyeIcon className="h-5 w-5" />
                       )}
-                    </button>
+                </button>
                   </div>
                 </div>
 
@@ -389,20 +389,20 @@ export default function Settings() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    type="button"
-                    onClick={() => {
-                      setIsChangingPassword(false)
-                      setError(null)
-                      setSuccess(false)
-                      setFormData({
-                        currentPassword: '',
-                        newPassword: '',
-                        confirmPassword: '',
-                      })
-                    }}
+                  type="button"
+                  onClick={() => {
+                    setIsChangingPassword(false)
+                    setError(null)
+                    setSuccess(false)
+                    setFormData({
+                      currentPassword: '',
+                      newPassword: '',
+                      confirmPassword: '',
+                    })
+                  }}
                     className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
-                  >
-                    Cancel
+                >
+                  Cancel
                   </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -413,9 +413,9 @@ export default function Settings() {
                   >
                     {loading ? 'Updating...' : 'Update Password'}
                   </motion.button>
-                </div>
-              </form>
-            )}
+              </div>
+            </form>
+          )}
           </div>
         </div>
       </div>

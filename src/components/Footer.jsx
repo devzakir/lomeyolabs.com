@@ -125,11 +125,11 @@ export default function Footer() {
               <a href="https://templatecookie.com" className="text-primary-300 hover:text-primary-200 transition-colors font-medium">
                 Templatecookie
               </a>{' '}
-              for templates and{' '}
+              for self-hosted software, templates and{' '}
               <a href="https://jugglehire.com" className="text-primary-300 hover:text-primary-200 transition-colors font-medium">
                 JuggleHire
               </a>{' '}
-              for recruitment. Welcome to the Lomeyo community!
+              for hiring operations. Welcome to the Lomeyo community!
             </p>
             <p className="text-sm text-white/60">
               &copy; {currentYear} Lomeyo, LLC. All rights reserved.

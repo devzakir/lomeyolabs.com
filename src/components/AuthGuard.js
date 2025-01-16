@@ -10,7 +10,9 @@ export default function AuthGuard({ children }) {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/login')
+      // Store the intended URL to redirect back after login
+      const currentPath = window.location.pathname
+      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`)
     }
   }, [user, loading, router])
 
@@ -18,10 +20,7 @@ export default function AuthGuard({ children }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-24 mb-4"></div>
-          <div className="h-4 bg-gray-100 rounded w-48"></div>
-        </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
       </div>
     )
   }

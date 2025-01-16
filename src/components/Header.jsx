@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
+import { useAuth } from '@/contexts/AuthContext'
 
 const menuItems = {
   main: [
@@ -24,6 +25,7 @@ const menuItems = {
 
 export default function Header() {
   const [showBanner, setShowBanner] = useState(true)
+  const { user } = useAuth()
 
   return (
     <>
@@ -116,12 +118,23 @@ export default function Header() {
                 </Transition>
               </Menu> */}
 
-              <Link 
-                href="/login" 
-                className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-base font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-              >
-                <span className="relative z-10">Login</span>
-              </Link>
+              <div className="flex items-center gap-4">
+                {user ? (
+                  <Link 
+                    href="/dashboard" 
+                    className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-base font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                  >
+                    <span className="relative z-10">Dashboard</span>
+                  </Link>
+                ) : (
+                  <Link 
+                    href="/login" 
+                    className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-base font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                  >
+                    <span className="relative z-10">Login</span>
+                  </Link>
+                )}
+              </div>
             </div>
 
             {/* Mobile Navigation */}
