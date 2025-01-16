@@ -7,11 +7,9 @@ import { useAuth } from '@/contexts/AuthContext'
 import { 
   KeyIcon, 
   UserIcon, 
-  EnvelopeIcon,
-  BuildingOfficeIcon,
   ShieldCheckIcon,
   EyeIcon,
-  EyeOffIcon
+  EyeSlashIcon
 } from '@heroicons/react/24/outline'
 
 export default function Settings() {
@@ -321,7 +319,7 @@ export default function Settings() {
                       className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
                     >
                       {showPassword.current ? (
-                        <EyeOffIcon className="h-5 w-5" />
+                        <EyeSlashIcon className="h-5 w-5" />
                       ) : (
                         <EyeIcon className="h-5 w-5" />
                       )}
@@ -350,7 +348,7 @@ export default function Settings() {
                       className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
                     >
                       {showPassword.new ? (
-                        <EyeOffIcon className="h-5 w-5" />
+                        <EyeSlashIcon className="h-5 w-5" />
                       ) : (
                         <EyeIcon className="h-5 w-5" />
                       )}
@@ -379,7 +377,7 @@ export default function Settings() {
                       className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
                     >
                       {showPassword.confirm ? (
-                        <EyeOffIcon className="h-5 w-5" />
+                        <EyeSlashIcon className="h-5 w-5" />
                       ) : (
                         <EyeIcon className="h-5 w-5" />
                       )}

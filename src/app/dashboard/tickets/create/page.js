@@ -12,6 +12,8 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export default function CreateTicketPage() {
   const [formData, setFormData] = useState({
@@ -63,10 +65,32 @@ export default function CreateTicketPage() {
 
       if (messageError) throw messageError
 
+      // Handle file uploads
+      const fileUploadPromises = attachments.map(async (file) => {
+        const { data, error } = await supabaseClient
+          .storage
+          .from('ticket-attachments')
+          .upload(`tickets/${ticket.id}/${file.name}`, file)
+
+        if (error) throw error
+
+        // Create attachment record in ticket_messages
+        await supabaseClient
+          .from('ticket_messages')
+          .insert([{
+            ticket_id: ticket.id,
+            user_id: user.id,
+            message: `Attachment: ${file.name}`,
+            is_agent: false
+          }])
+      })
+
+      await Promise.all(fileUploadPromises)
+
       router.push('/dashboard/tickets')
     } catch (error) {
       console.error('Error:', error)
-      setError('Failed to create ticket. Please try again.')
+      setError(`Failed to create ticket: ${error.message || 'Please try again.'}`)
     } finally {
       setLoading(false)
     }
@@ -212,11 +236,10 @@ export default function CreateTicketPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Message*
             </label>
-            <textarea
+            <ReactQuill
               value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              rows={6}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              onChange={(value) => setFormData({ ...formData, message: value })}
+              className="block w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               placeholder="Add as much information as possible to understand your problem better."
               required
             />
