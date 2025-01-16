@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Tab, Dialog } from '@headlessui/react'
 import AnimatedSection from '@/components/animation/AnimatedSection'
@@ -94,8 +94,6 @@ function classNames(...classes) {
 }
 
 export default function ProductDetail({ params }) {
-  // Unwrap params using React.use()
-  const unwrappedParams = use(params)
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -111,8 +109,8 @@ export default function ProductDetail({ params }) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        // Use unwrappedParams.slug instead of params.slug
-        const productId = parseInt(unwrappedParams.slug)
+        // Use params.slug directly instead of unwrappedParams
+        const productId = parseInt(params.slug)
         const foundProduct = products.find(p => p.id === productId)
         setProduct(foundProduct || null)
       } catch (error) {
@@ -123,7 +121,7 @@ export default function ProductDetail({ params }) {
     }
 
     fetchProduct()
-  }, [unwrappedParams.slug])
+  }, [params.slug]) // Update dependency
 
   if (loading) {
     return <div>Loading...</div>
