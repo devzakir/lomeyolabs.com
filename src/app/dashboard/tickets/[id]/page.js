@@ -61,43 +61,67 @@ export default function TicketDetailPage({ params }) {
   }, [fetchTicket])
 
   const handleSendMessage = async (e) => {
-    e.preventDefault()
-    if (!newMessage.trim() && attachments.length === 0) return
+    e.preventDefault();
+    if (!newMessage.trim() && attachments.length === 0) return;
 
-    setSending(true)
+    setSending(true);
     try {
-      const messageData = {
-        ticket_id: ticket.id,
-        user_id: user.id,
-        message: newMessage,
-        is_agent: false,
-      }
+        const attachmentUrls = [];
 
-      const { error: messageError } = await supabaseClient
-        .from('ticket_messages')
-        .insert([messageData])
+        // Upload attachments and get URLs
+        if (attachments.length > 0) {
+            const attachmentPromises = attachments.map(async (file) => {
+                // Check if the file is valid (optional)
+                if (!file || !file.name) {
+                    console.error('Invalid file:', file);
+                    return; // Skip invalid files
+                }
 
-      if (messageError) throw messageError
+                const { data, error: uploadError } = await supabaseClient
+                    .storage
+                    .from('ticket_attachments')
+                    .upload(`ticket_attachments/${file.name}`, file);
 
-      if (attachments.length > 0) {
-        const attachmentPromises = attachments.map(async (file) => {
-          const { error: uploadError } = await supabaseClient
-            .from('attachments')
-            .insert([{ file_name: file.name, file_url: file.url }])
+                if (uploadError) {
+                    console.error('Upload Error:', uploadError);
+                    throw uploadError;
+                }
 
-          if (uploadError) throw uploadError
-        })
+                const { publicURL } = supabaseClient
+                    .storage
+                    .from('ticket_attachments')
+                    .getPublicUrl(`ticket_attachments/${file.name}`);
 
-        await Promise.all(attachmentPromises)
-      }
+                attachmentUrls.push(publicURL);
+            });
 
-      setNewMessage('')
-      setAttachments([])
-      fetchTicket()
+            await Promise.all(attachmentPromises);
+        }
+
+        const messageData = {
+            ticket_id: ticket.id,
+            user_id: user.id,
+            message: newMessage,
+            is_agent: false,
+            attachment_url: attachmentUrls.length > 0 ? attachmentUrls : null,
+        };
+
+        const { error: messageError } = await supabaseClient
+            .from('ticket_messages')
+            .insert([messageData]);
+
+        if (messageError) {
+            console.error('Message Insert Error:', messageError);
+            throw messageError;
+        }
+
+        setNewMessage('');
+        setAttachments([]);
+        fetchTicket();
     } catch (error) {
-      console.error('Error:', error)
+        console.error('Error:', error);
     } finally {
-      setSending(false)
+        setSending(false);
     }
   }
 
