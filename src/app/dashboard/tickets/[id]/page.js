@@ -87,6 +87,15 @@ export default function TicketDetailPage({ params }) {
     fetchTicket();
   }, [fetchTicket])
 
+  useEffect(() => {
+    if (ticket?.ticket_messages) {
+      const messageContainer = document.getElementById('messageContainer');
+      if (messageContainer) {
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+      }
+    }
+  }, [ticket?.ticket_messages]);
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim() && attachments.length === 0) return;
@@ -240,75 +249,85 @@ export default function TicketDetailPage({ params }) {
       {/* Message Thread */}
       <div className="space-y-6">
         <h4 className="font-medium text-gray-900">Conversation History</h4>
-        <div className="space-y-6">
-          {ticket.ticket_messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.user_id === user.id ? 'justify-end' : 'justify-start'}`}
-            >
-              <div className={`max-w-[80%] ${message.role === 'user'
-                ? 'bg-primary-50 border-primary-100'
-                : 'bg-gray-50 border-gray-100'
-                } border rounded-lg p-4`}
+        {/* Container with fixed height, overflow and custom scrollbar */}
+        <div 
+          className="h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400" 
+          id="messageContainer"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: '#D1D5DB transparent',
+          }}
+        >
+          <div className="space-y-6">
+            {ticket.ticket_messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.user_id === user.id ? 'justify-end' : 'justify-start'}`}
               >
-                <div className="flex items-center space-x-2 mb-2">
-                  <span className="font-medium">{message.sender}</span>
-                  <span className="text-sm text-gray-500">{formatDateTime(message.created_at)}</span>
-                </div>
-                <span className="text-gray-800 mb-2">{message.message.replace(/<[^>]+>/g, '')}</span>
-                <div className="mt-2 space-y-2">
-                  {(() => {
-                    const urls = typeof message.attachment_url === "string"
-                      ? JSON.parse(message.attachment_url)
-                      : message.attachment_url;
-                      
-                    return Array.isArray(urls) && urls.length > 0 ? (
-                      urls.map((url, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center space-x-2 border rounded p-2 bg-white"
-                        >
-                          <div className="w-20 h-16 bg-gray-100 rounded flex items-center justify-center">
-                            <img
-                              src={url}
-                              className="w-full h-full object-cover rounded"
-                              alt={`Attachment ${index + 1}`}
-                            />
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-sm text-gray-500 mb-1">
-                              {url.split('/').pop().slice(14)}
-                            </span>
-                            <button 
-                              onClick={() => downloadAttachment(url)}
-                              className="text-primary-600 text-sm hover:underline flex items-center gap-2"
-                            >
-                              <svg 
-                                className="w-4 h-4" 
-                                fill="none" 
-                                stroke="currentColor" 
-                                viewBox="0 0 24 24"
+                <div className={`max-w-[80%] ${message.role === 'user'
+                  ? 'bg-primary-50 border-primary-100'
+                  : 'bg-gray-50 border-gray-100'
+                  } border rounded-lg p-4`}
+                >
+                  <div className="flex items-center space-x-2 mb-2">
+                    <span className="font-medium">{message.sender}</span>
+                    <span className="text-sm text-gray-500">{formatDateTime(message.created_at)}</span>
+                  </div>
+                  <span className="text-gray-800 mb-2">{message.message.replace(/<[^>]+>/g, '')}</span>
+                  <div className="mt-2 space-y-2">
+                    {(() => {
+                      const urls = typeof message.attachment_url === "string"
+                        ? JSON.parse(message.attachment_url)
+                        : message.attachment_url;
+                        
+                      return Array.isArray(urls) && urls.length > 0 ? (
+                        urls.map((url, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center space-x-2 border rounded p-2 bg-white"
+                          >
+                            <div className="w-20 h-16 bg-gray-100 rounded flex items-center justify-center">
+                              <img
+                                src={url}
+                                className="w-full h-full object-cover rounded"
+                                alt={`Attachment ${index + 1}`}
+                              />
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-sm text-gray-500 mb-1">
+                                {url.split('/').pop().slice(14)}
+                              </span>
+                              <button 
+                                onClick={() => downloadAttachment(url)}
+                                className="text-primary-600 text-sm hover:underline flex items-center gap-2"
                               >
-                                <path 
-                                  strokeLinecap="round" 
-                                  strokeLinejoin="round" 
-                                  strokeWidth={2} 
-                                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                />
-                              </svg>
-                              Download
-                            </button>
+                                <svg 
+                                  className="w-4 h-4" 
+                                  fill="none" 
+                                  stroke="currentColor" 
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path 
+                                    strokeLinecap="round" 
+                                    strokeLinejoin="round" 
+                                    strokeWidth={2} 
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                  />
+                                </svg>
+                                Download
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No attachments available</p>
-                    );
-                  })()}
+                        ))
+                      ) : (
+                        null
+                      );
+                    })()}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
