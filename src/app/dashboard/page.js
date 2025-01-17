@@ -116,7 +116,7 @@ export default function Profile() {
       </div>
 
       {/* Debug Information - Only show in development */}
-      {process.env.NODE_ENV === 'development' && (
+      {/* {process.env.NODE_ENV === 'development' && ( */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -130,7 +130,7 @@ export default function Profile() {
             </pre>
           </details>
         </motion.div>
-      )}
+      {/* )} */}
     </div>
   )
 } 

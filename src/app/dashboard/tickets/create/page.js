@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import dynamic from 'next/dynamic'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { useAuth } from '@/contexts/AuthContext'
@@ -12,8 +13,12 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+
+// Dynamically import ReactQuill with SSR disabled
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading editor...</p>
+})
 
 export default function CreateTicketPage() {
   const [formData, setFormData] = useState({
@@ -29,6 +34,13 @@ export default function CreateTicketPage() {
   const [attachments, setAttachments] = useState([])
   const router = useRouter()
   const { user } = useAuth()
+
+  // Add loading state for ReactQuill
+  const [editorLoaded, setEditorLoaded] = useState(false)
+
+  useEffect(() => {
+    setEditorLoaded(true)
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -236,13 +248,16 @@ export default function CreateTicketPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Message*
             </label>
-            <ReactQuill
-              value={formData.message}
-              onChange={(value) => setFormData({ ...formData, message: value })}
-              className="block w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              placeholder="Add as much information as possible to understand your problem better."
-              required
-            />
+            {editorLoaded ? (
+              <ReactQuill
+                value={formData.message}
+                onChange={(value) => setFormData({ ...formData, message: value })}
+                className="block w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                placeholder="Add as much information as possible to understand your problem better."
+              />
+            ) : (
+              <div className="h-32 w-full bg-gray-50 rounded-lg animate-pulse" />
+            )}
           </div>
 
           {/* Attachments */}

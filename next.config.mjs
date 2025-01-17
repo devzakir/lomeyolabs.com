@@ -19,10 +19,17 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'via.placeholder.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'rosjxfydjsfhbpimtuos.supabase.co',
       }
     ],
   },
   output: 'standalone',
+  experimental: {
+    serverActions: true,
+  },
 };
 
 export default nextConfig;
