@@ -187,7 +187,7 @@ export default function AdminTicketDetail({ params }) {
               ticketId: ticket.id,
               message: newMessage,
               userEmail: userEmail,
-              attachments: attachmentUrls // Add attachments to email notification
+              attachments: attachmentUrls 
             }),
           });
 
