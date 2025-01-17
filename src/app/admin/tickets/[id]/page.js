@@ -4,6 +4,10 @@ import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { useAdminAuth } from '@/contexts/AdminAuthContext'
+import { motion } from 'framer-motion'
+import { ArrowLeft, Clock, MessageCircle, CheckCircle, AlertCircle, Plus, Send } from 'lucide-react'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 
 const formatDateTime = (dateString) => {
   const date = new Date(dateString)
@@ -17,6 +21,10 @@ const formatDateTime = (dateString) => {
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} ${formattedHours}:${formattedMinutes} ${ampm}`
 }
 
+const createMarkup = (htmlContent) => {
+  return { __html: htmlContent };
+};
+
 export default function AdminTicketDetail({ params }) {
   const [ticket, setTicket] = useState(null)
   const [newMessage, setNewMessage] = useState('')
@@ -24,6 +32,8 @@ export default function AdminTicketDetail({ params }) {
   const [sending, setSending] = useState(false)
   const [loading, setLoading] = useState(true)
   const [userEmail, setUserEmail] = useState(null)
+  const [attachments, setAttachments] = useState([])
+  const [selectedImageCount, setSelectedImageCount] = useState(0)
   const router = useRouter()
   const { admin } = useAdminAuth()
 
@@ -80,27 +90,83 @@ export default function AdminTicketDetail({ params }) {
     }
   }, [admin, fetchTicket])
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault()
-    if (!newMessage.trim() || !admin) return
-
-    setSending(true)
+  const downloadAttachment = async (url) => {
     try {
-      // First create the message in database (your existing code)
+      const response = await fetch(url);
+      const blob = await response.blob();
+      
+      const filename = url.split('/').pop();
+      
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      window.URL.revokeObjectURL(link.href);
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Failed to download the file. Please try again.');
+    }
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    
+    if (!newMessage.trim() && attachments.length === 0) {
+      alert('Please add a message or attach a file before sending.');
+      return;
+    }
+
+    if (!admin) return;
+
+    setSending(true);
+    try {
+      const attachmentUrls = [];
+
+      // Upload attachments if any
+      if (attachments.length > 0) {
+        const attachmentPromises = attachments.map(async (file) => {
+          if (!file || !file.name) {
+            console.error('Invalid file:', file);
+            return;
+          }
+          const uniqueFileName = `${Date.now()}_${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}${file.name.slice(file.name.lastIndexOf('.'))}`;
+
+          const { data, error: uploadError } = await supabaseClient
+            .storage
+            .from('ticket_attachments')
+            .upload(uniqueFileName, file);
+
+          if (uploadError) {
+            console.error('Upload Error:', uploadError);
+            throw uploadError;
+          }
+
+          attachmentUrls.push('https://rosjxfydjsfhbpimtuos.supabase.co/storage/v1/object/public/ticket_attachments/' + uniqueFileName);
+        });
+
+        await Promise.all(attachmentPromises);
+      }
+
+      // Create message in database
+      const messageData = {
+        ticket_id: ticket.id,
+        user_id: admin.id,
+        message: newMessage,
+        is_agent: true,
+        attachment_url: attachmentUrls.length > 0 ? attachmentUrls : [],
+      };
+
       const { error: messageError } = await supabaseClient
         .from('ticket_messages')
-        .insert([
-          {
-            ticket_id: ticket.id,
-            user_id: admin.id,
-            message: newMessage,
-            is_agent: true
-          }
-        ])
+        .insert([messageData]);
 
-      if (messageError) throw messageError
+      if (messageError) throw messageError;
 
-      // Then send email notification if we have user's email
+      // Send email notification if we have user's email
       if (userEmail) {
         try {
           const response = await fetch('/api/tickets/send-email', {
@@ -111,11 +177,12 @@ export default function AdminTicketDetail({ params }) {
             body: JSON.stringify({
               ticketId: ticket.id,
               message: newMessage,
-              userEmail: userEmail
+              userEmail: userEmail,
+              attachments: attachmentUrls // Add attachments to email notification
             }),
           });
 
-          const data = await response.json(); // Get the response data
+          const data = await response.json();
 
           if (!response.ok) {
             console.error('Email error details:', data);
@@ -127,14 +194,17 @@ export default function AdminTicketDetail({ params }) {
         }
       }
 
-      setNewMessage('')
-      fetchTicket()
+      setNewMessage('');
+      setAttachments([]);
+      setSelectedImageCount(0);
+      fetchTicket();
     } catch (error) {
-      console.error('Error sending message:', error)
+      console.error('Error:', error);
+      alert('Failed to send message. Please try again.');
     } finally {
-      setSending(false)
+      setSending(false);
     }
-  }
+  };
 
   const handleStatusChange = async (status) => {
     if (!admin) return
@@ -176,6 +246,19 @@ export default function AdminTicketDetail({ params }) {
     }
   }
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'open':
+        return <Clock className="w-5 h-5 text-yellow-500" />
+      case 'pending':
+        return <MessageCircle className="w-5 h-5 text-blue-500" />
+      case 'closed':
+        return <CheckCircle className="w-5 h-5 text-green-500" />
+      default:
+        return <AlertCircle className="w-5 h-5 text-gray-500" />
+    }
+  }
+
   if (loading) {
     return (
       <div className="p-6">
@@ -202,110 +285,189 @@ export default function AdminTicketDetail({ params }) {
   }
 
   return (
-    <div className="min-h-full">
-      <div className="py-6">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-semibold text-gray-900">Ticket #{params.id}</h1>
-            <button
-              onClick={() => router.back()}
-              className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="space-y-6">
+        {/* Back Button */}
+        <div className="flex justify-end">
+          <button
+            onClick={() => router.back()}
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Tickets
+          </button>
+        </div>
+
+        {/* Ticket Header */}
+        <div className="flex items-center justify-between mb-6 border-b pb-6">
+          <div className="space-y-1">
+            <h3 className="text-xl font-medium">Subject: {ticket?.subject}</h3>
+            <p className="text-gray-500">Ticket id: #{params.id}</p>
+            <p className="text-gray-500">Category: {ticket?.category}</p>
+          </div>
+          <div className="flex items-center space-x-2">
+            {getStatusIcon(ticket?.status)}
+            <select
+              value={newStatus}
+              onChange={(e) => handleStatusChange(e.target.value)}
+              className="capitalize border-0 bg-transparent focus:ring-0"
             >
-              ← Back to Tickets
-            </button>
+              <option value="open">Open</option>
+              <option value="pending">Pending</option>
+              <option value="closed">Closed</option>
+            </select>
           </div>
+        </div>
 
-          <div className="mt-6 space-y-6">
-            {/* Ticket Information Card */}
-            <div className="overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
-              <div className="px-4 py-5 sm:p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  {ticket?.subject}
-                </h2>
+        {/* Ticket Info Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-4 bg-gray-50 rounded-xl mb-6">
+          <div>
+            <p className="text-gray-500 text-sm">Created</p>
+            <p className="font-medium">{formatDateTime(ticket?.created_at)}</p>
+          </div>
+          <div>
+            <p className="text-gray-500 text-sm">Last Updated</p>
+            <p className="font-medium">{formatDateTime(ticket?.updated_at)}</p>
+          </div>
+          <div>
+            <p className="text-gray-500 text-sm">Priority</p>
+            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPriorityColor(ticket?.priority)}`}>
+              {ticket?.priority}
+            </span>
+          </div>
+          <div>
+            <p className="text-gray-500 text-sm">Customer Email</p>
+            <p className="font-medium">{userEmail || 'N/A'}</p>
+          </div>
+        </div>
 
-                <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">Status</dt>
-                    <dd className="mt-1">
-                      <select
-                        value={newStatus}
-                        onChange={(e) => handleStatusChange(e.target.value)}
-                        className={`mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6`}
-                      >
-                        <option value="open">Open</option>
-                        <option value="pending">Pending</option>
-                        <option value="closed">Closed</option>
-                      </select>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">Created</dt>
-                    <dd className="mt-1 text-sm text-gray-900">
-                      {formatDateTime(ticket?.created_at)}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium text-gray-500">Customer</dt>
-                    <dd className="mt-1 text-sm text-gray-900">
-                      {ticket?.profiles?.email}
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
-
-            {/* Messages Section */}
-            <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
-              <div className="p-4 sm:p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Conversation</h3>
-                <div className="space-y-4 max-h-[600px] overflow-y-auto p-4 bg-gray-50 rounded-lg">
-                  {ticket?.ticket_messages?.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex ${message.is_agent ? 'justify-end' : 'justify-start'}`}
-                    >
-                      <div className={`rounded-lg p-4 max-w-[80%] ${message.is_agent
-                          ? 'bg-primary-600 text-white'
-                          : 'bg-white shadow-sm border border-gray-200'
-                        }`}>
-                        <p className="text-sm">{message.message}</p>
-                        <p className={`text-xs mt-2 ${message.is_agent ? 'text-primary-100' : 'text-gray-500'}`}>
-                          {formatDateTime(message.created_at)} •
-                          {message.is_agent ? ' Admin Response' : ' Customer'}
-                        </p>
-                      </div>
+        {/* Message Thread */}
+        <div>
+          <h4 className="font-medium text-gray-900">Conversation History</h4>
+          <div 
+            className="h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400 border rounded-xl p-4" 
+            id="messageContainer"
+          >
+            <div className="space-y-6">
+              {ticket?.ticket_messages?.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex ${message.is_agent ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className={`max-w-[80%] ${message.is_agent
+                    ? 'bg-primary-50 border-primary-100'
+                    : 'bg-gray-50 border-gray-100'
+                  } border rounded-lg p-4`}
+                  >
+                    <div className="flex items-center space-x-2 mb-2">
+                      <span className="font-medium">
+                        {message.is_agent ? 'Admin' : 'Customer'}
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        {formatDateTime(message.created_at)}
+                      </span>
                     </div>
-                  ))}
-                </div>
-
-                {/* Reply Form */}
-                <form onSubmit={handleSendMessage} className="mt-6">
-                  <div>
-                    <label htmlFor="message" className="sr-only">
-                      Reply to customer
-                    </label>
-                    <textarea
-                      id="message"
-                      rows={4}
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                      placeholder="Type your response..."
+                    <div 
+                      className="text-gray-800 mb-2 message-content" 
+                      dangerouslySetInnerHTML={createMarkup(message.message)}
                     />
+                    <div className="mt-2 space-y-2">
+                      {(() => {
+                        const urls = typeof message.attachment_url === "string"
+                          ? JSON.parse(message.attachment_url)
+                          : message.attachment_url;
+                          
+                        return Array.isArray(urls) && urls.length > 0 ? (
+                          urls.map((url, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center space-x-2 border rounded p-2 bg-white"
+                            >
+                              <div className="w-20 h-16 bg-gray-100 rounded flex items-center justify-center">
+                                <img
+                                  src={url}
+                                  className="w-full h-full object-cover rounded"
+                                  alt={`Attachment ${index + 1}`}
+                                />
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-sm text-gray-500 mb-1">
+                                  {url.split('/').pop().slice(14)}
+                                </span>
+                                <button 
+                                  onClick={() => downloadAttachment(url)}
+                                  className="text-primary-600 text-sm hover:underline flex items-center gap-2"
+                                >
+                                  <svg 
+                                    className="w-4 h-4" 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path 
+                                      strokeLinecap="round" 
+                                      strokeLinejoin="round" 
+                                      strokeWidth={2} 
+                                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                    />
+                                  </svg>
+                                  Download
+                                </button>
+                              </div>
+                            </div>
+                          ))
+                        ) : null;
+                      })()}
+                    </div>
                   </div>
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      type="submit"
-                      disabled={sending || !newMessage.trim()}
-                      className="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:opacity-50"
-                    >
-                      {sending ? 'Sending...' : 'Send Response'}
-                    </button>
-                  </div>
-                </form>
-              </div>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
+
+        {/* Reply Form */}
+        <div className="mt-6">
+          <form onSubmit={handleSendMessage}>
+            <ReactQuill
+              value={newMessage}
+              onChange={setNewMessage}
+              placeholder="Type your reply..."
+              className="mb-4"
+              style={{ height: '120px', width: '100%' }}
+            />
+            <div className="flex items-center justify-between mt-16">
+              <div className="flex items-center space-x-4">
+                <label className="cursor-pointer bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg flex items-center space-x-2">
+                  <input
+                    type="file"
+                    className="hidden"
+                    multiple
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files);
+                      setAttachments(files);
+                      setSelectedImageCount(files.length);
+                    }}
+                  />
+                  <Plus className="w-4 h-4" />
+                  <span>Attach Files</span>
+                </label>
+                <p className="text-sm text-gray-500">
+                  {selectedImageCount > 0 ? `${selectedImageCount} file(s) selected` : 'No files selected'}
+                </p>
+              </div>
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                disabled={sending || (!newMessage.trim() && attachments.length === 0)}
+                className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 flex items-center space-x-2 disabled:opacity-50"
+              >
+                <Send className="w-4 h-4" />
+                <span>{sending ? 'Sending...' : 'Send Reply'}</span>
+              </motion.button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
