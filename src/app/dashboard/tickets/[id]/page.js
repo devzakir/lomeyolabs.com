@@ -102,7 +102,18 @@ export default function TicketDetailPage({ params }) {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!newMessage.trim() && attachments.length === 0) return;
+    
+    // Check if both message is empty and no attachments
+    if (!newMessage.trim() && attachments.length === 0) {
+      alert('Please add a message or attach a file before sending.');
+      return;
+    }
+
+    // Check if there are attachments but no message
+    if (newMessage.trim() === '' && attachments.length === 0) {
+      alert('Please add a message or attach a file before sending.');
+      return;
+    }
 
     setSending(true);
     try {
@@ -153,9 +164,11 @@ export default function TicketDetailPage({ params }) {
 
       setNewMessage('');
       setAttachments([]);
+      setSelectedImageCount(0);
       fetchTicket();
     } catch (error) {
       console.error('Error:', error);
+      alert('Failed to send message. Please try again.');
     } finally {
       setSending(false);
     }
