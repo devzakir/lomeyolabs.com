@@ -20,6 +20,10 @@ const formatDateTime = (dateString) => {
   })
 }
 
+const createMarkup = (htmlContent) => {
+  return { __html: htmlContent };
+};
+
 export default function TicketDetailPage({ params }) {
   const [ticket, setTicket] = useState(null)
   const [newMessage, setNewMessage] = useState('')
@@ -273,7 +277,10 @@ export default function TicketDetailPage({ params }) {
                     <span className="font-medium">{message.sender}</span>
                     <span className="text-sm text-gray-500">{formatDateTime(message.created_at)}</span>
                   </div>
-                  <span className="text-gray-800 mb-2">{message.message.replace(/<[^>]+>/g, '')}</span>
+                  <div 
+                    className="text-gray-800 mb-2 message-content" 
+                    dangerouslySetInnerHTML={createMarkup(message.message)}
+                  />
                   <div className="mt-2 space-y-2">
                     {(() => {
                       const urls = typeof message.attachment_url === "string"
