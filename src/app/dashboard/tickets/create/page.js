@@ -65,39 +65,45 @@ export default function CreateTicketPage() {
 
       if (ticketError) throw ticketError
 
-      // Create initial message
-      const { error: messageError } = await supabaseClient
-        .from('ticket_messages')
-        .insert([{
-          ticket_id: ticket.id,
-          user_id: user.id,
-          message: formData.message,
-          is_agent: false
-        }])
-
-      if (messageError) throw messageError
-
       // Handle file uploads
-      const fileUploadPromises = attachments.map(async (file) => {
-        const { data, error } = await supabaseClient
-          .storage
-          .from('ticket-attachments')
-          .upload(`tickets/${ticket.id}/${file.name}`, file)
+      const attachmentUrls = [];
 
-        if (error) throw error
+      if (attachments.length > 0) {
+        const fileUploadPromises = attachments.map(async (file) => {
+          if (!file || !file.name) {
+            console.error('Invalid file:', file);
+            return;
+          }
 
-        // Create attachment record in ticket_messages
-        await supabaseClient
-          .from('ticket_messages')
-          .insert([{
-            ticket_id: ticket.id,
-            user_id: user.id,
-            message: `Attachment: ${file.name}`,
-            is_agent: false
-          }])
-      })
+          const uniqueFileName = `${Date.now()}_${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}${file.name.slice(file.name.lastIndexOf('.'))}`;
 
-      await Promise.all(fileUploadPromises)
+          const { data, error: uploadError } = await supabaseClient
+            .storage
+            .from('ticket_attachments')
+            .upload(uniqueFileName, file)
+
+          if (uploadError) throw uploadError
+
+          attachmentUrls.push('https://rosjxfydjsfhbpimtuos.supabase.co/storage/v1/object/public/ticket_attachments/' + uniqueFileName);
+        });
+
+        await Promise.all(fileUploadPromises);
+
+        // Create attachment message if files were uploaded
+        if (attachmentUrls.length > 0) {
+          const { error: attachmentError } = await supabaseClient
+            .from('ticket_messages')
+            .insert([{
+              ticket_id: ticket.id,
+              user_id: user.id,
+              message: formData.message,
+              is_agent: false,
+              attachment_url: attachmentUrls.length > 0 ? attachmentUrls : []
+            }])
+
+          if (attachmentError) throw attachmentError
+        }
+      }
 
       router.push('/dashboard/tickets')
     } catch (error) {

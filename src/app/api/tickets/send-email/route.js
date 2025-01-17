@@ -49,7 +49,7 @@ export async function POST(request) {
       nodeEnv: process.env.NODE_ENV
     });
 
-    const { ticketId, message, userEmail } = await request.json();
+    const { ticketId, message, userEmail, attachments } = await request.json();
     
     // Log request data (excluding sensitive info)
     console.log('Request data:', {
@@ -83,20 +83,38 @@ export async function POST(request) {
       throw new Error('Ticket not found');
     }
 
+    // Prepare HTML content with attachments
+    let htmlContent = `
+      <div>
+        <p>${message}</p>
+        ${attachments && attachments.length > 0 ? `
+          <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+            <p style="font-weight: bold;">Attachments:</p>
+            <ul style="list-style: none; padding: 0;">
+              ${attachments.map((url, index) => `
+                <li style="margin: 10px 0;">
+                  <a href="${url}" 
+                     style="color: #0066cc; text-decoration: none; display: inline-flex; align-items: center; padding: 8px 16px; background-color: #f0f0f0; border-radius: 4px;"
+                     target="_blank">
+                    📎 Download Attachment ${index + 1}
+                  </a>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        ` : ''}
+        <hr/>
+        <p>To respond to this ticket, simply reply to this email.</p>
+        <p>Ticket ID: ${ticketId}</p>
+      </div>
+    `;
+
     // Send email via Gmail
     const mailOptions = {
       from: process.env.GMAIL_USER,
       to: userEmail,
       subject: `Re: ${ticket.subject} [Ticket #${ticketId}]`,
-      html: `
-        <div>
-          <p>${message}</p>
-          <hr/>
-          <p>To respond to this ticket, simply reply to this email.</p>
-          <p>Ticket ID: ${ticketId}</p>
-        </div>
-      `,
-      text: `${message}\n\n---\nTo respond to this ticket, simply reply to this email.\nTicket ID: ${ticketId}`,
+      html: htmlContent,
     };
 
     const emailResult = await transporter.sendMail(mailOptions);
