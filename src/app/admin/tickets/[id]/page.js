@@ -90,6 +90,15 @@ export default function AdminTicketDetail({ params }) {
     }
   }, [admin, fetchTicket])
 
+  useEffect(() => {
+    if (ticket?.ticket_messages) {
+      const messageContainer = document.getElementById('messageContainer');
+      if (messageContainer) {
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+      }
+    }
+  }, [ticket?.ticket_messages]);
+
   const downloadAttachment = async (url) => {
     try {
       const response = await fetch(url);
