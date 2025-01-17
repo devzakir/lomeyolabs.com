@@ -210,7 +210,7 @@ export default function TicketDetailPage({ params }) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       {/* Ticket Header */}
       <div className="flex items-center justify-between mb-6 border-b pb-6">
         <div className="space-y-1">
@@ -247,11 +247,11 @@ export default function TicketDetailPage({ params }) {
       </div>
 
       {/* Message Thread */}
-      <div className="space-y-6">
+      <div>
         <h4 className="font-medium text-gray-900">Conversation History</h4>
         {/* Container with fixed height, overflow and custom scrollbar */}
         <div 
-          className="h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400" 
+          className="h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400 border rounded-xl p-4" 
           id="messageContainer"
           style={{
             scrollbarWidth: 'thin',
@@ -332,7 +332,7 @@ export default function TicketDetailPage({ params }) {
       </div>
 
       {/* Reply Form */}
-      <div className="mt-6 border-t pt-6">
+      <div className="mt-6">
         <form onSubmit={handleSendMessage}>
           <ReactQuill
             value={newMessage}
