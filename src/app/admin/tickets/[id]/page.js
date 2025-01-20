@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { useAdminAuth } from '@/contexts/AdminAuthContext'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Clock, MessageCircle, CheckCircle, AlertCircle, Plus, Send } from 'lucide-react'
+import { ArrowLeft, Clock, MessageCircle, CheckCircle, AlertCircle, Plus, Send, Download } from 'lucide-react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
@@ -101,23 +101,27 @@ export default function AdminTicketDetail({ params }) {
 
   const downloadAttachment = async (url) => {
     try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      
-      const filename = url.split('/').pop();
-      
+      // Create a temporary anchor element
       const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
+      
+      // Set link properties
+      link.href = url;
+      link.target = '_blank'; // Open in new tab if direct download fails
+      link.rel = 'noopener noreferrer'; // Security best practice
+      
+      // Try to set download attribute with filename from URL
+      const filename = url.split('/').pop().slice(14); // Remove timestamp prefix
       link.download = filename;
       
+      // Append to body, click, and remove
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
-      window.URL.revokeObjectURL(link.href);
+
     } catch (error) {
       console.error('Download failed:', error);
-      alert('Failed to download the file. Please try again.');
+      // Fallback - open in new tab
+      window.open(url, '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -403,23 +407,9 @@ export default function AdminTicketDetail({ params }) {
                                 <span className="text-sm text-gray-500 mb-1">
                                   {url.split('/').pop().slice(14)}
                                 </span>
-                                <button 
-                                  onClick={() => downloadAttachment(url)}
-                                  className="text-primary-600 text-sm hover:underline flex items-center gap-2"
-                                >
-                                  <svg 
-                                    className="w-4 h-4" 
-                                    fill="none" 
-                                    stroke="currentColor" 
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path 
-                                      strokeLinecap="round" 
-                                      strokeLinejoin="round" 
-                                      strokeWidth={2} 
-                                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                    />
-                                  </svg>
+                                <button onClick={() => downloadAttachment(url)}
+                                  className="text-primary-600 text-sm hover:underline flex items-center gap-2">
+                                  <Download className="w-4 h-4" />
                                   Download
                                 </button>
                               </div>
