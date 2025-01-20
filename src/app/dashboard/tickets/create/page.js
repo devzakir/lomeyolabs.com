@@ -12,8 +12,14 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import ReactQuill from 'react-quill';
+import dynamic from 'next/dynamic'
 import 'react-quill/dist/quill.snow.css';
+
+// Add dynamic import for ReactQuill with ssr disabled
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading editor...</p>,
+});
 
 export default function CreateTicketPage() {
   const [formData, setFormData] = useState({
