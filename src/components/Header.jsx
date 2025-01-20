@@ -34,12 +34,12 @@ export default function Header() {
       return [
         { name: 'Dashboard', href: '/dashboard' },
         { name: 'Create Support Ticket', href: '/dashboard/tickets/create' },
-        { name: 'Documentation', href: '/docs' },
+        { name: 'Documentation', href: 'https://templatecookie.com/docs' },
       ]
     }
     return [
-      { name: 'Login', href: '/login' },
-      { name: 'Documentation', href: '/docs' },
+      { name: 'Login', href: '/auth/login' },
+      { name: 'Documentation', href: 'https://templatecookie.com/docs' },
     ]
   }
 
@@ -52,22 +52,22 @@ export default function Header() {
 
   return (
     <>
+      {/* Top Banner */}
       <div className="relative isolate bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-2.5 sm:px-3.5">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
             {/* Banner Text - Left Side */}
-            <div className="flex-shrink-0">
+            <div className="md:flex-shrink-0">
               <p className="text-sm leading-6 text-white">
                 We're transitioning from Templatecookie to LomeyoLabs, a Lomeyo LLC brand.
                 {/* Templatecookie is now LomeyoLabs, a Lomeyo LLC brand. Same great products and team! */}
               </p>
             </div>
 
-            {/* Quick Links - Right Side */}
-            <div className="flex items-center gap-4">
+            {/* Quick Links - Desktop Only */}
+            <div className="hidden sm:flex items-center gap-4">
               <nav className="flex items-center gap-x-4">
-                {/* Desktop Quick Links */}
-                <div className="hidden sm:flex items-center gap-4 border-l border-white/30 pl-4">
+                <div className="flex items-center gap-4 border-l border-white/30 pl-4">
                   {getQuickLinks().map((link) => (
                     <Link
                       key={link.name}
@@ -78,25 +78,17 @@ export default function Header() {
                     </Link>
                   ))}
                 </div>
-
-                {/* Mobile Quick Links - Single Button */}
-                <div className="sm:hidden">
-                  <Link
-                    href={user ? '/dashboard' : '/auth/login'}
-                    className="text-xs font-medium text-white hover:text-white/80 transition-colors duration-300"
-                  >
-                    {user ? 'Dashboard' : 'Login'}
-                  </Link>
-                </div>
               </nav>
             </div>
           </div>
         </div>
       </div>
 
-      <header className="z-50 w-full bg-white backdrop-blur-xl border-b border-gray-200 shadow-sm">
+      {/* Main Header */}
+      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-sm">
         <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
           <div className="flex w-full items-center justify-between py-5">
+            {/* Logo */}
             <div className="flex items-center">
               <Link href="/" className="group flex items-center transition-all duration-300">
                 <Image
@@ -172,29 +164,16 @@ export default function Header() {
               </Menu> */}
 
               <div className="flex items-center gap-4">
-                {user ? (
                   <Link 
-                    href="/dashboard" 
+                    href="/products" 
                     className={`bg-gradient-to-r from-primary-600 to-primary-500 
                       inline-flex items-center justify-center px-6 py-2.5 
                       text-base font-medium text-white rounded-lg overflow-hidden 
                       transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5
-                      ${isActive('/dashboard') ? 'ring-2 ring-primary-300' : ''}`}
+                      ${isActive('/products') ? 'ring-2 ring-primary-300' : ''}`}
                   >
-                    <span className="relative z-10">Dashboard</span>
+                    <span className="relative z-10">Our Products</span>
                   </Link>
-                ) : (
-                  <Link 
-                    href="/auth/login" 
-                    className={`bg-gradient-to-r from-primary-600 to-primary-500 
-                      inline-flex items-center justify-center px-6 py-2.5 
-                      text-base font-medium text-white rounded-lg overflow-hidden 
-                      transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5
-                      ${isActive('/auth/login') ? 'ring-2 ring-primary-300' : ''}`}
-                  >
-                    <span className="relative z-10">Login</span>
-                  </Link>
-                )}
               </div>
             </div>
 
@@ -217,14 +196,34 @@ export default function Header() {
                     <Transition
                       show={open}
                       enter="transition duration-200 ease-out"
-                      enterFrom="transform scale-95 opacity-0"
-                      enterTo="transform scale-100 opacity-100"
+                      enterFrom="opacity-0 scale-95"
+                      enterTo="opacity-100 scale-100"
                       leave="transition duration-100 ease-in"
-                      leaveFrom="transform scale-100 opacity-100"
-                      leaveTo="transform scale-95 opacity-0"
+                      leaveFrom="opacity-100 scale-100"
+                      leaveTo="opacity-0 scale-95"
                     >
-                      <Disclosure.Panel className="absolute left-0 right-0 top-full bg-white shadow-lg border-t border-neutral-100/50 p-4">
+                      <Disclosure.Panel className="absolute left-0 right-0 top-full z-50 bg-white shadow-lg border-t border-neutral-100/50 p-4">
                         <div className="space-y-4">
+                          {/* Quick Links for Mobile */}
+                          {getQuickLinks().map((link) => (
+                            <div key={link.name}>
+                              <Link
+                                href={link.href}
+                                className={`block px-3 py-2 text-base font-medium rounded-lg transition-all duration-300
+                                  ${isActive(link.href)
+                                    ? 'bg-primary-50 text-primary-600'
+                                    : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                                  }`}
+                              >
+                                {link.name}
+                              </Link>
+                            </div>
+                          ))}
+
+                          {/* Divider */}
+                          <div className="border-t border-gray-200 my-4"></div>
+
+                          {/* Main Menu Items */}
                           {menuItems.main.map((item) => (
                             <div key={item.name}>
                               <Link
@@ -232,7 +231,7 @@ export default function Header() {
                                 className={`block px-3 py-2 text-base font-medium rounded-lg transition-all duration-300
                                   ${isActive(item.href)
                                     ? 'bg-primary-50 text-primary-600'
-                                    : 'text-dark/80 hover:text-primary-600 hover:bg-primary/5'
+                                    : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
                                   }`}
                               >
                                 {item.name}
@@ -240,30 +239,15 @@ export default function Header() {
                             </div>
                           ))}
 
-                          <Disclosure as="div">
-                            {({ open }) => (
-                              <div>
-                                <Disclosure.Button className="flex w-full items-center justify-between px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5">
-                                  <span>Resources</span>
-                                  <ChevronDownIcon
-                                    className={`${open ? 'rotate-180' : ''} h-5 w-5 transition-transform duration-300`}
-                                  />
-                                </Disclosure.Button>
-                                <Disclosure.Panel className="mt-2 space-y-2 pl-6">
-                                  {menuItems.resources.map((item) => (
-                                    <div key={item.name}>
-                                      <Link
-                                        href={item.href}
-                                        className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
-                                      >
-                                        {item.name}
-                                      </Link>
-                                    </div>
-                                  ))}
-                                </Disclosure.Panel>
-                              </div>
-                            )}
-                          </Disclosure>
+                          {/* Primary Action Button for Mobile */}
+                          <div className="pt-2">
+                            <Link
+                              href="/products"
+                              className="block w-full text-center px-4 py-3 text-base font-medium text-white bg-gradient-to-r from-primary-600 to-primary-500 rounded-lg transition-all duration-300 hover:shadow-lg"
+                            >
+                              Our Products
+                            </Link>
+                          </div>
                         </div>
                       </Disclosure.Panel>
                     </Transition>

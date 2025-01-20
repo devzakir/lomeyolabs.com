@@ -53,27 +53,39 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div className="p-8">
-              <div className="flex items-center gap-6">
+            <div className="p-4 sm:p-6 md:p-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+                {/* Trophy Icon */}
                 <div className="relative shrink-0">
-                  <TrophyIcon className="h-12 w-12 text-primary-300" />
+                  <TrophyIcon className="h-10 w-10 sm:h-12 sm:w-12 text-primary-300" />
                   <div className="absolute inset-0 animate-ping-slow opacity-50">
-                    <TrophyIcon className="h-12 w-12 text-primary-300" />
+                    <TrophyIcon className="h-10 w-10 sm:h-12 sm:w-12 text-primary-300" />
                   </div>
                 </div>
-                <div>
-                  <p className="text-xl font-semibold text-white mb-2">Level 6 Author on CodeCanyon</p>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <span className="text-lg">4.5</span>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-lg sm:text-xl font-semibold text-white mb-2 line-clamp-1">
+                    Level 6 Author on CodeCanyon
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-white/80">
+                    <span className="text-base sm:text-lg">4.5</span>
                     <div className="flex gap-0.5">
                       {[...Array(5)].map((_, i) => (
-                        <StarIcon key={i} className={`h-5 w-5 ${i < 4 ? 'text-primary-300' : 'text-white/30'}`} />
+                        <StarIcon 
+                          key={i} 
+                          className={`h-4 w-4 sm:h-5 sm:w-5 ${
+                            i < 4 ? 'text-primary-300' : 'text-white/30'
+                          }`} 
+                        />
                       ))}
                     </div>
-                    <span>(110+ reviews)</span>
+                    <span className="text-sm sm:text-base">(110+ reviews)</span>
                   </div>
                 </div>
-                <ArrowUpRightIcon className="h-6 w-6 text-primary-300/50 group-hover:text-primary-300 transition-colors ml-auto" />
+
+                {/* Arrow Icon */}
+                <ArrowUpRightIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-300/50 group-hover:text-primary-300 transition-colors ml-auto" />
               </div>
             </div>
           </Link>
