@@ -56,7 +56,7 @@ export default function AdminTicketDetail({ params }) {
         .single()
 
       if (profileError) {
-      } else {        
+      } else {
         setUserEmail(profileData?.email)
       }
 
@@ -103,16 +103,16 @@ export default function AdminTicketDetail({ params }) {
     try {
       // Create a temporary anchor element
       const link = document.createElement('a');
-      
+
       // Set link properties
       link.href = url;
       link.target = '_blank'; // Open in new tab if direct download fails
       link.rel = 'noopener noreferrer'; // Security best practice
-      
+
       // Try to set download attribute with filename from URL
       const filename = url.split('/').pop().slice(14); // Remove timestamp prefix
       link.download = filename;
-      
+
       // Append to body, click, and remove
       document.body.appendChild(link);
       link.click();
@@ -127,7 +127,7 @@ export default function AdminTicketDetail({ params }) {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    
+
     if (!newMessage.trim() && attachments.length === 0) {
       alert('Please add a message or attach a file before sending.');
       return;
@@ -191,7 +191,7 @@ export default function AdminTicketDetail({ params }) {
               ticketId: ticket.id,
               message: newMessage,
               userEmail: userEmail,
-              attachments: attachmentUrls 
+              attachments: attachmentUrls
             }),
           });
 
@@ -357,8 +357,8 @@ export default function AdminTicketDetail({ params }) {
         {/* Message Thread */}
         <div>
           <h4 className="font-medium text-gray-900">Conversation History</h4>
-          <div 
-            className="h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400 border rounded-xl p-4" 
+          <div
+            className="h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400 border rounded-xl p-4"
             id="messageContainer"
           >
             <div className="space-y-6">
@@ -370,7 +370,7 @@ export default function AdminTicketDetail({ params }) {
                   <div className={`max-w-[80%] ${message.is_agent
                     ? 'bg-primary-50 border-primary-100'
                     : 'bg-gray-50 border-gray-100'
-                  } border rounded-lg p-4`}
+                    } border rounded-lg p-4`}
                   >
                     <div className="flex items-center space-x-2 mb-2">
                       <span className="font-medium">
@@ -380,8 +380,8 @@ export default function AdminTicketDetail({ params }) {
                         {formatDateTime(message.created_at)}
                       </span>
                     </div>
-                    <div 
-                      className="text-gray-800 mb-2 message-content" 
+                    <div
+                      className="text-gray-800 mb-2 message-content"
                       dangerouslySetInnerHTML={createMarkup(message.message)}
                     />
                     <div className="mt-2 space-y-2">
@@ -389,7 +389,7 @@ export default function AdminTicketDetail({ params }) {
                         const urls = typeof message.attachment_url === "string"
                           ? JSON.parse(message.attachment_url)
                           : message.attachment_url;
-                          
+
                         return Array.isArray(urls) && urls.length > 0 ? (
                           urls.map((url, index) => (
                             <div

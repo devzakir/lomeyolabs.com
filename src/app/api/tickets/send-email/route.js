@@ -19,15 +19,8 @@ async function testGmailConnection() {
       throw new Error('Gmail credentials are missing');
     }
 
-    // Log configuration (safely)
-    console.log('Gmail Configuration:', {
-      gmailUser: process.env.GMAIL_USER,
-      credentialsPresent: true
-    });
-
     // Verify connection
     await transporter.verify();
-    console.log('Gmail connection successful');
     return true;
   } catch (error) {
     console.error('Gmail test failed:', {
@@ -40,24 +33,8 @@ async function testGmailConnection() {
 
 export async function POST(request) {
   try {
-    console.log('Starting email send process...');
-
-    // Log environment check
-    console.log('Environment check:', {
-      hasGmailUser: !!process.env.GMAIL_USER,
-      hasGmailPassword: !!process.env.GMAIL_APP_PASSWORD,
-      nodeEnv: process.env.NODE_ENV
-    });
-
     const { ticketId, message, userEmail, attachments } = await request.json();
     
-    // Log request data (excluding sensitive info)
-    console.log('Request data:', {
-      hasTicketId: !!ticketId,
-      hasMessage: !!message,
-      userEmail: userEmail ? '****' + userEmail.slice(-10) : null
-    });
-
     // Validate inputs
     if (!ticketId || !message || !userEmail) {
       throw new Error('Missing required fields');
@@ -118,7 +95,6 @@ export async function POST(request) {
     };
 
     const emailResult = await transporter.sendMail(mailOptions);
-    console.log('Gmail response:', emailResult);
 
     return Response.json({ 
       success: true,
