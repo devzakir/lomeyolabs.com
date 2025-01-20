@@ -14,7 +14,7 @@ const menuItems = {
     { name: 'RecruitX', href: '/products/recruitx' },
     { name: 'Jobpilot', href: '/products/jobpilot' },
     { name: 'Adlisting', href: '/products/adlisting' },
-    { name: 'Our Products', href: '/products' },
+    { name: 'Schooling', href: '/products/schooling' },
   ],
   resources: [
     { name: 'Documentation', href: 'https://templatecookie.com/docs' },
@@ -25,9 +25,23 @@ const menuItems = {
 }
 
 export default function Header() {
-  const [showBanner, setShowBanner] = useState(true)
   const { user } = useAuth()
   const pathname = usePathname()
+
+  // Update quick links to be conditional based on auth state
+  const getQuickLinks = () => {
+    if (user) {
+      return [
+        { name: 'Dashboard', href: '/dashboard' },
+        { name: 'Create Support Ticket', href: '/dashboard/tickets/create' },
+        { name: 'Documentation', href: '/docs' },
+      ]
+    }
+    return [
+      { name: 'Login', href: '/login' },
+      { name: 'Documentation', href: '/docs' },
+    ]
+  }
 
   const isActive = (href) => {
     if (href === '/') {
@@ -38,26 +52,47 @@ export default function Header() {
 
   return (
     <>
-      {showBanner && (
-        <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <p className="text-sm leading-6 text-white">
-              We're transitioning from Templatecookie to LomeyoLabs, a Lomeyo LLC brand.
-              {/* Templatecookie is now LomeyoLabs, a Lomeyo LLC brand. Same great products and team! */}
-            </p>
-          </div>
-          <div className="flex flex-1 justify-end">
-            <button
-              type="button"
-              className="-m-3 p-3 focus-visible:outline-offset-[-4px] text-white hover:opacity-80 transition-opacity duration-300"
-              onClick={() => setShowBanner(false)}
-            >
-              <span className="sr-only">Dismiss</span>
-              <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-            </button>
+      <div className="relative isolate bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-2.5 sm:px-3.5">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+            {/* Banner Text - Left Side */}
+            <div className="flex-shrink-0">
+              <p className="text-sm leading-6 text-white">
+                We're transitioning from Templatecookie to LomeyoLabs, a Lomeyo LLC brand.
+                {/* Templatecookie is now LomeyoLabs, a Lomeyo LLC brand. Same great products and team! */}
+              </p>
+            </div>
+
+            {/* Quick Links - Right Side */}
+            <div className="flex items-center gap-4">
+              <nav className="flex items-center gap-x-4">
+                {/* Desktop Quick Links */}
+                <div className="hidden sm:flex items-center gap-4 border-l border-white/30 pl-4">
+                  {getQuickLinks().map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="text-xs font-medium text-white hover:text-white/80 transition-colors duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Mobile Quick Links - Single Button */}
+                <div className="sm:hidden">
+                  <Link
+                    href={user ? '/dashboard' : '/login'}
+                    className="text-xs font-medium text-white hover:text-white/80 transition-colors duration-300"
+                  >
+                    {user ? 'Dashboard' : 'Login'}
+                  </Link>
+                </div>
+              </nav>
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
       <header className="z-50 w-full bg-white backdrop-blur-xl border-b border-gray-200 shadow-sm">
         <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">

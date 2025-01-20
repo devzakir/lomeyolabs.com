@@ -299,11 +299,11 @@ const product = {
       {
         title: 'Enterprise Features',
         features: [
-          'Advanced ATS',
-          'Custom workflows',
+          'Candidate pipeline',
+          'Payment gateway integration',
           'Team collaboration',
-          'Comprehensive reporting',
-          'Email automation',
+          'Dashboard reporting',
+          'Integrate SMTP email service',
           'Location-based jobs'
         ]
       }
@@ -800,9 +800,9 @@ export default function JobpilotPage() {
               {/* Trust Metrics */}
               <div className="flex justify-center gap-8 mb-12">
                 {[
-                  { number: '500+', label: 'Happy Customers' },
-                  { number: '4.8/5', label: 'Customer Rating' },
-                  { number: '24/7', label: 'Support' }
+                  { number: '600+', label: 'Happy Customers' },
+                  { number: '4.4/5', label: 'Customer Rating' },
+                  { number: '9-5 GMT+6', label: 'Customer Support Hours' }
                 ].map((metric, index) => (
                   <motion.div
                     key={index}
