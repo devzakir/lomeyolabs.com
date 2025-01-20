@@ -12,7 +12,7 @@ export default function AuthGuard({ children }) {
     if (!loading && !user) {
       // Store the intended URL to redirect back after login
       const currentPath = window.location.pathname
-      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`)
+      router.push(`/auth/login?redirect=${encodeURIComponent(currentPath)}`)
     }
   }, [user, loading, router])
 

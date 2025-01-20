@@ -82,7 +82,7 @@ export default function Header() {
                 {/* Mobile Quick Links - Single Button */}
                 <div className="sm:hidden">
                   <Link
-                    href={user ? '/dashboard' : '/login'}
+                    href={user ? '/dashboard' : '/auth/login'}
                     className="text-xs font-medium text-white hover:text-white/80 transition-colors duration-300"
                   >
                     {user ? 'Dashboard' : 'Login'}
@@ -185,12 +185,12 @@ export default function Header() {
                   </Link>
                 ) : (
                   <Link 
-                    href="/login" 
+                    href="/auth/login" 
                     className={`bg-gradient-to-r from-primary-600 to-primary-500 
                       inline-flex items-center justify-center px-6 py-2.5 
                       text-base font-medium text-white rounded-lg overflow-hidden 
                       transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5
-                      ${isActive('/login') ? 'ring-2 ring-primary-300' : ''}`}
+                      ${isActive('/auth/login') ? 'ring-2 ring-primary-300' : ''}`}
                   >
                     <span className="relative z-10">Login</span>
                   </Link>

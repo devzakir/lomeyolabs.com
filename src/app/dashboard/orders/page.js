@@ -23,7 +23,7 @@ export default function Orders() {
         const { data: { session }, error: authError } = await supabaseClient.auth.getSession()
 
         if (authError || !session) {
-          router.push('/login')
+          router.push('/auth/login')
           return
         }
 

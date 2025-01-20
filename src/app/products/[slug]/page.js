@@ -70,7 +70,7 @@ export default function ProductDetail({ params }) {
   const handlePurchase = async () => {
     if (!user) {
       const currentPath = `/products/${productId}`
-      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`)
+      router.push(`/auth/login?redirect=${encodeURIComponent(currentPath)}`)
       return
     }
 
