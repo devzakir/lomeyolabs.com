@@ -25,7 +25,7 @@ const stats = [
   },
   { 
     label: 'Customers Served', 
-    value: '500+',
+    value: '1000+',
     icon: UsersIcon,
     description: 'Happy clients worldwide'
   },
@@ -37,7 +37,7 @@ const stats = [
   },
   { 
     label: 'Total Sales', 
-    value: '1200+',
+    value: '1300+',
     icon: ShoppingCartIcon,
     description: 'Trusted purchases'
   }
