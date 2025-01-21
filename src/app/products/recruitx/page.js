@@ -23,6 +23,7 @@ import Pricing from '@/components/Pricing'
 import Screenshots from '@/components/Screenshots'
 import FAQ from '@/components/FAQ'
 import TechnicalSpecs from '@/components/TechnicalSpecs'
+import RecruitXPricing from './components/RecruitXPricing'
 
 // Product data
 const product = {
@@ -331,39 +332,76 @@ const product = {
   pricing: {
     title: "Choose Your License",
     subtitle: "Select the perfect license for your recruitment needs",
-    licenses: [
+    nonSaasLicenses: [
       {
-        name: "Regular License",
-        description: "Perfect for internal hiring teams",
+        name: "Single Domain License",
+        description: "Perfect for internal hiring within one organization",
         price: "$499",
         recommended: false,
         features: [
-          "Free platform usage",
-          "Complete source code",
           "Single domain deployment",
+          "Internal hiring use only",
+          "Complete source code",
           "Technical documentation",
           "Basic support package",
           "6 months of updates",
+          "Cannot resell as a service"
         ],
-        buttonText: "Purchase Regular License",
-        href: "#" // Optional
+        buttonText: "Purchase Single Domain License",
+        href: "#"
       },
       {
-        name: "Extended License",
-        description: "Ideal for commercial use",
+        name: "Multi-Domain License",
+        description: "For organizations with multiple branches",
         price: "$1,499",
         recommended: true,
         features: [
-          "Charge users for platform access",
+          "Up to 10 domain deployments",
+          "Internal hiring use only",
           "Complete source code",
-          "Single domain deployment",
           "Technical documentation",
           "Priority support package",
           "6 months of updates",
-          "Commercial use rights"
+          "Cannot resell as a service"
         ],
-        buttonText: "Purchase Extended License",
-        href: "#" // Optional
+        buttonText: "Purchase Multi-Domain License",
+        href: "#"
+      }
+    ],
+    saasLicenses: [
+      {
+        name: "Single Domain License",
+        description: "Start your recruitment SaaS business",
+        price: "$2,499",
+        recommended: false,
+        features: [
+          "Single domain deployment",
+          "Sell as a service to clients",
+          "Complete source code",
+          "Technical documentation",
+          "Basic support package",
+          "6 months of updates",
+          "Commercial resale rights"
+        ],
+        buttonText: "Purchase Single Domain License",
+        href: "#"
+      },
+      {
+        name: "Multi-Domain License",
+        description: "Scale your recruitment SaaS business",
+        price: "$4,999",
+        recommended: true,
+        features: [
+          "Up to 10 domain deployments",
+          "Sell as a service to clients",
+          "White-label rights",
+          "Technical documentation",
+          "Priority support package",
+          "12 months of updates",
+          "Commercial resale rights"
+        ],
+        buttonText: "Purchase Multi-Domain License",
+        href: "#"
       }
     ]
   }
@@ -760,7 +798,12 @@ export default function RecruitXPage() {
 
       {/* Licensing Section */}
       <AnimatedSection>
-        <Pricing {...product.pricing} />
+        <RecruitXPricing 
+          title={product.pricing.title}
+          subtitle={product.pricing.subtitle}
+          nonSaasLicenses={product.pricing.nonSaasLicenses}
+          saasLicenses={product.pricing.saasLicenses}
+        />
       </AnimatedSection>
 
       {/* Testimonials Section */}
