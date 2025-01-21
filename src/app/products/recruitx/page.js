@@ -23,7 +23,7 @@ import Pricing from '@/components/Pricing'
 import Screenshots from '@/components/Screenshots'
 import FAQ from '@/components/FAQ'
 import TechnicalSpecs from '@/components/TechnicalSpecs'
-import RecruitXPricing from './components/RecruitXPricing'
+import RecruitXPricing from '@/components/products/jugglehire/JuggleHirePricing'
 
 // Product data
 const product = {
@@ -336,7 +336,7 @@ const product = {
       {
         name: "Single Domain License",
         description: "Perfect for internal hiring within one organization",
-        price: "$499",
+        price: "$899",
         recommended: false,
         features: [
           "Single domain deployment",
@@ -353,7 +353,7 @@ const product = {
       {
         name: "Multi-Domain License",
         description: "For organizations with multiple branches",
-        price: "$1,499",
+        price: "$999",
         recommended: true,
         features: [
           "Up to 10 domain deployments",
@@ -372,7 +372,7 @@ const product = {
       {
         name: "Single Domain License",
         description: "Start your recruitment SaaS business",
-        price: "$2,499",
+        price: "$1999",
         recommended: false,
         features: [
           "Single domain deployment",
@@ -389,7 +389,7 @@ const product = {
       {
         name: "Multi-Domain License",
         description: "Scale your recruitment SaaS business",
-        price: "$4,999",
+        price: "$2199",
         recommended: true,
         features: [
           "Up to 10 domain deployments",

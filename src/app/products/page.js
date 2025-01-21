@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { MagnifyingGlassIcon, FunnelIcon } from '@heroicons/react/24/outline'
-import ProductGrid from './components/ProductGrid'
-import ProductHero from './components/ProductHero'
+import ProductGrid from '../../components/products/ProductGrid'
+import ProductHero from '../../components/products/ProductHero'
 import { supabaseClient } from '../../lib/supabaseClient'
 
 export default function Products() {

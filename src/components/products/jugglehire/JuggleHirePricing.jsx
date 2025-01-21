@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { CheckIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 
-export default function RecruitXPricing({ 
+export default function JuggleHirePricing({ 
   title,
   subtitle,
   nonSaasLicenses = [],
