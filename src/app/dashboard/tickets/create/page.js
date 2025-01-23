@@ -185,7 +185,7 @@ export default function CreateTicketPage() {
                 required
               >
                 <option value="JobPilot">JobPilot</option>
-                <option value="RecruitX">RecruitX</option>
+                <option value="JuggleHire">JuggleHire</option>
               </select>
             </div>
 

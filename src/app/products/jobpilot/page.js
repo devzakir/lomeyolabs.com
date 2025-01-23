@@ -360,8 +360,6 @@ const product = {
   }
 }
 
-// ... rest of the implementation follows similar structure to RecruitX page ... 
-
 export default function JobpilotPage() {
   return (
     <div className="bg-white">

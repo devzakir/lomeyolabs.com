@@ -23,14 +23,14 @@ import Pricing from '@/components/Pricing'
 import Screenshots from '@/components/Screenshots'
 import FAQ from '@/components/FAQ'
 import TechnicalSpecs from '@/components/TechnicalSpecs'
-import RecruitXPricing from '@/components/products/jugglehire/JuggleHirePricing'
+import JuggleHirePricing from '@/components/products/jugglehire/JuggleHirePricing'
 
 // Product data
 const product = {
   id: 12,
   name: 'Self-Hosted Recruitment Software for Small Businesses',
-  description: 'Transform your hiring process with RecruitX\'s powerful self-hosted recruitment solution. Get complete control over your data, unlimited customization options, and the freedom to build your perfect hiring workflow.',
-  image: '/products/recruitx/hero.png',
+  description: 'Transform your hiring process with JuggleHire\'s powerful self-hosted recruitment solution. Get complete control over your data, unlimited customization options, and the freedom to build your perfect hiring workflow.',
+  image: '/products/jugglehire/hero.png',
   price: 'From $499',
   category: 'PHP Scripts',
   targetAudience: [
@@ -61,7 +61,7 @@ const product = {
       {
         title: 'Streamlined Hiring Process',
         description: 'Everything you need for efficient recruitment in one place',
-        image: '/recruitx/all-jobs.png',
+        image: '/products/jugglehire/all-jobs.png',
         benefits: [
           'Easy job posting and management',
           'Custom application forms',
@@ -76,7 +76,7 @@ const product = {
       {
         title: 'Smart Candidate Management',
         description: 'Centralize and automate your candidate processing',
-        image: '/recruitx/candidate-inbox.png',
+        image: '/products/jugglehire/candidate-inbox.png',
         benefits: [
           'Centralized candidate profiles',
           'Automatic application processing',
@@ -91,7 +91,7 @@ const product = {
       {
         title: 'Professional Employer Branding',
         description: 'Build a strong employer brand to attract top talent',
-        image: '/recruitx/career-page.png',
+        image: '/products/jugglehire/career-page.png',
         benefits: [
           'Customizable career pages',
           'Branded email communications',
@@ -139,7 +139,7 @@ const product = {
   ],
   techSpecs: {
     title: "Technical Specifications & Support",
-    subtitle: "Everything you need to get started with RecruitX",
+    subtitle: "Everything you need to get started with JuggleHire",
     requirements: [
       'PHP 8.2+',
       'MySQL 8.0+',
@@ -191,7 +191,7 @@ const product = {
       ],
       technical: [
         {
-          question: 'What technology or framework is used in RecruitX?',
+          question: 'What technology or framework is used in JuggleHire?',
           answer: 'Built with Laravel 10 (PHP 8.2) backend and modern frontend stack including TailwindCSS, Livewire 3, and essential JavaScript libraries for charts and file handling.'
         },
         {
@@ -271,32 +271,32 @@ const product = {
     subtitle: "Designed for modern recruitment teams",
     items: [
       {
-        image: '/recruitx/all-jobs.png',
+        image: '/products/jugglehire/all-jobs.png',
         title: 'All Jobs Management',
         description: 'Centralized dashboard to manage job postings, collaborate with team members, and control different job types with specific permissions'
       },
       {
-        image: '/recruitx/brand-settings.png',
+        image: '/products/jugglehire/brand-settings.png',
         title: 'Brand Control Panel',
-        description: 'Customize every aspect of RecruitX - from logos and colors to favicons and company details, all from one intuitive interface'
+        description: 'Customize every aspect of JuggleHire - from logos and colors to favicons and company details, all from one intuitive interface'
       },
       {
-        image: '/recruitx/candidate-inbox.png',
+        image: '/products/jugglehire/candidate-inbox.png',
         title: 'Candidate Inbox',
         description: 'Efficiently manage hundreds of applications, communicate with candidates, and collaborate with your team in real-time'
       },
       {
-        image: '/recruitx/career-page.png',
+        image: '/products/jugglehire/career-page.png',
         title: 'Professional Career Page',
         description: 'Showcase your employer brand with a beautifully designed, fully customizable career page that attracts top talent'
       },
       {
-        image: '/recruitx/job-posting.png',
+        image: '/products/jugglehire/job-posting.png',
         title: 'Smart Job Posting Wizard',
         description: 'Create compelling job posts, customize application forms, and set up screening questions - all in one streamlined workflow'
       },
       {
-        image: '/recruitx/organization-settings.png',
+        image: '/products/jugglehire/organization-settings.png',
         title: 'Organization Management',
         description: 'Complete control over career page settings, team member roles, and permissions with easy invite and management tools'
       }
@@ -304,28 +304,28 @@ const product = {
   },
   testimonials: {
     title: "Hear from the People Who Trust LomeyoLabs",
-    subtitle: "What our customers are saying about RecruitX",
+    subtitle: "What our customers are saying about JuggleHire",
     items: [
       {
-        avatar: '/products/recruitx/testimonial1.jpg',
+        avatar: '/products/jugglehire/testimonial1.jpg',
         name: 'John Doe',
         role: 'HR Manager at Tech Corp',
         rating: 4.9,
-        content: 'RecruitX has revolutionized our hiring process. It\'s easy to use and has helped us save time and resources.'
+        content: 'JuggleHire has revolutionized our hiring process. It\'s easy to use and has helped us save time and resources.'
       },
       {
-        avatar: '/products/recruitx/testimonial2.jpg',
+        avatar: '/products/jugglehire/testimonial2.jpg',
         name: 'Jane Smith',
         role: 'Recruitment Consultant at HR Solutions',
         rating: 4.8,
-        content: 'RecruitX has been a game-changer for our company. It\'s powerful and flexible, and we couldn\'t be happier with our decision.'
+        content: 'JuggleHire has been a game-changer for our company. It\'s powerful and flexible, and we couldn\'t be happier with our decision.'
       },
       {
-        avatar: '/products/recruitx/testimonial3.jpg',
+        avatar: '/products/jugglehire/testimonial3.jpg',
         name: 'Bob Johnson',
         role: 'Founder at Startup Hub',
         rating: 4.7,
-        content: 'RecruitX has been a great investment for our startup. It\'s helped us attract top talent and streamline our hiring process.'
+        content: 'JuggleHire has been a great investment for our startup. It\'s helped us attract top talent and streamline our hiring process.'
       }
     ]
   },
@@ -376,12 +376,12 @@ const product = {
         recommended: false,
         features: [
           "Single domain deployment",
-          "Sell as a service to clients",
+          "Host and sell subscriptions to customers",
           "Complete source code",
           "Technical documentation",
           "Basic support package",
           "6 months of updates",
-          "Commercial resale rights"
+          "Cannot redistribute source code"
         ],
         buttonText: "Purchase Single Domain License",
         href: "#"
@@ -393,12 +393,12 @@ const product = {
         recommended: true,
         features: [
           "Up to 10 domain deployments",
-          "Sell as a service to clients",
+          "Host and sell subscriptions to customers",
           "White-label rights",
           "Technical documentation",
           "Priority support package",
           "12 months of updates",
-          "Commercial resale rights"
+          "Cannot redistribute source code"
         ],
         buttonText: "Purchase Multi-Domain License",
         href: "#"
@@ -423,7 +423,7 @@ const sectionStyles = {
   dark: "bg-gray-50 bg-opacity-70 backdrop-blur-sm"
 }
 
-export default function RecruitXPage() {
+export default function JuggleHirePage() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
@@ -462,7 +462,7 @@ export default function RecruitXPage() {
                 Purchase Now - {product.price}
               </motion.a>
               <motion.a 
-                href="https://recruitx.templatecookie.com"
+                href="https://jugglehire.templatecookie.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
@@ -525,7 +525,7 @@ export default function RecruitXPage() {
           <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Why Self-Host RecruitX?
+                Why Self-Host JuggleHire?
               </h2>
               <p className="mt-4 text-lg">
                 Take complete control of your recruitment infrastructure
@@ -798,7 +798,7 @@ export default function RecruitXPage() {
 
       {/* Licensing Section */}
       <AnimatedSection>
-        <RecruitXPricing 
+        <JuggleHirePricing 
           title={product.pricing.title}
           subtitle={product.pricing.subtitle}
           nonSaasLicenses={product.pricing.nonSaasLicenses}
@@ -811,13 +811,13 @@ export default function RecruitXPage() {
         <Testimonials {...product.testimonials} />
       </AnimatedSection> */}
 
-      {/* Why Choose RecruitX Section */}
+      {/* Why Choose JuggleHire Section */}
       <AnimatedSection>
         <section className="py-24 relative overflow-hidden">
           <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Why Choose RecruitX Self-Hosted?
+                Why Choose JuggleHire Self-Hosted?
               </h2>
               <p className="mt-4 text-lg text-gray-600">
                 Take control of your recruitment process with our powerful self-hosted solution
@@ -914,7 +914,7 @@ export default function RecruitXPage() {
                     Ready to Transform Your Hiring Process?
                   </h2>
                   <p className="mt-4 text-lg text-primary-100">
-                    Take control of your recruitment process with RecruitX Self-Hosted
+                    Take control of your recruitment process with JuggleHire Self-Hosted
                   </p>
 
                   {/* Trust Metrics */}
@@ -951,7 +951,7 @@ export default function RecruitXPage() {
                       Purchase Now
                     </motion.a>
                     <motion.a
-                      href="https://recruitx.templatecookie.com"
+                      href="https://jugglehire.templatecookie.com"
                       target="_blank"
                       className="rounded-xl bg-primary-500/20 backdrop-blur-sm border border-white/20 px-8 py-4 text-base font-semibold text-white hover:bg-primary-500/30 transition-colors duration-200"
                       initial={{ opacity: 0, y: 20 }}

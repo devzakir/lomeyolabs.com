@@ -11,7 +11,7 @@ import { useAuth } from '@/contexts/AuthContext'
 
 const menuItems = {
   main: [
-    { name: 'RecruitX', href: '/products/recruitx' },
+    { name: 'JuggleHire', href: '/products/jugglehire' },
     { name: 'Jobpilot', href: '/products/jobpilot' },
     { name: 'Adlisting', href: '/products/adlisting' },
     { name: 'Schooling', href: '/products/schooling' },

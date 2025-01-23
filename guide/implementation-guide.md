@@ -4,7 +4,7 @@
 - [x] Homepage implemented
 - [x] Products listing page complete
 - [x] Products detail page complete
-- [x] RecruitX landing page
+- [x] JuggleHire landing page
 - [x] Jobpilot landing page
 
 ## Phase 1: Database & Authentication (Priority: High)
