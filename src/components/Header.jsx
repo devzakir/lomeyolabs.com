@@ -33,14 +33,15 @@ export default function Header() {
   const getQuickLinks = () => {
     if (user) {
       return [
-        { name: 'Dashboard', href: '/dashboard' },
-        { name: 'Create Support Ticket', href: '/dashboard/tickets/create' },
-        { name: 'Documentation', href: 'https://templatecookie.com/docs' },
+        // { name: 'Dashboard', href: '/dashboard' },
+        { name: 'Envato Profile', href: 'https://codecanyon.net/user/templatecookie' },
+        { name: 'Figma Community', href: 'https://www.figma.com/@templatecookie' },
       ]
     }
     return [
-      { name: 'Login', href: '/auth/login' },
-      { name: 'Documentation', href: 'https://templatecookie.com/docs' },
+      // { name: 'Login', href: '/auth/login' },
+      { name: 'Envato Profile', href: 'https://codecanyon.net/user/templatecookie' },
+      { name: 'Figma Community', href: 'https://www.figma.com/@templatecookie' },
     ]
   }
 
@@ -165,7 +166,19 @@ export default function Header() {
               </Menu> */}
 
               <div className="flex items-center gap-4">
-                  <Link 
+                <Link 
+                  href={user ? '/dashboard' : '/auth/login'} 
+                  className={`bg-gradient-to-r from-primary-600 to-primary-500 
+                    inline-flex items-center justify-center px-6 py-2.5 
+                    text-base font-medium text-white rounded-lg overflow-hidden 
+                    transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5
+                    ${isActive(user ? '/dashboard' : '/auth/login') ? 'ring-2 ring-primary-300' : ''}`}
+                >
+                  <span className="relative z-10">
+                    {user ? 'Dashboard' : 'Login'}
+                  </span>
+                </Link>
+                  {/* <Link 
                     href="/products" 
                     className={`bg-gradient-to-r from-primary-600 to-primary-500 
                       inline-flex items-center justify-center px-6 py-2.5 
@@ -174,7 +187,7 @@ export default function Header() {
                       ${isActive('/products') ? 'ring-2 ring-primary-300' : ''}`}
                   >
                     <span className="relative z-10">Our Products</span>
-                  </Link>
+                  </Link> */}
               </div>
             </div>
 
@@ -243,10 +256,10 @@ export default function Header() {
                           {/* Primary Action Button for Mobile */}
                           <div className="pt-2">
                             <Link
-                              href="/products"
+                              href={user ? '/dashboard' : '/auth/login'}
                               className="block w-full text-center px-4 py-3 text-base font-medium text-white bg-gradient-to-r from-primary-600 to-primary-500 rounded-lg transition-all duration-300 hover:shadow-lg"
                             >
-                              Our Products
+                              {user ? 'Dashboard' : 'Login'}
                             </Link>
                           </div>
                         </div>
