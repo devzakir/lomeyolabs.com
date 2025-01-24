@@ -120,7 +120,7 @@ const product = {
         'Let users use platform free of charge'
       ],
       buttonText: 'Purchase Regular License',
-      href: 'https://codecanyon.net/item/jobpilot-job-portal-laravel-script/37897822'
+      href: 'https://go.templatecookie.com/jobpilot-regular'
     },
     {
       name: 'Extended License',
@@ -136,7 +136,7 @@ const product = {
         'Charge users for services'
       ],
       buttonText: 'Purchase Extended License',
-      href: 'https://codecanyon.net/item/jobpilot-job-portal-laravel-script/37897822',
+      href: 'https://go.templatecookie.com/jobpilot-extended',
       recommended: true
     }
   ],
