@@ -336,7 +336,7 @@ const product = {
       {
         name: "Single Domain License",
         description: "Perfect for internal hiring within one organization",
-        price: "$899",
+        price: "$999",
         recommended: false,
         features: [
           "Single domain deployment",
@@ -353,7 +353,7 @@ const product = {
       {
         name: "Multi-Domain License",
         description: "For organizations with multiple branches",
-        price: "$999",
+        price: "$1199",
         recommended: true,
         features: [
           "Up to 10 domain deployments",
@@ -389,7 +389,7 @@ const product = {
       {
         name: "Multi-Domain License",
         description: "Scale your recruitment SaaS business",
-        price: "$2199",
+        price: "$2299",
         recommended: true,
         features: [
           "Up to 10 domain deployments",

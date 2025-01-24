@@ -18,26 +18,28 @@ const defaultTestimonials = {
   subtitle: "What our customers are saying",
   items: [
     {
-      name: "John Anderson",
-      role: "Frontend Developer",
-      content: "The code quality and documentation are exceptional. Saved weeks of development time!",
-      rating: 5,
-      image: "https://via.placeholder.com/150"
+      ratingLink: "https://codecanyon.net/ratings/3612610",
+      ratingImage: "/testimonials/3612610.png"
     },
     {
-      name: "Sarah Miller",
-      role: "Product Manager",
-      content: "Incredibly well-structured and easy to customize. Perfect for our project needs.",
-      rating: 5,
-      image: "https://via.placeholder.com/150"
+      ratingLink: "https://codecanyon.net/ratings/3448656",
+      ratingImage: "/testimonials/3448656.png"
     },
     {
-      name: "Michael Chen",
-      role: "Tech Lead",
-      content: "Outstanding support and clean code. Best investment for our development team.",
-      rating: 5,
-      image: "https://via.placeholder.com/150"
-    }
+      ratingLink: "https://codecanyon.net/ratings/3623104",
+      ratingImage: "/testimonials/3623104.png"
+    },
+    {
+      ratingLink: "https://codecanyon.net/ratings/3617825",
+      ratingImage: "/testimonials/3617825.png"
+    },
+    // {
+    //   name: "John Anderson",
+    //   role: "Frontend Developer",
+    //   content: "The code quality and documentation are exceptional. Saved weeks of development time!",
+    //   rating: 5,
+    //   image: "https://via.placeholder.com/150",
+    // },
   ]
 }
 

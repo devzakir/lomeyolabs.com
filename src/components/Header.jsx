@@ -14,7 +14,8 @@ const menuItems = {
     { name: 'JuggleHire', href: '/products/jugglehire' },
     { name: 'Jobpilot', href: '/products/jobpilot' },
     { name: 'Adlisting', href: '/products/adlisting' },
-    { name: 'Schooling', href: '/products/schooling' },
+    { name: 'Schooling', href: 'https://schooling.templatecookie.com' },
+    // { name: 'Schooling', href: '/products/schooling' },
   ],
   resources: [
     { name: 'Documentation', href: 'https://templatecookie.com/docs' },
