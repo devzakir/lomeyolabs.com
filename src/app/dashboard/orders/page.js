@@ -124,7 +124,7 @@ export default function Orders() {
   const handleDownloadFiles = async (order) => {
     try {
       // Check if URLs exist
-      if (!order.products?.download_url) {
+      if (!order?.download_url) {
         throw new Error('Download URL not found')
       }
 
@@ -139,7 +139,7 @@ export default function Orders() {
         ])
 
       // Open download URL
-      window.open(order.products.download_url, '_blank')
+      window.open(order.download_url, '_blank')
     } catch (error) {
       console.error('Download failed:', error)
       alert('Failed to download files. Please try again or contact support.')
@@ -271,7 +271,7 @@ export default function Orders() {
                     </motion.button>
                   )}
                   
-                  {order.products?.download_url && (
+                  {order?.download_url && (
                     <div className="relative">
                       <motion.button
                         onClick={() => handleDownloadFiles(order)}
@@ -285,9 +285,9 @@ export default function Orders() {
                     </div>
                   )}
 
-                  {order.products?.documentation_url && (
+                  {order?.documentation_url && (
                     <Link 
-                      href={order.products.documentation_url}
+                      href={order.documentation_url}
                       target="_blank"
                       className="text-primary-600 hover:text-primary-700 text-sm font-medium"
                     >
