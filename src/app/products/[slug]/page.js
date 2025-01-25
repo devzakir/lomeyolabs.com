@@ -41,7 +41,6 @@ function classNames(...classes) {
 }
 
 export default function ProductDetail({ params }) {
-  const productId = params.slug // Assuming params.slug is the UUID
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -58,53 +57,20 @@ export default function ProductDetail({ params }) {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      setLoading(true)
-      const productData = await fetchProductData(productId)
-      setProduct(productData)
-      setLoading(false)
+      try {
+        // Use params.slug directly instead of unwrappedParams
+        const productId = parseInt(params.slug)
+        const foundProduct = products.find(p => p.id === productId)
+        setProduct(foundProduct || null)
+      } catch (error) {
+        console.error('Error fetching product:', error)
+      } finally {
+        setLoading(false)
+      }
     }
 
     fetchProduct()
-  }, [productId])
-
-  const handlePurchase = async () => {
-    if (!user) {
-      const currentPath = `/products/${productId}`
-      router.push(`/auth/login?redirect=${encodeURIComponent(currentPath)}`)
-      return
-    }
-
-    try {
-      setLoading(true)
-      
-      const response = await fetch('/api/create-invoice', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          productId: product.id,
-          productName: product.name,
-          price: product.price,
-          userId: user.id,
-          userEmail: user.email
-        }),
-      })
-
-      const data = await response.json()
-      
-      if (data.url) {
-        window.location.href = data.url // Redirect to Stripe Checkout
-      } else {
-        throw new Error(data.error || 'Failed to create invoice')
-      }
-    } catch (error) {
-      console.error('Error creating invoice:', error)
-      alert('Failed to process purchase. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
+  }, [params.slug]) // Update dependency
 
   if (loading) {
     return (
