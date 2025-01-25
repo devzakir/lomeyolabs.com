@@ -27,7 +27,7 @@ export default function CreateTicketPage() {
     message: '',
     priority: 'normal',
     category: '',
-    product: 'JobPilot',
+    product: 'Jobpilot',
     purchase_code: ''
   })
   const [loading, setLoading] = useState(false)
@@ -38,6 +38,17 @@ export default function CreateTicketPage() {
 
   // Add loading state for ReactQuill
   const [editorLoaded, setEditorLoaded] = useState(false)
+
+  // Custom Quill modules/formats
+  const modules = {
+    toolbar: [
+      [{ 'header': '1' }, { 'header': '2' }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['link', 'image', 'code-block'],
+      ['clean']
+    ],
+  }
 
   useEffect(() => {
     setEditorLoaded(true)
@@ -184,7 +195,7 @@ export default function CreateTicketPage() {
                 className="block w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 required
               >
-                <option value="JobPilot">JobPilot</option>
+                <option value="Jobpilot">Jobpilot</option>
                 <option value="JuggleHire">JuggleHire</option>
               </select>
             </div>
@@ -251,19 +262,20 @@ export default function CreateTicketPage() {
           </div>
 
           {/* Message */}
-          <div>
+          <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Message*
             </label>
             {editorLoaded ? (
               <ReactQuill
                 value={formData.message}
-                onChange={(value) => setFormData({ ...formData, message: value })}
-                className="block w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                onChange={(content) => setFormData({ ...formData, message: content })}
+                className="bg-white rounded-lg border border-gray-300 [&_.ql-editor]:min-h-[200px]"
+                modules={modules}
                 placeholder="Add as much information as possible to understand your problem better."
               />
             ) : (
-              <div className="h-32 w-full bg-gray-50 rounded-lg animate-pulse" />
+              <div className="animate-pulse h-48 bg-gray-100 rounded-lg"></div>
             )}
           </div>
 
