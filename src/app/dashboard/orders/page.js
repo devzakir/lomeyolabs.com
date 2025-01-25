@@ -18,41 +18,83 @@ export default function Orders() {
   const router = useRouter()
 
   useEffect(() => {
+    console.log('Orders component mounted')
     async function checkAuthAndFetchOrders() {
       try {
         const { data: { session }, error: authError } = await supabaseClient.auth.getSession()
 
+        console.log('Auth Session:', session)
+        console.log('User ID:', session?.user?.id)
+
         if (authError || !session) {
+          console.log('Auth error or no session:', authError)
           router.push('/auth/login')
           return
         }
 
+        
+
         // Fetch orders from Supabase
-        const { data, error } = await supabaseClient
+        const { data: ordersWithAll } = await supabaseClient
           .from('orders')
           .select(`
-            *,
-            products:product_id (
+            id,
+            user_id,
+            product_id,
+            payment_id,
+            stripe_session_id,
+            amount,
+            status,
+            payment_status,
+            created_at,
+            variation_type,
+            license_type,
+            products (
+              id,
               name,
-              download_url,
               documentation_url
             )
           `)
           .eq('user_id', session.user.id)
           .order('created_at', { ascending: false })
 
-        if (error) throw error
+        console.log('Orders with products:', ordersWithAll)
 
-        // Transform data to include product details
-        const transformedOrders = data.map(order => ({
-          ...order,
-          product_name: order.products?.name || 'Unknown Product'
-        }))
+        if (!ordersWithAll || ordersWithAll.length === 0) {
+          console.log('No orders found')
+          setOrders([])
+          return
+        }
 
+        // After we get orders, fetch variations separately
+        const productIds = ordersWithAll.map(order => order.product_id)
+        const { data: variations } = await supabaseClient
+          .from('product_variations')
+          .select('*')
+          .in('product_id', productIds)
+
+        // Transform data
+        const transformedOrders = ordersWithAll.map(order => {
+          const matchingVariation = variations?.find(v => 
+            v.product_id === order.product_id &&
+            v.variation_type === order.variation_type && 
+            v.license_type === order.license_type
+          )
+
+          return {
+            ...order,
+            product_name: order.products?.name || 'Unknown Product',
+            documentation_url: order.products?.documentation_url,
+            download_url: matchingVariation?.download_url,
+            variation_price: matchingVariation?.price
+          }
+        })
+
+        console.log('Transformed orders:', transformedOrders)
         setOrders(transformedOrders)
+        setLoading(false)
       } catch (error) {
-        console.error('Error:', error)
-      } finally {
+        console.error('Error in checkAuthAndFetchOrders:', error)
         setLoading(false)
       }
     }
@@ -193,10 +235,8 @@ export default function Orders() {
                   <div className="flex-1 space-y-1">
                     <p className="text-sm text-gray-500">License Type</p>
                     <p className="text-sm font-medium text-gray-900">
-                      {order.license_type}
-                      <span className="ml-2 text-xs text-gray-500">
-                        ({order.downloads} downloads)
-                      </span>
+                      {order.variation_type?.toUpperCase()} - {' '}
+                      {order.license_type?.replace('_', ' ').toUpperCase()}
                     </p>
                   </div>
                   <div className="flex-1 space-y-1">

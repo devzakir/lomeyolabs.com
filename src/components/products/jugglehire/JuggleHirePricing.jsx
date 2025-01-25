@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { CheckIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
+import { useRouter } from 'next/navigation'
 
 export default function JuggleHirePricing({ 
   title,
@@ -11,6 +13,54 @@ export default function JuggleHirePricing({
   saasLicenses = []
 }) {
   const [isSaas, setIsSaas] = useState(false)
+  const { user } = useAuth()
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+
+  const handlePurchase = async (license) => {
+    if (!user) {
+      const currentPath = `/products/jugglehire`
+      router.push(`/auth/login?redirect=${encodeURIComponent(currentPath)}`)
+      return
+    }
+
+    try {
+      setLoading(true)
+
+      const response = await fetch('/api/create-invoice', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: license.productId,
+          productName: 'JuggleHire',
+          price: parseFloat(license.price.replace('$', '')),
+          userId: user.id,
+          userEmail: user.email,
+          variation_type: license.variation_type,
+          license_type: license.license_type
+        }),
+      })
+
+      const data = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(data.details || data.error || 'Failed to process purchase')
+      }
+      
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        throw new Error('No checkout URL received')
+      }
+    } catch (error) {
+      console.error('Error creating invoice:', error)
+      alert(error.message || 'Failed to process purchase. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <section id="pricing" className="py-24 bg-gradient-to-b from-gray-50 to-white">
@@ -102,20 +152,19 @@ export default function JuggleHirePricing({
                 ))}
               </ul>
 
-              <motion.a
-                href={license.href || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
+              <motion.button
+                onClick={() => handlePurchase(license)}
+                disabled={loading}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className={`w-full rounded-xl px-6 py-4 text-base font-semibold shadow-sm transition-all duration-200 text-center ${
                   license.recommended
                     ? 'bg-white text-primary-600 hover:bg-primary-50'
                     : 'bg-primary-600 text-white hover:bg-primary-500'
-                }`}
+                } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                {license.buttonText}
-              </motion.a>
+                {loading ? 'Processing...' : license.buttonText}
+              </motion.button>
             </motion.div>
           ))}
         </div>
