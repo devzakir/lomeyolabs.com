@@ -41,13 +41,6 @@ export default function DashboardLayout({ children }) {
       description: 'Get help with your purchases'
     },
     { 
-      id: 'purchase-history', 
-      label: 'Purchase History', 
-      icon: ClockIcon, 
-      href: '/dashboard/purchase-history',
-      description: 'Track your purchases'
-    },
-    { 
       id: 'settings', 
       label: 'Settings', 
       icon: Cog6ToothIcon, 
