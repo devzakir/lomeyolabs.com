@@ -7,23 +7,17 @@ import { useEffect, useState } from 'react'
 
 const navigation = {
   products: [
-    { name: 'All Products', href: '/' },
-    { name: 'Templates', href: '/' },
-    { name: 'Scripts', href: '/' },
-    { name: 'UI Kits', href: '/' },
-  ],
-  resources: [
-    { name: 'Documentation', href: '/' },
-    { name: 'Blog', href: '/' },
-    { name: 'Support', href: '/' },
-    { name: 'Changelog', href: '/' },
+    { name: 'All Products', href: '/products' },
+    { name: 'Figma Templates', href: '/' },
   ],
   company: [
-    { name: 'About', href: '/' },
-    { name: 'Careers', href: '/' },
-    { name: 'Contact', href: '/' },
-    { name: 'Partners', href: '/' },
-  ]
+    { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' },
+  ],
+  resources: [
+    { name: 'Documentation', href: 'https://templatecookie.helpcenter.guide' },
+    { name: 'Support', href: '/support' },
+  ],
 }
 
 export default function Footer() {
@@ -40,7 +34,7 @@ export default function Footer() {
       
       {/* Decorative Pattern */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[url('/patterns/circuit.svg')] opacity-10" />
+        <div className="absolute inset-0 opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-br from-primary-400/10 via-transparent to-primary-800/20" />
       </div>
 
@@ -54,32 +48,44 @@ export default function Footer() {
           className="mb-20"
         >
           <Link 
-            href="https://codecanyon.net/user/Lomeyo Labs" 
+            href="https://codecanyon.net/user/LomeyoLabs" 
             className="group block max-w-2xl mx-auto relative overflow-hidden rounded-2xl bg-dark-light/30 backdrop-blur-sm border border-primary-400/20 hover:border-primary-400/40 transition-colors"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div className="p-8">
-              <div className="flex items-center gap-6">
+            <div className="p-4 sm:p-6 md:p-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+                {/* Trophy Icon */}
                 <div className="relative shrink-0">
-                  <TrophyIcon className="h-12 w-12 text-primary-300" />
+                  <TrophyIcon className="h-10 w-10 sm:h-12 sm:w-12 text-primary-300" />
                   <div className="absolute inset-0 animate-ping-slow opacity-50">
-                    <TrophyIcon className="h-12 w-12 text-primary-300" />
+                    <TrophyIcon className="h-10 w-10 sm:h-12 sm:w-12 text-primary-300" />
                   </div>
                 </div>
-                <div>
-                  <p className="text-xl font-semibold text-white mb-2">Level 6 Author on CodeCanyon</p>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <span className="text-lg">4.5</span>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-lg sm:text-xl font-semibold text-white mb-2 line-clamp-1">
+                    Level 6 Author on CodeCanyon
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-white/80">
+                    <span className="text-base sm:text-lg">4.5</span>
                     <div className="flex gap-0.5">
                       {[...Array(5)].map((_, i) => (
-                        <StarIcon key={i} className={`h-5 w-5 ${i < 4 ? 'text-primary-300' : 'text-white/30'}`} />
+                        <StarIcon 
+                          key={i} 
+                          className={`h-4 w-4 sm:h-5 sm:w-5 ${
+                            i < 4 ? 'text-primary-300' : 'text-white/30'
+                          }`} 
+                        />
                       ))}
                     </div>
-                    <span>(110+ reviews)</span>
+                    <span className="text-sm sm:text-base">(110+ reviews)</span>
                   </div>
                 </div>
-                <ArrowUpRightIcon className="h-6 w-6 text-primary-300/50 group-hover:text-primary-300 transition-colors ml-auto" />
+
+                {/* Arrow Icon */}
+                <ArrowUpRightIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-300/50 group-hover:text-primary-300 transition-colors ml-auto" />
               </div>
             </div>
           </Link>
@@ -123,7 +129,7 @@ export default function Footer() {
         >
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <p className="text-lg text-white/80">
-              <span className="font-semibold text-white">Lomeyo Labs</span> is proudly crafted by{' '}
+              <span className="font-semibold text-white">LomeyoLabs</span> is proudly crafted by{' '}
               <span className="text-primary-300 font-semibold">Lomeyo, LLC</span>
             </p>
             <p className="text-white/70">
@@ -131,11 +137,11 @@ export default function Footer() {
               <a href="https://templatecookie.com" className="text-primary-300 hover:text-primary-200 transition-colors font-medium">
                 Templatecookie
               </a>{' '}
-              for templates and{' '}
+              for self-hosted software, templates and{' '}
               <a href="https://jugglehire.com" className="text-primary-300 hover:text-primary-200 transition-colors font-medium">
                 JuggleHire
               </a>{' '}
-              for recruitment. Welcome to the Lomeyo community!
+              for hiring operations. Welcome to the Lomeyo community!
             </p>
             <p className="text-sm text-white/60">
               &copy; {currentYear} Lomeyo, LLC. All rights reserved.

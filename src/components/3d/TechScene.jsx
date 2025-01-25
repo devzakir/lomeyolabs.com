@@ -12,7 +12,9 @@ const TechScene = () => {
   const mousePosition = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
-    if (!mountRef.current) return
+    const currentMountRef = mountRef.current
+
+    if (!currentMountRef) return
 
     // Scene setup
     const scene = new THREE.Scene()
@@ -22,7 +24,7 @@ const TechScene = () => {
     // Camera setup
     const camera = new THREE.PerspectiveCamera(
       45,
-      mountRef.current.clientWidth / mountRef.current.clientHeight,
+      currentMountRef.clientWidth / currentMountRef.clientHeight,
       0.1,
       1000
     )
@@ -30,10 +32,10 @@ const TechScene = () => {
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ antialias: true })
-    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight)
+    renderer.setSize(currentMountRef.clientWidth, currentMountRef.clientHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.shadowMap.enabled = true
-    mountRef.current.appendChild(renderer.domElement)
+    currentMountRef.appendChild(renderer.domElement)
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
@@ -147,9 +149,9 @@ const TechScene = () => {
 
     // Handle resize
     const handleResize = () => {
-      camera.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight
+      camera.aspect = currentMountRef.clientWidth / currentMountRef.clientHeight
       camera.updateProjectionMatrix()
-      renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight)
+      renderer.setSize(currentMountRef.clientWidth, currentMountRef.clientHeight)
     }
 
     window.addEventListener('resize', handleResize)
@@ -158,7 +160,7 @@ const TechScene = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('resize', handleResize)
-      mountRef.current?.removeChild(renderer.domElement)
+      currentMountRef?.removeChild(renderer.domElement)
       scene.clear()
       renderer.dispose()
       particlesGeometry.dispose()

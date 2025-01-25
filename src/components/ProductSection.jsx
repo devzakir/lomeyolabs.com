@@ -8,58 +8,40 @@ import { MagnifyingGlassIcon, FolderIcon } from '@heroicons/react/24/solid'
 
 const products = [
   {
-    id: 1,
-    name: 'Taskify - Project Management System',
-    description: 'Complete project management solution with team collaboration features',
-    image: 'https://templatecookie.com/storage/image/1710224864_65eff5e06cdb1.png',
-    price: '$49',
-    features: ['Task Management', 'Team Collaboration', 'Time Tracking', 'Project Reports'],
+    id: 'jugglehire',
+    name: 'JuggleHire - Self-Hosted recruitment software',
+    description: "Transform your hiring process with JuggleHire's powerful self-hosted recruitment solution. Get complete control over your data, unlimited customization options, and the freedom to build your perfect hiring workflow.",
+    preview_url: '/products/jugglehire/jugglehire.png',
+    price: '$999',
+    features: ['Candidate Management', 'Job Posting', 'Application Tracking', 'Career Page'],
     category: 'PHP Scripts'
   },
   {
-    id: 2,
-    name: 'SchoolSync - School Management',
-    description: 'Comprehensive school management system with student portal',
-    image: 'https://templatecookie.com/storage/image/1710224877_65eff5eddffea.png',
+    id: 'jobpilot',
+    name: 'Jobpilot - Job Portal Laravel Script',
+    description: "Create a powerful job marketplace with Jobpilot's self-hosted solution. Whether you're building a niche job board, developing client solutions, or launching an organizational career portal.",
+    preview_url: '/products/jobpilot/jobpilot.png',
+    price: '$59',
+    features: ['Company Portal', 'Job board', 'Candidate Portal', 'Admin Panel'],
+    category: 'PHP Scripts'
+  },
+  {
+    id: 'schooling',
+    name: 'Schooling - School Management System (SPA)',
+    description: 'Comprehensive school management system with student, parent, teacher, and admin portals',
+    preview_url: '/products/schooling/schooling.png',
     price: '$59',
     features: ['Student Management', 'Attendance System', 'Grade Management', 'Online Classes'],
     category: 'PHP Scripts'
   },
   {
-    id: 3,
-    name: 'InvoicePro - Billing System',
-    description: 'Professional invoicing and billing management system',
-    image: 'https://templatecookie.com/storage/image/1709116010_65df0a6a0d900.png',
-    price: '$39',
-    features: ['Invoice Generation', 'Payment Tracking', 'Client Management', 'Financial Reports'],
+    id: 'adlisting',
+    name: 'Adlisting - Classified Ads Script',
+    description: 'Create a classified ads platform with Adlisting. Whether you\'re building a local classifieds site, a community bulletin board, or a global marketplace, Adlisting provides the tools to manage listings, user interactions, and monetization.',
+    preview_url: '/products/adlisting/adlisting.png',
+    price: '$59',
+    features: ['Classified Listing', 'Buyer Panel', 'Seller Panel', 'Admin Panel'],
     category: 'PHP Scripts'
-  },
-  {
-    id: 5,
-    name: 'Dashify Admin Template',
-    description: 'Modern admin dashboard UI kit with dark mode',
-    image: 'https://templatecookie.com/storage/image/1709115481_65df08597076f.jpg',
-    price: '$29',
-    features: ['100+ Components', 'Dark Mode', 'Responsive Design', 'Documentation'],
-    category: 'Figma Templates'
-  },
-  {
-    id: 6,
-    name: 'EduLearn LMS Template',
-    description: 'Complete learning management system UI kit',
-    image: 'https://templatecookie.com/storage/image/1710224864_65eff5e06cdb1.png',
-    price: '$35',
-    features: ['Course Pages', 'Student Dashboard', 'Instructor Portal', 'Assessment UI'],
-    category: 'Figma Templates'
-  },
-  {
-    id: 7,
-    name: 'SaaS Landing UI Kit',
-    description: 'Modern SaaS product landing page template',
-    image: 'https://templatecookie.com/storage/image/1710224877_65eff5eddffea.png',
-    price: '$25',
-    features: ['Landing Pages', 'Pricing Tables', 'Feature Sections', 'Blog Templates'],
-    category: 'Figma Templates'
   },
 ]
 
@@ -96,7 +78,7 @@ export default function ProductSection() {
             Awesome Line of Problem-Solving Products
           </h2>
           <p className="mt-4 text-lg leading-8 text-dark/80">
-            Lomeyo Labs saves you time and resources to build and scale fast!
+            LomeyoLabs saves you time and resources to build and scale fast!
           </p>
         </motion.div>
 
@@ -111,7 +93,7 @@ export default function ProductSection() {
           ))}
         </motion.div>
 
-        <div className="mt-16 flex justify-center space-x-6">
+        {/* <div className="mt-16 flex justify-center space-x-6">
           <motion.div 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -132,7 +114,7 @@ export default function ProductSection() {
               <span className="ml-2">UI Bundle for $59</span>
             </Link>
           </motion.div>
-        </div>
+        </div> */}
       </div>
     </section>
   )

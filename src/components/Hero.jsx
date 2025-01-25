@@ -54,8 +54,7 @@ const Hero = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            Lomeyo Labs is your go-to hub for PHP Scripts, Figma/HTML Templates, 
-            Self-hosted Software, and everything in between!
+            LomeyoLabs crafts amazing self-hosted business applications and figma templates for you!
           </motion.p>
 
           {/* CTA Button */}
@@ -67,7 +66,7 @@ const Hero = () => {
           >
             <div className="rounded-xl shadow-lg shadow-primary-100">
               <Link
-              href="/products/recruitx"
+              href="/products"
                 className="w-full flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-white bg-primary-600 hover:bg-primary-700 transition-all duration-300 md:text-lg md:px-10"
               >
                 Explore Our Products

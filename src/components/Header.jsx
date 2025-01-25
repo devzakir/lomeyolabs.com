@@ -3,15 +3,19 @@
 import { Fragment, useState, useEffect } from 'react'
 import { Menu, Transition, Disclosure } from '@headlessui/react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
+import { useAuth } from '@/contexts/AuthContext'
 
 const menuItems = {
   main: [
-    { name: 'RecruitX', href: '/products/recruitx' },
-    { name: 'Jobpilot', href: 'https://templatecookie.com/demo/jobpilot-job-portal-script-php-laravel' },
-    // { name: 'Free Templates', href: '/free-templates' },
+    { name: 'JuggleHire', href: '/products/jugglehire' },
+    { name: 'Jobpilot', href: '/products/jobpilot' },
+    { name: 'Adlisting', href: '/products/adlisting' },
+    { name: 'Schooling', href: 'https://schooling.templatecookie.com' },
+    // { name: 'Schooling', href: '/products/schooling' },
   ],
   resources: [
     { name: 'Documentation', href: 'https://templatecookie.com/docs' },
@@ -22,40 +26,76 @@ const menuItems = {
 }
 
 export default function Header() {
-  const [showBanner, setShowBanner] = useState(true)
+  const { user } = useAuth()
+  const pathname = usePathname()
+
+  // Update quick links to be conditional based on auth state
+  const getQuickLinks = () => {
+    if (user) {
+      return [
+        // { name: 'Dashboard', href: '/dashboard' },
+        { name: 'Envato Profile', href: 'https://codecanyon.net/user/templatecookie' },
+        { name: 'Figma Community', href: 'https://www.figma.com/@templatecookie' },
+      ]
+    }
+    return [
+      // { name: 'Login', href: '/auth/login' },
+      { name: 'Envato Profile', href: 'https://codecanyon.net/user/templatecookie' },
+      { name: 'Figma Community', href: 'https://www.figma.com/@templatecookie' },
+    ]
+  }
+
+  const isActive = (href) => {
+    if (href === '/') {
+      return pathname === href
+    }
+    return pathname.startsWith(href)
+  }
 
   return (
     <>
-      {showBanner && (
-        <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <p className="text-sm leading-6 text-white">
-              {/* <strong className="font-semibold">Brand Update in Progress! </strong> */}
- We're transitioning from Templatecookie to Lomeyo Labs, a Lomeyo LLC brand.
-              {/* Templatecookie is now Lomeyo Labs, a Lomeyo LLC brand. Same great products and team! */}
-            </p>
-          </div>
-          <div className="flex flex-1 justify-end">
-            <button
-              type="button"
-              className="-m-3 p-3 focus-visible:outline-offset-[-4px] text-white hover:opacity-80 transition-opacity duration-300"
-              onClick={() => setShowBanner(false)}
-            >
-              <span className="sr-only">Dismiss</span>
-              <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-            </button>
+      {/* Top Banner */}
+      <div className="relative isolate bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-2.5 sm:px-3.5">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+            {/* Banner Text - Left Side */}
+            <div className="md:flex-shrink-0">
+              <p className="text-sm leading-6 text-white">
+                We're transitioning from Templatecookie to LomeyoLabs, a Lomeyo LLC brand.
+                {/* Templatecookie is now LomeyoLabs, a Lomeyo LLC brand. Same great products and team! */}
+              </p>
+            </div>
+
+            {/* Quick Links - Desktop Only */}
+            <div className="hidden sm:flex items-center gap-4">
+              <nav className="flex items-center gap-x-4">
+                <div className="flex items-center gap-4 border-l border-white/30 pl-4">
+                  {getQuickLinks().map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="text-xs font-medium text-white hover:text-white/80 transition-colors duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+              </nav>
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
-      <header className="z-50 w-full bg-white backdrop-blur-xl border-b border-gray-200 shadow-sm">
+      {/* Main Header */}
+      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-sm">
         <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
           <div className="flex w-full items-center justify-between py-5">
+            {/* Logo */}
             <div className="flex items-center">
               <Link href="/" className="group flex items-center transition-all duration-300">
                 <Image
-                  src="/lomeyolabs-light.png"
-                  alt="Lomeyo Labs"
+                  src="/lomeyolabs-light.svg"
+                  alt="LomeyoLabs"
                   width={150}
                   height={40}
                   className="h-8 w-auto transition-transform duration-300 group-hover:scale-105"
@@ -70,10 +110,19 @@ export default function Header() {
                 <Link 
                   key={item.name}
                   href={item.href} 
-                  className="group relative text-sm font-medium text-gray-600 hover:text-primary-600 transition-all duration-300"
+                  className={`group relative text-base font-medium transition-all duration-300
+                    ${isActive(item.href) 
+                      ? 'text-primary-600' 
+                      : 'text-gray-600 hover:text-primary-600'
+                    }`}
                 >
                   {item.name}
-                  <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary scale-x-0 transition-transform group-hover:scale-x-100" />
+                  <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-primary transition-transform duration-300
+                    ${isActive(item.href) 
+                      ? 'scale-x-100' 
+                      : 'scale-x-0 group-hover:scale-x-100'
+                    }`} 
+                  />
                 </Link>
               ))}
 
@@ -116,12 +165,30 @@ export default function Header() {
                 </Transition>
               </Menu> */}
 
-              <Link 
-                href="https://templatecookie.com/products" 
-                className="bg-gradient-to-r from-primary-600 to-primary-500 inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-              >
-                <span className="relative z-10">Latest Products</span>
-              </Link>
+              <div className="flex items-center gap-4">
+                <Link 
+                  href={user ? '/dashboard' : '/auth/login'} 
+                  className={`bg-gradient-to-r from-primary-600 to-primary-500 
+                    inline-flex items-center justify-center px-6 py-2.5 
+                    text-base font-medium text-white rounded-lg overflow-hidden 
+                    transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5
+                    ${isActive(user ? '/dashboard' : '/auth/login') ? 'ring-2 ring-primary-300' : ''}`}
+                >
+                  <span className="relative z-10">
+                    {user ? 'Dashboard' : 'Login'}
+                  </span>
+                </Link>
+                  {/* <Link 
+                    href="/products" 
+                    className={`bg-gradient-to-r from-primary-600 to-primary-500 
+                      inline-flex items-center justify-center px-6 py-2.5 
+                      text-base font-medium text-white rounded-lg overflow-hidden 
+                      transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5
+                      ${isActive('/products') ? 'ring-2 ring-primary-300' : ''}`}
+                  >
+                    <span className="relative z-10">Our Products</span>
+                  </Link> */}
+              </div>
             </div>
 
             {/* Mobile Navigation */}
@@ -141,50 +208,60 @@ export default function Header() {
                     </div>
 
                     <Transition
+                      show={open}
                       enter="transition duration-200 ease-out"
-                      enterFrom="transform scale-95 opacity-0"
-                      enterTo="transform scale-100 opacity-100"
+                      enterFrom="opacity-0 scale-95"
+                      enterTo="opacity-100 scale-100"
                       leave="transition duration-100 ease-in"
-                      leaveFrom="transform scale-100 opacity-100"
-                      leaveTo="transform scale-95 opacity-0"
+                      leaveFrom="opacity-100 scale-100"
+                      leaveTo="opacity-0 scale-95"
                     >
-                      <Disclosure.Panel className="absolute left-0 right-0 top-full bg-white shadow-lg border-t border-neutral-100/50 p-4">
+                      <Disclosure.Panel className="absolute left-0 right-0 top-full z-50 bg-white shadow-lg border-t border-neutral-100/50 p-4">
                         <div className="space-y-4">
+                          {/* Quick Links for Mobile */}
+                          {getQuickLinks().map((link) => (
+                            <div key={link.name}>
+                              <Link
+                                href={link.href}
+                                className={`block px-3 py-2 text-base font-medium rounded-lg transition-all duration-300
+                                  ${isActive(link.href)
+                                    ? 'bg-primary-50 text-primary-600'
+                                    : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                                  }`}
+                              >
+                                {link.name}
+                              </Link>
+                            </div>
+                          ))}
+
+                          {/* Divider */}
+                          <div className="border-t border-gray-200 my-4"></div>
+
+                          {/* Main Menu Items */}
                           {menuItems.main.map((item) => (
                             <div key={item.name}>
                               <Link
                                 href={item.href}
-                                className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
+                                className={`block px-3 py-2 text-base font-medium rounded-lg transition-all duration-300
+                                  ${isActive(item.href)
+                                    ? 'bg-primary-50 text-primary-600'
+                                    : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                                  }`}
                               >
                                 {item.name}
                               </Link>
                             </div>
                           ))}
 
-                          <Disclosure as="div">
-                            {({ open }) => (
-                              <div>
-                                <Disclosure.Button className="flex w-full items-center justify-between px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5">
-                                  <span>Resources</span>
-                                  <ChevronDownIcon
-                                    className={`${open ? 'rotate-180' : ''} h-5 w-5 transition-transform duration-300`}
-                                  />
-                                </Disclosure.Button>
-                                <Disclosure.Panel className="mt-2 space-y-2 pl-6">
-                                  {menuItems.resources.map((item) => (
-                                    <div key={item.name}>
-                                      <Link
-                                        href={item.href}
-                                        className="block px-3 py-2 text-base font-medium text-dark/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-all duration-300"
-                                      >
-                                        {item.name}
-                                      </Link>
-                                    </div>
-                                  ))}
-                                </Disclosure.Panel>
-                              </div>
-                            )}
-                          </Disclosure>
+                          {/* Primary Action Button for Mobile */}
+                          <div className="pt-2">
+                            <Link
+                              href={user ? '/dashboard' : '/auth/login'}
+                              className="block w-full text-center px-4 py-3 text-base font-medium text-white bg-gradient-to-r from-primary-600 to-primary-500 rounded-lg transition-all duration-300 hover:shadow-lg"
+                            >
+                              {user ? 'Dashboard' : 'Login'}
+                            </Link>
+                          </div>
                         </div>
                       </Disclosure.Panel>
                     </Transition>

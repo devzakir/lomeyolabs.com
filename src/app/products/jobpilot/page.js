@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
+
 import {
   CheckIcon,
   ShieldCheckIcon,
@@ -14,15 +14,14 @@ import {
   UserGroupIcon,
   UserIcon, 
   BuildingOfficeIcon, 
-  CheckCircleIcon,
   SparklesIcon,
   ClockIcon
 } from '@heroicons/react/24/outline'
 import AnimatedSection from '@/components/animation/AnimatedSection'
-import Screenshots from '@/components/Screenshots'
 import Pricing from '@/components/Pricing'
 import FAQ from '@/components/FAQ'
 import TechnicalSpecs from '@/components/TechnicalSpecs'
+import CompanyStats from '@/components/CompanyStats'
 
 const product = {
   name: 'Jobpilot - Job Board & Recruitment Platform',
@@ -52,49 +51,47 @@ const product = {
       description: 'RESTful API and webhooks for seamless integration with your existing tools'
     }
   ],
-  features: {
-    core: [
-      {
-        title: 'Advanced Job Management',
-        description: 'Complete control over your recruitment process',
-        image: '/products/jobpilot/features-1.png',
-        benefits: [
-          'Custom application forms',
-          'Job board management',
-          'Multi-location support',
-          'Department organization',
-          'Automated job posting',
-          'Social media integration'
-        ]
-      },
-      {
-        title: 'Candidate Management',
-        description: 'Streamlined candidate tracking and evaluation',
-        image: '/products/jobpilot/features-2.png',
-        benefits: [
-          'Advanced search filters',
-          'Candidate scoring',
-          'Interview scheduling',
-          'Assessment tracking',
-          'Communication history',
-          'Document management'
-        ]
-      },
-      {
-        title: 'Team Collaboration',
-        description: 'Enhanced team productivity and communication',
-        image: '/products/jobpilot/features-3.png',
-        benefits: [
-          'Team messaging',
-          'Interview feedback',
-          'Task assignment',
-          'Email templates',
-          'Activity tracking',
-          'Performance metrics'
-        ]
-      }
-    ]
-  },
+  coreFeatures: [
+    {
+      title: 'Advanced Job Management',
+      description: 'Complete control over your recruitment process',
+      image: '/products/jobpilot/features-1.png',
+      benefits: [
+        'Custom application forms',
+        'Job board management',
+        'Multi-location support',
+        'Department organization',
+        'Automated job posting',
+        'Social media integration'
+      ]
+    },
+    {
+      title: 'Candidate Management',
+      description: 'Streamlined candidate tracking and evaluation',
+      image: '/products/jobpilot/features-2.png',
+      benefits: [
+        'Advanced search filters',
+        'Candidate scoring',
+        'Interview scheduling',
+        'Assessment tracking',
+        'Communication history',
+        'Document management'
+      ]
+    },
+    {
+      title: 'Team Collaboration',
+      description: 'Enhanced team productivity and communication',
+      image: '/products/jobpilot/features-3.png',
+      benefits: [
+        'Team messaging',
+        'Interview feedback',
+        'Task assignment',
+        'Email templates',
+        'Activity tracking',
+        'Performance metrics'
+      ]
+    }
+  ],
   screenshots: [
     {
       title: 'Dashboard Overview',
@@ -123,7 +120,7 @@ const product = {
         'Let users use platform free of charge'
       ],
       buttonText: 'Purchase Regular License',
-      href: '#'
+      href: 'https://go.templatecookie.com/jobpilot-regular'
     },
     {
       name: 'Extended License',
@@ -139,7 +136,7 @@ const product = {
         'Charge users for services'
       ],
       buttonText: 'Purchase Extended License',
-      href: '#',
+      href: 'https://go.templatecookie.com/jobpilot-extended',
       recommended: true
     }
   ],
@@ -147,7 +144,7 @@ const product = {
     'Technical': [
       {
         question: 'What technology stack is used?',
-        answer: 'Jobpilot is built with Laravel 10, Vue.js 3, and MySQL, following modern development practices and patterns.'
+        answer: 'Jobpilot is built with Laravel 10, jquery 3.2, and MySQL, following modern development practices and patterns.'
       },
       {
         question: 'What development tools are included?',
@@ -301,11 +298,11 @@ const product = {
       {
         title: 'Enterprise Features',
         features: [
-          'Advanced ATS',
-          'Custom workflows',
+          'Candidate pipeline',
+          'Payment gateway integration',
           'Team collaboration',
-          'Comprehensive reporting',
-          'Email automation',
+          'Dashboard reporting',
+          'Integrate SMTP email service',
           'Location-based jobs'
         ]
       }
@@ -362,8 +359,6 @@ const product = {
     ]
   }
 }
-
-// ... rest of the implementation follows similar structure to RecruitX page ... 
 
 export default function JobpilotPage() {
   return (
@@ -425,7 +420,7 @@ export default function JobpilotPage() {
           >
             <div className="aspect-[16/9] relative">
               <Image
-                src="https://templatecookie.com/storage/image/1709116010_65df0a6a0d900.png"
+                src="https://rosjxfydjsfhbpimtuos.supabase.co/storage/v1/object/public/images/premium-products/jobpilot/jobpilot.png?t=2025-01-15T02%3A23%3A14.073Z"
                 alt="Jobpilot Dashboard Preview"
                 fill
                 className="object-cover rounded-xl"
@@ -442,73 +437,77 @@ export default function JobpilotPage() {
       </section>
 
       {/* Stats Section */}
-      <AnimatedSection>
-        <section className="py-16 bg-white border-b">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <CompanyStats />
 
-          <motion.div
+      {/* Core Features Section */}
+      {/* <AnimatedSection>
+        <section className="py-24 bg-white">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-3xl font-bold">Launch Your Dream Job Board Platform in Minutes</h2>
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Core Features
+              </h2>
+              <p className="mt-4 text-lg text-gray-600">
+                Everything you need to streamline your recruitment process
+              </p>
             </motion.div>
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-center p-6 rounded-xl bg-gray-50"
-              >
-                <div className="text-4xl font-bold text-primary-600 mb-2">580+</div>
-                <div className="text-gray-600">Happy Customers</div>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="text-center p-6 rounded-xl bg-gray-50"
-              >
-                <div className="flex items-center justify-center gap-2">
-                  <div className="text-4xl font-bold text-primary-600">4.5</div>
-                  <StarIcon className="h-6 w-6 text-yellow-400" />
-                </div>
-                <div className="text-gray-600">Star Rating</div>
-              </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="text-center p-6 rounded-xl bg-gray-50"
-              >
-                <div className="text-4xl font-bold text-primary-600 mb-2">80+</div>
-                <div className="text-gray-600">Customer Reviews</div>
-              </motion.div>
+            <div className="space-y-16">
+              {product.coreFeatures.map((feature, index) => (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className={`flex flex-col lg:flex-row gap-12 items-center ${
+                    index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
+                  }`}
+                >
+                  <div className="lg:w-1/2">
+                    <div className="rounded-2xl bg-gradient-to-br from-white/50 to-gray-100/50 backdrop-blur-sm border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                        {feature.title}
+                      </h3>
+                      <p className="text-lg text-gray-600 mb-8">
+                        {feature.description}
+                      </p>
+                      <ul className="space-y-4">
+                        {feature.benefits.map((benefit, idx) => (
+                          <li key={idx} className="flex items-start gap-3">
+                            <CheckIcon className="h-5 w-5 text-primary-600 mt-1" />
+                            <span className="text-gray-600">{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                className="text-center p-6 rounded-xl bg-gray-50"
-              >
-                <div className="flex items-center justify-center gap-2">
-                  <div className="text-4xl font-bold text-primary-600">V3</div>
-                  <span className="text-sm px-2 py-1 bg-primary-100 text-primary-600 rounded-full">
-                    Latest
-                  </span>
-                </div>
-                <div className="text-gray-600">Current Version</div>
-              </motion.div>
+                  <div className="lg:w-1/2">
+                    <motion.div
+                      className="rounded-2xl overflow-hidden shadow-2xl"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Image
+                        src={feature.image}
+                        alt={feature.title}
+                        width={600}
+                        height={400}
+                        className="w-full h-auto rounded-xl"
+                      />
+                    </motion.div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
-      </AnimatedSection>
+      </AnimatedSection> */}
 
       {/* Perfect For Section */}
       <AnimatedSection>
@@ -802,9 +801,9 @@ export default function JobpilotPage() {
               {/* Trust Metrics */}
               <div className="flex justify-center gap-8 mb-12">
                 {[
-                  { number: '500+', label: 'Happy Customers' },
-                  { number: '4.8/5', label: 'Customer Rating' },
-                  { number: '24/7', label: 'Support' }
+                  { number: '600+', label: 'Happy Customers' },
+                  { number: '4.4/5', label: 'Customer Rating' },
+                  { number: '9-5 GMT+6', label: 'Customer Support Hours' }
                 ].map((metric, index) => (
                   <motion.div
                     key={index}

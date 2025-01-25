@@ -96,7 +96,8 @@ export default function FAQ({
             Still have questions? We're here to help.
           </p>
           <a 
-            href="#contact" 
+            href="https://templatecookie.com/get-support" 
+            target="_blank"
             className="mt-4 inline-flex items-center text-primary-600 font-semibold hover:text-primary-500"
           >
             Contact Support
