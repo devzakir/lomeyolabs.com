@@ -119,4 +119,18 @@ export default function Contact() {
       </main>
     </div>
   )
+}
+
+export const metadata = {
+  title: 'Contact Us',
+  description: 'Get in touch with LomeyoLabs team for support, inquiries or collaboration opportunities.',
+  alternates: {
+    canonical: 'https://lomeyolabs.com/contact'
+  },
+  openGraph: {
+    title: 'Contact LomeyoLabs',
+    description: 'Get in touch with our team',
+    url: 'https://lomeyolabs.com/contact',
+    type: 'website',
+  }
 } 
