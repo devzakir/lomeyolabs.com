@@ -258,19 +258,30 @@ export default function Orders() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="mt-6 flex items-center justify-end gap-3">
-                  {order.payment_id && (
-                    <motion.button
-                      onClick={() => handleViewInvoice(order)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100"
-                    >
-                      <DocumentCheckIcon className="h-4 w-4 mr-2" />
-                      View Invoice
-                    </motion.button>
-                  )}
-                  
+                <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    {order.payment_id && (
+                      <motion.button
+                        onClick={() => handleViewInvoice(order)}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100"
+                      >
+                        <DocumentCheckIcon className="h-4 w-4 mr-2" />
+                        View Invoice
+                      </motion.button>
+                    )}
+
+                    {order?.documentation_url && (
+                      <Link 
+                        href={order.documentation_url}
+                        target="_blank"
+                        className="text-primary-600 hover:text-primary-700 text-sm font-medium"
+                      >
+                        View Documentation
+                      </Link>
+                    )}
+                  </div>
                   {order?.download_url && (
                     <div className="relative">
                       <motion.button
@@ -285,15 +296,6 @@ export default function Orders() {
                     </div>
                   )}
 
-                  {order?.documentation_url && (
-                    <Link 
-                      href={order.documentation_url}
-                      target="_blank"
-                      className="text-primary-600 hover:text-primary-700 text-sm font-medium"
-                    >
-                      View Documentation
-                    </Link>
-                  )}
                 </div>
               </div>
             </motion.div>
