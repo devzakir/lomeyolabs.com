@@ -7,7 +7,33 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export async function POST(request) {
   try {
-    const { productId, productName, price, userId, userEmail } = await request.json()
+    // Log the request body for debugging
+    const requestData = await request.json()
+    console.log('Request data:', {
+      ...requestData,
+      userId: 'REDACTED', // Don't log sensitive data
+      userEmail: 'REDACTED'
+    })
+
+    const { 
+      productId, 
+      productName, 
+      price, 
+      userId, 
+      userEmail,
+      variation_type,
+      license_type,
+      variation_id
+    } = requestData
+
+    // Validate required fields
+    if (!productId || !price || !userId) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      )
+    }
+
     const supabase = createRouteHandlerClient({ cookies })
 
     // Create Stripe Checkout Session
@@ -18,9 +44,12 @@ export async function POST(request) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: productName,
+              name: `${productName} - ${variation_type?.toUpperCase()} Version`,
+              description: license_type ? 
+                `${license_type.replace('_', ' ').toUpperCase()} License` : 
+                undefined
             },
-            unit_amount: price * 100, // Convert to cents
+            unit_amount: Math.round(price * 100), // Convert to cents and ensure integer
           },
           quantity: 1,
         },
@@ -39,16 +68,29 @@ export async function POST(request) {
         amount: price,
         stripe_session_id: session.id,
         status: 'pending',
-        payment_status: 'pending'
+        payment_status: 'pending',
+        variation_type,
+        license_type
       })
 
-    if (orderError) throw orderError
+    if (orderError) {
+      console.error('Supabase order creation error:', orderError)
+      throw orderError
+    }
 
     return NextResponse.json({ url: session.url })
   } catch (error) {
-    console.error('Error creating invoice:', error)
+    console.error('Error creating invoice:', {
+      message: error.message,
+      name: error.name,
+      stack: error.stack
+    })
+    
     return NextResponse.json(
-      { error: 'Failed to create invoice' },
+      { 
+        error: 'Failed to create invoice',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       { status: 500 }
     )
   }

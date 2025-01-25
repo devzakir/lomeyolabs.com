@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /products/jobpilot
+Allow: /products/adlisting
+Allow: /products/jugglehire
+Allow: /products/schooling
+Allow: /blog
+Allow: /contact
+Disallow: /products
+Disallow: /products/*
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /auth/*
+
+Sitemap: https://lomeyolabs.com/sitemap.xml 

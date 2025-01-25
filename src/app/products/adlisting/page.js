@@ -108,7 +108,8 @@ const product = {
         'Documentation access',
         'Let users use platform free of charge'
       ],
-      buttonText: 'Purchase Regular License'
+      buttonText: 'Purchase Regular License',
+      href: 'https://go.templatecookie.com/adlisting-regular'
     },
     {
       name: 'Extended License',
@@ -124,6 +125,7 @@ const product = {
         'Charge users for services'
       ],
       buttonText: 'Purchase Extended License',
+      href: 'https://go.templatecookie.com/adlisting-extended',
       recommended: true
     }
   ],

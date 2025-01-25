@@ -31,7 +31,7 @@ const product = {
   name: 'Self-Hosted Recruitment Software for Small Businesses',
   description: 'Transform your hiring process with JuggleHire\'s powerful self-hosted recruitment solution. Get complete control over your data, unlimited customization options, and the freedom to build your perfect hiring workflow.',
   image: '/products/jugglehire/hero.png',
-  price: 'From $499',
+  price: 'From $999',
   category: 'PHP Scripts',
   targetAudience: [
     'Businesses seeking complete control over their recruitment process',
@@ -334,6 +334,7 @@ const product = {
     subtitle: "Select the perfect license for your recruitment needs",
     nonSaasLicenses: [
       {
+        id: "5b041d29-f23d-4f03-a706-5db98e9dd375",
         name: "Single Domain License",
         description: "Perfect for internal hiring within one organization",
         price: "$999",
@@ -348,9 +349,12 @@ const product = {
           "Cannot resell as a service"
         ],
         buttonText: "Purchase Single Domain License",
-        href: "#"
+        variation_type: "non-saas",
+        license_type: "single_domain",
+        productId: 22
       },
       {
+        id: "11714322-ba92-4c92-952e-7b7cecd6fb17",
         name: "Multi-Domain License",
         description: "For organizations with multiple branches",
         price: "$1199",
@@ -365,11 +369,14 @@ const product = {
           "Cannot resell as a service"
         ],
         buttonText: "Purchase Multi-Domain License",
-        href: "#"
+        variation_type: "non-saas",
+        license_type: "multi_domain",
+        productId: 22
       }
     ],
     saasLicenses: [
       {
+        id: "a3d86e04-3e6c-45dd-96bd-ae56a52a9389",
         name: "Single Domain License",
         description: "Start your recruitment SaaS business",
         price: "$1999",
@@ -384,9 +391,12 @@ const product = {
           "Cannot redistribute source code"
         ],
         buttonText: "Purchase Single Domain License",
-        href: "#"
+        variation_type: "saas",
+        license_type: "single_domain",
+        productId: 22
       },
       {
+        id: "cd102b6b-e6c0-4c56-91cc-9560e260bf0f",
         name: "Multi-Domain License",
         description: "Scale your recruitment SaaS business",
         price: "$2299",
@@ -401,7 +411,9 @@ const product = {
           "Cannot redistribute source code"
         ],
         buttonText: "Purchase Multi-Domain License",
-        href: "#"
+        variation_type: "saas",
+        license_type: "multi_domain",
+        productId: 22
       }
     ]
   }

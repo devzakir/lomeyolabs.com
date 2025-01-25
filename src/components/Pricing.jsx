@@ -77,7 +77,6 @@ export default function Pricing({
 
               <motion.a
                 href={license.href || "#"}
-                target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

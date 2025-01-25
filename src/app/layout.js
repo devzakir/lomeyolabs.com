@@ -20,11 +20,27 @@ const lexend = Lexend({
 })
 
 export const metadata = {
-  title: 'LomeyoLabs - Digital Products & Solutions',
-  description: 'Premium digital products and solutions for modern businesses',
+  metadataBase: new URL('https://lomeyolabs.com'),
+  title: {
+    template: '%s | LomeyoLabs',
+    default: 'LomeyoLabs - Premium Digital Solutions & Templates'
+  },
+  description: 'Premium digital solutions, templates and tools to accelerate your business growth. Previously known as TemplateCookie.',
+  keywords: ['self-hosted', 'software', 'digital solutions', 'figma templates', 'business tools', 'premium templates'],
+  alternates: {
+    canonical: 'https://lomeyolabs.com'
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true
+    }
+  },
   icons: {
     icon: '/favicon.png',
-  },
+  }
 }
 
 export default function RootLayout({ children }) {

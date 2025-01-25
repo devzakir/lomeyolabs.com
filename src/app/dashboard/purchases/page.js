@@ -35,10 +35,22 @@ export default function PurchasesPage() {
             const { data: orderData, error } = await supabaseClient
               .from('orders')
               .select(`
-                *,
-                products:product_id (
+                id,
+                user_id,
+                product_id,
+                payment_id,
+                stripe_session_id,
+                amount,
+                status,
+                payment_status,
+                created_at,
+                variation_type,
+                license_type,
+                products (
+                  id,
                   name,
-                  description
+                  description,
+                  documentation_url
                 )
               `)
               .eq('stripe_session_id', sessionId)
@@ -46,10 +58,33 @@ export default function PurchasesPage() {
 
             if (error) {
               setStatus('error')
-            } else {
-              setOrderDetails(orderData)
-              setStatus('success')
+              return
             }
+
+            // After we get order, fetch variations
+            const { data: variations } = await supabaseClient
+              .from('product_variations')
+              .select('*')
+              .eq('product_id', orderData.product_id)
+
+            // Transform the data
+            const matchingVariation = variations?.find(v => 
+              v.product_id === orderData.product_id &&
+              v.variation_type === orderData.variation_type && 
+              v.license_type === orderData.license_type
+            )
+
+            const transformedOrder = {
+              ...orderData,
+              product_name: orderData.products?.name,
+              description: orderData.products?.description,
+              documentation_url: orderData.products?.documentation_url,
+              download_url: matchingVariation?.download_url,
+              variation_price: matchingVariation?.price
+            }
+
+            setOrderDetails(transformedOrder)
+            setStatus('success')
           }
         })
         .catch(() => setStatus('error'))
@@ -108,8 +143,8 @@ export default function PurchasesPage() {
                     <DocumentTextIcon className="h-6 w-6 text-primary-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">{orderDetails.products?.name}</h3>
-                    <p className="mt-1 text-sm text-gray-500">{orderDetails.products?.description}</p>
+                    <h3 className="font-semibold text-gray-900">{orderDetails.product_name}</h3>
+                    <p className="mt-1 text-sm text-gray-500">{orderDetails.description}</p>
                   </div>
                 </div>
               </div>
@@ -120,6 +155,15 @@ export default function PurchasesPage() {
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Order ID</span>
                     <span className="font-medium">#{orderDetails.id}</span>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">License</span>
+                    <span className="font-medium">
+                      {orderDetails.variation_type?.toUpperCase()} - {' '}
+                      {orderDetails.license_type?.replace('_', ' ').toUpperCase()}
+                    </span>
                   </div>
                 </div>
                 <div className="p-4">
